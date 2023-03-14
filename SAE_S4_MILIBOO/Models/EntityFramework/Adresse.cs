@@ -42,7 +42,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         [Column("adr_remarque")]
         [StringLength(200)]
-        public string? Remarque { get; set; }
+        public string? Remarque { get; set; } 
 
 
         [InverseProperty("AdresseALivreNavigation")]

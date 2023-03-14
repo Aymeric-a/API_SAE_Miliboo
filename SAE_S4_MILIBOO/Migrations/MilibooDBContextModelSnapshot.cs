@@ -100,6 +100,8 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("avi_id");
 
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AvisId"));
+
                     b.Property<DateTime>("AvisDate")
                         .HasColumnType("date")
                         .HasColumnName("avi_date");
@@ -132,6 +134,8 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     b.HasIndex("ClientId");
 
+                    b.HasIndex("VarianteId");
+
                     b.ToTable("t_e_avis_avi");
 
                     b.HasCheckConstraint("CK_avi_note", "avi_note between 1 and 5");
@@ -155,8 +159,9 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("text")
                         .HasColumnName("cbr_cryptogramme");
 
-                    b.Property<DateTime>("DateExpiration")
-                        .HasColumnType("date")
+                    b.Property<string>("DateExpiration")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("cbr_date_expiration");
 
                     b.Property<string>("Nom")
@@ -181,8 +186,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasIndex("ClientId");
 
                     b.ToTable("t_e_cartebancaire_cbr");
-
-                    b.HasCheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", b =>
@@ -194,12 +197,11 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Categorieid"));
 
-                    b.Property<int>("CategorieParentid")
+                    b.Property<int?>("CategorieParentid")
                         .HasColumnType("integer")
                         .HasColumnName("ctg_parent_id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("ctg_description");
@@ -523,11 +525,13 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("pht_id");
 
-                    b.Property<int>("AviId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PhotoId"));
+
+                    b.Property<int?>("AviId")
                         .HasColumnType("integer")
                         .HasColumnName("avi_id");
 
-                    b.Property<int>("CategorieId")
+                    b.Property<int?>("CategorieId")
                         .HasColumnType("integer")
                         .HasColumnName("ctg_id");
 
@@ -537,7 +541,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("character varying(200)")
                         .HasColumnName("pht_chemin");
 
-                    b.Property<int>("VarianteId")
+                    b.Property<int?>("VarianteId")
                         .HasColumnType("integer")
                         .HasColumnName("vrt_id");
 
@@ -546,6 +550,8 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasIndex("AviId");
 
                     b.HasIndex("CategorieId");
+
+                    b.HasIndex("VarianteId");
 
                     b.ToTable("t_e_photo_pht");
                 });
@@ -563,7 +569,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("ctg_id");
 
-                    b.Property<int>("CollectionId")
+                    b.Property<int?>("CollectionId")
                         .HasColumnType("integer")
                         .HasColumnName("cln_id");
 
@@ -635,7 +641,7 @@ namespace SAE_S4_MILIBOO.Migrations
                 {
                     b.Property<int>("ProduitId")
                         .HasColumnType("integer")
-                        .HasColumnName("pdt_id");
+                        .HasColumnName("prd_id");
 
                     b.Property<int>("ListeId")
                         .HasColumnType("integer")
@@ -645,7 +651,7 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     b.HasIndex("ListeId");
 
-                    b.ToTable("t_j_pdt_lst");
+                    b.ToTable("t_j_prd_lst");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Variante", b =>
@@ -725,17 +731,17 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Avis", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VarianteAvisNavigation")
-                        .WithMany("AvisVarianteNavigation")
-                        .HasForeignKey("AvisId")
-                        .IsRequired()
-                        .HasConstraintName("fk_avis_variante");
-
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientsAvisNavigation")
                         .WithMany("AvisClientsNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_avis_client");
+
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VarianteAvisNavigation")
+                        .WithMany("AvisVarianteNavigation")
+                        .HasForeignKey("VarianteId")
+                        .IsRequired()
+                        .HasConstraintName("fk_avis_variante");
 
                     b.Navigation("ClientsAvisNavigation");
 
@@ -758,7 +764,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "CategorieParentNavigation")
                         .WithMany("SousCategoriesNavigation")
                         .HasForeignKey("CategorieParentid")
-                        .IsRequired()
                         .HasConstraintName("fk_sous_categorie_parent");
 
                     b.Navigation("CategorieParentNavigation");
@@ -845,19 +850,16 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Avis", "AvisPhotosNavigation")
                         .WithMany("PhotosAvisNavigation")
                         .HasForeignKey("AviId")
-                        .IsRequired()
                         .HasConstraintName("fk_photo_avis");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "CategoriePhotoNavigation")
                         .WithMany("PhotoCategorieNavigation")
                         .HasForeignKey("CategorieId")
-                        .IsRequired()
                         .HasConstraintName("fk_photo_categorie");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VariantePhotoNavigation")
                         .WithMany("PhotosVarianteNavigation")
-                        .HasForeignKey("PhotoId")
-                        .IsRequired()
+                        .HasForeignKey("VarianteId")
                         .HasConstraintName("fk_photo_variante");
 
                     b.Navigation("AvisPhotosNavigation");
@@ -872,13 +874,11 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "CategorieProduitNavigation")
                         .WithMany("ProduitsCategorieNavigation")
                         .HasForeignKey("CategorieId")
-                        .IsRequired()
                         .HasConstraintName("fk_produit_categorie");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Collection", "CollectionProduitNavigation")
                         .WithMany("ProduitsCollectionNavigation")
                         .HasForeignKey("CollectionId")
-                        .IsRequired()
                         .HasConstraintName("fk_produit_collection");
 
                     b.Navigation("CategorieProduitNavigation");

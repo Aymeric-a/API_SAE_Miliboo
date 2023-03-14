@@ -19,7 +19,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public int CategorieId { get; set; }
 
         [Column("cln_id")]
-        public int CollectionId { get; set; }
+        public int? CollectionId { get; set; }
 
 
         [Column("prd_lib")]

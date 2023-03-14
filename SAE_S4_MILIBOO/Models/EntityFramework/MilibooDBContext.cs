@@ -60,8 +60,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_client_panier");
-
-                entity.HasCheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
             });
 
 
@@ -135,13 +133,15 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .WithMany(p => p.ProduitsCollectionNavigation)
                     .HasForeignKey(d => d.CollectionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_produit_collection");
+                    .HasConstraintName("fk_produit_collection")
+                    .IsRequired(false);
 
                 entity.HasOne(d => d.CategorieProduitNavigation)
                     .WithMany(p => p.ProduitsCategorieNavigation)
                     .HasForeignKey(d => d.CategorieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_produit_categorie");
+                    .HasConstraintName("fk_produit_categorie")
+                    .IsRequired(false);
 
             });
 
@@ -164,19 +164,22 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .WithMany(p => p.PhotosAvisNavigation)
                     .HasForeignKey(d => d.AviId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_photo_avis");
+                    .HasConstraintName("fk_photo_avis")
+                    .IsRequired(false);
 
                 entity.HasOne(d => d.VariantePhotoNavigation)
                     .WithMany(p => p.PhotosVarianteNavigation)
-                    .HasForeignKey(d => d.PhotoId)
+                    .HasForeignKey(d => d.VarianteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_photo_variante");
+                    .HasConstraintName("fk_photo_variante")
+                    .IsRequired(false);
 
                 entity.HasOne(d => d.CategoriePhotoNavigation)
                     .WithMany(p => p.PhotoCategorieNavigation)
                     .HasForeignKey(d => d.CategorieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_photo_categorie");
+                    .HasConstraintName("fk_photo_categorie")
+                    .IsRequired(false);
             });
 
             //Table Avis PK: AvisId; FK: CLientId et AvisId
@@ -192,7 +195,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
                 entity.HasOne(d => d.VarianteAvisNavigation)
                     .WithMany(p => p.AvisVarianteNavigation)
-                    .HasForeignKey(d => d.AvisId)
+                    .HasForeignKey(d => d.VarianteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_avis_variante");
 

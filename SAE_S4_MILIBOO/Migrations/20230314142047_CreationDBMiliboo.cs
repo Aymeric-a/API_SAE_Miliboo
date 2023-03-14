@@ -35,9 +35,9 @@ namespace SAE_S4_MILIBOO.Migrations
                 {
                     ctg_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ctg_parent_id = table.Column<int>(type: "integer", nullable: false),
+                    ctg_parent_id = table.Column<int>(type: "integer", nullable: true),
                     ctg_libelle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    ctg_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
+                    ctg_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,14 +125,13 @@ namespace SAE_S4_MILIBOO.Migrations
                     clt_id = table.Column<int>(type: "integer", nullable: false),
                     cbr_numero = table.Column<string>(type: "Text", nullable: false),
                     cbr_cryptogramme = table.Column<string>(type: "text", nullable: false),
-                    cbr_date_expiration = table.Column<DateTime>(type: "date", nullable: false),
+                    cbr_date_expiration = table.Column<string>(type: "text", nullable: false),
                     cbr_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     cbr_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_cartebancaire_cbr", x => x.cbr_id);
-                    table.CheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
                     table.ForeignKey(
                         name: "fk_client_panier",
                         column: x => x.clt_id,
@@ -190,7 +189,7 @@ namespace SAE_S4_MILIBOO.Migrations
                     prd_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ctg_id = table.Column<int>(type: "integer", nullable: false),
-                    cln_id = table.Column<int>(type: "integer", nullable: false),
+                    cln_id = table.Column<int>(type: "integer", nullable: true),
                     prd_lib = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     prd_instructions_entretien = table.Column<string>(type: "text", nullable: true),
                     prd_revetement = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
@@ -287,15 +286,15 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_j_pdt_lst",
+                name: "t_j_prd_lst",
                 columns: table => new
                 {
-                    pdt_id = table.Column<int>(type: "integer", nullable: false),
+                    prd_id = table.Column<int>(type: "integer", nullable: false),
                     lst_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_j_pdt_lst", x => new { x.pdt_id, x.lst_id });
+                    table.PrimaryKey("PK_t_j_prd_lst", x => new { x.prd_id, x.lst_id });
                     table.ForeignKey(
                         name: "fk_produitliste_liste",
                         column: x => x.lst_id,
@@ -303,7 +302,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         principalColumn: "lst_id");
                     table.ForeignKey(
                         name: "fk_produitliste_produit",
-                        column: x => x.pdt_id,
+                        column: x => x.prd_id,
                         principalTable: "t_e_produit_prd",
                         principalColumn: "prd_id");
                 });
@@ -312,7 +311,8 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "t_e_avis_avi",
                 columns: table => new
                 {
-                    avi_id = table.Column<int>(type: "integer", nullable: false),
+                    avi_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     vrt_id = table.Column<int>(type: "integer", nullable: false),
                     clt_id = table.Column<int>(type: "integer", nullable: false),
                     avi_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -331,7 +331,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         principalColumn: "clt_id");
                     table.ForeignKey(
                         name: "fk_avis_variante",
-                        column: x => x.avi_id,
+                        column: x => x.vrt_id,
                         principalTable: "t_e_variante_vrt",
                         principalColumn: "vrt_id");
                 });
@@ -392,10 +392,11 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "t_e_photo_pht",
                 columns: table => new
                 {
-                    pht_id = table.Column<int>(type: "integer", nullable: false),
-                    ctg_id = table.Column<int>(type: "integer", nullable: false),
-                    avi_id = table.Column<int>(type: "integer", nullable: false),
-                    vrt_id = table.Column<int>(type: "integer", nullable: false),
+                    pht_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ctg_id = table.Column<int>(type: "integer", nullable: true),
+                    avi_id = table.Column<int>(type: "integer", nullable: true),
+                    vrt_id = table.Column<int>(type: "integer", nullable: true),
                     pht_chemin = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
@@ -413,7 +414,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         principalColumn: "ctg_id");
                     table.ForeignKey(
                         name: "fk_photo_variante",
-                        column: x => x.pht_id,
+                        column: x => x.vrt_id,
                         principalTable: "t_e_variante_vrt",
                         principalColumn: "vrt_id");
                 });
@@ -422,6 +423,11 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "IX_t_e_avis_avi_clt_id",
                 table: "t_e_avis_avi",
                 column: "clt_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_avis_avi_vrt_id",
+                table: "t_e_avis_avi",
+                column: "vrt_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_cartebancaire_cbr_clt_id",
@@ -496,6 +502,11 @@ namespace SAE_S4_MILIBOO.Migrations
                 column: "ctg_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_e_photo_pht_vrt_id",
+                table: "t_e_photo_pht",
+                column: "vrt_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_e_produit_prd_cln_id",
                 table: "t_e_produit_prd",
                 column: "cln_id");
@@ -521,8 +532,8 @@ namespace SAE_S4_MILIBOO.Migrations
                 column: "adr_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_j_pdt_lst_lst_id",
-                table: "t_j_pdt_lst",
+                name: "IX_t_j_prd_lst_lst_id",
+                table: "t_j_prd_lst",
                 column: "lst_id");
         }
 
@@ -544,7 +555,7 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "t_j_adresse_livraison_adl");
 
             migrationBuilder.DropTable(
-                name: "t_j_pdt_lst");
+                name: "t_j_prd_lst");
 
             migrationBuilder.DropTable(
                 name: "t_e_commande_cmd");

@@ -12,7 +12,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public int Categorieid { get; set; }
 
         [Column("ctg_parent_id")]
-        public int CategorieParentid { get; set; }
+        public int? CategorieParentid { get; set; }
 
         [Column("ctg_libelle")]
         [StringLength(100)]
@@ -20,7 +20,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         [Column("ctg_description")]
         [StringLength(500)]
-        [Required]
         public string? Description { get; set; }
 
 

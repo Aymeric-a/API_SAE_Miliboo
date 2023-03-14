@@ -2,7 +2,7 @@
 
 namespace SAE_S4_MILIBOO.Models.EntityFramework
 {
-    [Table("t_j_pdt_lst")]
+    [Table("t_j_prd_lst")]
     public class ProduitListe
     {
         public ProduitListe()
@@ -10,7 +10,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             
         }
 
-        [Column("pdt_id")]
+        [Column("prd_id")]
         public int ProduitId { get; set; }
 
         [Column("lst_id")]

@@ -24,8 +24,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("cbr_cryptogramme", TypeName ="text")]
         public string CryptoCarte { get; set; }
 
-        [Column("cbr_date_expiration", TypeName = "date")]
-        public DateTime DateExpiration { get; set; }
+        [Column("cbr_date_expiration")]
+        public string DateExpiration { get; set; }
 
         [Column("cbr_nom")]
         [StringLength(50)]

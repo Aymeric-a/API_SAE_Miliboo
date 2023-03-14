@@ -16,15 +16,15 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public int PhotoId { get; set; }
 
         [Column("ctg_id")]
-        public int CategorieId { get; set; }
+        public int? CategorieId { get; set; }
 
 
         [Column("avi_id")]
-        public int AviId { get; set;}
+        public int? AviId { get; set;}
 
 
         [Column("vrt_id")]
-        public int VarianteId { get; set; }
+        public int? VarianteId { get; set; }
 
         [Column("pht_chemin")]
         [StringLength(200)]
