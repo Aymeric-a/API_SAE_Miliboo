@@ -22,7 +22,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual DbSet<AdresseLivraison> AdresseLivraisons { get; set; } = null!;
         public virtual DbSet<Avis> Avis { get; set; } = null!;
         public virtual DbSet<CarteBancaire> CarteBancaires { get; set; } = null!;
-        public virtual DbSet<CarteEnregistree> CarteEnregistrees { get; set; } = null!;
         public virtual DbSet<Categorie> Categories { get; set; } = null!;
         public virtual DbSet<Client> Clients { get; set; } = null!;
         public virtual DbSet<Collection> Collections { get; set; } = null!;
@@ -32,7 +31,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual DbSet<LigneCommande> LigneCommandes { get; set; } = null!;
         public virtual DbSet<LignePanier> LignePaniers { get; set; } = null!;
         public virtual DbSet<Liste> Listes { get; set; } = null!;
-        public virtual DbSet<Panier> Paniers { get; set; } = null!;
         public virtual DbSet<Photo> Photos { get; set; } = null!;
         public virtual DbSet<Produit> Produits { get; set; } = null!;
         public virtual DbSet<ProduitListe> ProduitListes { get; set; } = null!;
@@ -52,32 +50,20 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         {
             modelBuilder.Ignore<TDimensions>();
 
- 
+            //Table CarteBancaire
             modelBuilder.Entity<CarteBancaire>(entity =>
             {
                 entity.HasKey(e => e.CarteBancaireId);
 
+                entity.HasOne(d => d.ClientCarteBancaireNavigation)
+                    .WithOne(p => p.CarteBancaireClientNavigation)
+                    .HasForeignKey<Client>(d => d.ClientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_client_panier");
+
                 entity.HasCheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
             });
 
-            //Table CarteEnregistree Jointure
-            modelBuilder.Entity<CarteEnregistree>(entity =>
-            {
-                entity.HasKey(e => new { e.ClientId, e.CarteBancaireId });
-
-                entity.HasOne(d => d.CarteLieeNavigation)
-                    .WithMany(p => p.CartesEnregistreesNavigation)
-                    .HasForeignKey(d => d.CarteBancaireId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_carte_enregistree_carte_bancaire");
-
-                entity.HasOne(d => d.ClientLieNavigation)
-                    .WithMany(p => p.ClientsEnregistresNavigation)
-                    .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_carte_enregistree_client");
-
-            });
 
             //Table Adresse
             modelBuilder.Entity<Adresse>(entity =>
@@ -124,27 +110,13 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
                 entity.HasIndex(e => e.Mail).IsUnique();
 
-                entity.HasOne(d => d.PanierClientNavigation)
-                   .WithOne(p => p.ClientPanierNavigation)
-                   .HasForeignKey<Panier>(d => d.PanierId)
-                   .OnDelete(DeleteBehavior.ClientSetNull)
-                   .HasConstraintName("fk_client_panier");
+                entity.HasOne(d => d.CarteBancaireClientNavigation)
+                    .WithOne(p => p.ClientCarteBancaireNavigation)
+                    .HasForeignKey<CarteBancaire>(d => d.CarteBancaireId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_client_panier");
 
                 entity.HasCheckConstraint("CK_clt_solde_fidelite", "clt_solde_fidelite >= 0");
-            });
-
-
-            //Table Panier PK: PanierId
-            modelBuilder.Entity<Panier>(entity =>
-            {
-                entity.HasKey(e => e.PanierId);
-
-                entity.HasOne(d => d.ClientPanierNavigation)
-                    .WithOne(p => p.PanierClientNavigation)
-                    .HasForeignKey<Client>(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_panier_client");
-
             });
 
 
@@ -183,7 +155,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_produit_categorie");
 
-                entity.HasCheckConstraint("CK_prd_stock", "prd_stock >= 0");
             });
 
             //Table Collection PK: CollectionId
@@ -254,9 +225,9 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => e.LigneId);
 
-                entity.HasOne(d => d.LigneDuPanierNavigation)
-                    .WithMany(p => p.LignesDansPanierNavigation)
-                    .HasForeignKey(d => d.PanierId)
+                entity.HasOne(d => d.ClientLignePanierNavigation)
+                    .WithMany(p => p.LignesPanierClientNavigation)
+                    .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ligne_panier_panier");
 
@@ -364,6 +335,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
                 entity.HasCheckConstraint("CK_vrt_prix", "vrt_prix >= 0");
                 entity.HasCheckConstraint("CK_vrt_promo", "vrt_promo between 0.01 and 1");
+                entity.HasCheckConstraint("CK_prd_stock", "vrt_stock >= 0");
 
             });
 

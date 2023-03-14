@@ -38,6 +38,10 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [StringLength(500)]
         public string Description { get; set; } = null!;
 
+        [Column("vrt_stock")]
+        [Required]
+        public int Stock { get; set; }
+
 
         [InverseProperty("VariantesCouleurNavigation")]
         public virtual Couleur CouleurVarianteNavigation { get; set; } = null!;

@@ -16,7 +16,7 @@ namespace SAE_S4_MILIBOO.Controllers
     {
         private readonly IDataRepositoryAdresse<Adresse> dataRepository;
 
-        public AdressesController(IDataRepositoryCommande<Commande> dataRepo)
+        public AdressesController(IDataRepositoryAdresse<Adresse> dataRepo)
         {
             dataRepository = dataRepo;
         }

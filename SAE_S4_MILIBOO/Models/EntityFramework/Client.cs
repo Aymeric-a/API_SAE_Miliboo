@@ -14,10 +14,11 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         
         [Column("clt_id")]
-        public int ClientId { get; set; } 
+        public int ClientId { get; set; }
 
-        [Column("pnr_id")]
-        public int PanierId { get; set; }
+        [Column("cbr_id")]
+        public int? CarteBancaireId { get; set; }
+
 
         [Column("clt_email")]
         [EmailAddress]
@@ -61,8 +62,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
 
-        [InverseProperty("ClientLieNavigation")]
-        public virtual ICollection<CarteEnregistree> ClientsEnregistresNavigation { get; set; }
+        [InverseProperty("ClientCarteBancaireNavigation")]
+        public virtual CarteBancaire CarteBancaireClientNavigation { get; set; }
 
         [InverseProperty("ClientALivreNavigation")]
         public virtual ICollection<AdresseLivraison> ClientsLivraisonsNavigation { get; set; }
@@ -77,8 +78,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [InverseProperty("ClientCommandeNavigation")]
         public virtual ICollection<Commande> CommandesClientNavigation { get; set; } = null!;
 
-        [InverseProperty("ClientPanierNavigation")]
-        public virtual Panier PanierClientNavigation { get; set; } = null!;
+        [InverseProperty("ClientLignePanierNavigation")]
+        public virtual IEnumerable<LignePanier> LignesPanierClientNavigation { get; set; } = null!;
 
     }
 }

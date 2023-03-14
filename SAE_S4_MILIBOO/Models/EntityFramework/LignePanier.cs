@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAE_S4_MILIBOO.Models.EntityFramework
 {
-    [Table("t_e_panier_lgp")]
+    [Table("t_e_ligne_panier_lpn")]
     public class LignePanier
     {
         public LignePanier()
@@ -12,20 +12,20 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         }
 
  
-        [Column("lgp_id")]
+        [Column("lpn_id")]
         public int LigneId { get; set; }
 
-        [Column("pnr_id")]
-        public int PanierId { get; set; }
+        [Column("clt_id")]
+        public int ClientId { get; set; }
 
         [Column("vrt_id")]
         public int VarianteId { get; set; }
 
-        [Column("lgp_quantite")]
+        [Column("lpn_quantite")]
         public int Quantite { get; set; }
 
-        [InverseProperty("LignesDansPanierNavigation")]
-        public virtual Panier LigneDuPanierNavigation { get; set; } = null!;
+        [InverseProperty("LignesPanierClientNavigation")]
+        public virtual Client ClientLignePanierNavigation { get; set; } = null!;
 
         [InverseProperty("LignePanierVarianteNavigation")]
         public virtual Variante VariantesLignePanierNavigation { get; set; } = null!;

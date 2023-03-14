@@ -27,10 +27,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Required]
         public string Libelle { get; set; }
 
-        [Column("prd_stock")]
-        [Required]
-        public int Stock { get; set; }
-
         [Column("prd_instructions_entretien", TypeName = "text")]
         public string? InscructionsEntretien { get; set; }
 
