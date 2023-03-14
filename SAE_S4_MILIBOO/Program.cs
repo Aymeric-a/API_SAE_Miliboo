@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using SAE_S4_MILIBOO.Models.DataManager;
+using SAE_S4_MILIBOO.Models.EntityFramework;
+using SAE_S4_MILIBOO.Models.Repository;
+
 namespace SAE_S4_MILIBOO
 {
     public class Program
@@ -7,11 +12,15 @@ namespace SAE_S4_MILIBOO
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Services.AddDbContext<MilibooDBContext>(options =>
+                    options.UseNpgsql(builder.Configuration.GetConnectionString("MilibooContext")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
+            builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
 
             var app = builder.Build();
 

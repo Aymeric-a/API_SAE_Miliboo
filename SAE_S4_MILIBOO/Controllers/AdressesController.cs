@@ -23,7 +23,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
 
         // GET: api/Adresses/5
-        [HttpGet("{id}")]
+        [HttpGet]
         [ActionName("GetById")]
         public async Task<ActionResult<Adresse>> GetAdresse(int id)
         {
@@ -38,7 +38,7 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         // GET: api/Adresses/5
-        [HttpGet("{ville}")]
+        [HttpGet]
         [ActionName("GetByVille")]
         public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresseByVille(string ville)
         {

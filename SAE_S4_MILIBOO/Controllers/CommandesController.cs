@@ -23,13 +23,14 @@ namespace SAE_S4_MILIBOO.Controllers
 
         // GET: api/Commandes
         [HttpGet]
+        [ActionName("GetAll")]
         public async Task<ActionResult<IEnumerable<Commande>>> GetCommandes()
         {
             return await dataRepository.GetAll();
         }
 
         // GET: api/Commandes/5
-        [HttpGet("{id}")]
+        [HttpGet]
         [ActionName("GetById")]
         public async Task<ActionResult<Commande>> GetCommande(int id)
         {
@@ -44,7 +45,7 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         // GET: api/Commandes/5
-        [HttpGet("{id}")]
+        [HttpGet]
         [ActionName("GetCommandesByIdClient")]
         public async Task<ActionResult<IEnumerable<Commande>>> GetCommandesByIdClient(int clientId)
         {
