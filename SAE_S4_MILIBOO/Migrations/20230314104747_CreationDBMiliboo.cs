@@ -30,21 +30,47 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_e_cartebancaire_cbr",
+                name: "t_e_categorie_ctg",
                 columns: table => new
                 {
-                    cbr_id = table.Column<int>(type: "integer", nullable: false)
+                    ctg_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    cbr_numero = table.Column<string>(type: "Text", nullable: false),
-                    cbr_cryptogramme = table.Column<string>(type: "text", nullable: false),
-                    cbr_date_expiration = table.Column<DateTime>(type: "date", nullable: false),
-                    cbr_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    cbr_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    ctg_parent_id = table.Column<int>(type: "integer", nullable: false),
+                    ctg_libelle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    ctg_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_e_cartebancaire_cbr", x => x.cbr_id);
-                    table.CheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
+                    table.PrimaryKey("PK_t_e_categorie_ctg", x => x.ctg_id);
+                    table.ForeignKey(
+                        name: "fk_sous_categorie_parent",
+                        column: x => x.ctg_parent_id,
+                        principalTable: "t_e_categorie_ctg",
+                        principalColumn: "ctg_id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "t_e_client_clt",
+                columns: table => new
+                {
+                    clt_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    clt_email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    clt_password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    clt_nom = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    clt_prenom = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    clt_portable = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    clt_newsletter_miliboo = table.Column<bool>(type: "boolean", nullable: false),
+                    clt_newsletter_partenaire = table.Column<bool>(type: "boolean", nullable: false),
+                    clt_solde_fidelite = table.Column<int>(type: "integer", nullable: false),
+                    clt_derniere_connexion = table.Column<DateTime>(type: "date", nullable: true),
+                    clt_date_creation = table.Column<DateTime>(type: "date", nullable: false),
+                    clt_civilite = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_client_clt", x => x.clt_id);
+                    table.CheckConstraint("CK_clt_solde_fidelite", "clt_solde_fidelite >= 0");
                 });
 
             migrationBuilder.CreateTable(
@@ -91,81 +117,27 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_e_panier_pnr",
+                name: "t_e_cartebancaire_cbr",
                 columns: table => new
                 {
-                    pnr_id = table.Column<int>(type: "integer", nullable: false)
+                    cbr_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     clt_id = table.Column<int>(type: "integer", nullable: false),
-                    pnr_derniere_modif = table.Column<DateTime>(type: "date", nullable: false)
+                    cbr_numero = table.Column<string>(type: "Text", nullable: false),
+                    cbr_cryptogramme = table.Column<string>(type: "text", nullable: false),
+                    cbr_date_expiration = table.Column<DateTime>(type: "date", nullable: false),
+                    cbr_nom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    cbr_prenom = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_e_panier_pnr", x => x.pnr_id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_e_client_clt",
-                columns: table => new
-                {
-                    clt_id = table.Column<int>(type: "integer", nullable: false),
-                    pnr_id = table.Column<int>(type: "integer", nullable: false),
-                    clt_email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    clt_password = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    clt_nom = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    clt_prenom = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
-                    clt_portable = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
-                    clt_newsletter_miliboo = table.Column<bool>(type: "boolean", nullable: false),
-                    clt_newsletter_partenaire = table.Column<bool>(type: "boolean", nullable: false),
-                    clt_solde_fidelite = table.Column<int>(type: "integer", nullable: false),
-                    clt_derniere_connexion = table.Column<DateTime>(type: "date", nullable: true),
-                    clt_date_creation = table.Column<DateTime>(type: "date", nullable: false),
-                    clt_civilite = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_e_client_clt", x => x.clt_id);
-                    table.CheckConstraint("CK_clt_solde_fidelite", "clt_solde_fidelite >= 0");
+                    table.PrimaryKey("PK_t_e_cartebancaire_cbr", x => x.cbr_id);
+                    table.CheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
                     table.ForeignKey(
-                        name: "fk_panier_client",
-                        column: x => x.clt_id,
-                        principalTable: "t_e_panier_pnr",
-                        principalColumn: "pnr_id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_e_commande_cmd",
-                columns: table => new
-                {
-                    cmd_id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    eta_id = table.Column<int>(type: "integer", nullable: false),
-                    clt_id = table.Column<int>(type: "integer", nullable: false),
-                    adr_id = table.Column<int>(type: "integer", nullable: false),
-                    cmd_express = table.Column<bool>(type: "boolean", nullable: false),
-                    cmd_collect = table.Column<bool>(type: "boolean", nullable: false),
-                    cmd_points_fidelite_utilises = table.Column<int>(type: "integer", nullable: false),
-                    cmd_instructions = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_e_commande_cmd", x => x.cmd_id);
-                    table.CheckConstraint("CK_cmd_point_fidelite_utilises", "cmd_points_fidelite_utilises >= 0");
-                    table.ForeignKey(
-                        name: "fk_commande_adresse",
-                        column: x => x.adr_id,
-                        principalTable: "t_e_adresse_adr",
-                        principalColumn: "adr_id");
-                    table.ForeignKey(
-                        name: "fk_commande_client",
+                        name: "fk_client_panier",
                         column: x => x.clt_id,
                         principalTable: "t_e_client_clt",
                         principalColumn: "clt_id");
-                    table.ForeignKey(
-                        name: "fk_commande_etat",
-                        column: x => x.eta_id,
-                        principalTable: "t_e_etat_eta",
-                        principalColumn: "eta_id");
                 });
 
             migrationBuilder.CreateTable(
@@ -212,71 +184,6 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_j_carte_enregistree_cbe",
-                columns: table => new
-                {
-                    cbr_id = table.Column<int>(type: "integer", nullable: false),
-                    clt_id = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_j_carte_enregistree_cbe", x => new { x.clt_id, x.cbr_id });
-                    table.ForeignKey(
-                        name: "fk_carte_enregistree_carte_bancaire",
-                        column: x => x.cbr_id,
-                        principalTable: "t_e_cartebancaire_cbr",
-                        principalColumn: "cbr_id");
-                    table.ForeignKey(
-                        name: "fk_carte_enregistree_client",
-                        column: x => x.clt_id,
-                        principalTable: "t_e_client_clt",
-                        principalColumn: "clt_id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_e_avis_avi",
-                columns: table => new
-                {
-                    avi_id = table.Column<int>(type: "integer", nullable: false),
-                    vrt_id = table.Column<int>(type: "integer", nullable: false),
-                    clt_id = table.Column<int>(type: "integer", nullable: false),
-                    avi_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    avi_texte = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    avi_note = table.Column<int>(type: "integer", nullable: false),
-                    avi_date = table.Column<DateTime>(type: "date", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_e_avis_avi", x => x.avi_id);
-                    table.CheckConstraint("CK_avi_note", "avi_note between 1 and 5");
-                    table.ForeignKey(
-                        name: "fk_avis_client",
-                        column: x => x.clt_id,
-                        principalTable: "t_e_client_clt",
-                        principalColumn: "clt_id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "t_e_categorie_ctg",
-                columns: table => new
-                {
-                    ctg_id = table.Column<int>(type: "integer", nullable: false),
-                    ctg_parent_id = table.Column<int>(type: "integer", nullable: false),
-                    pht_id = table.Column<int>(type: "integer", nullable: false),
-                    ctg_libelle = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    ctg_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_t_e_categorie_ctg", x => x.ctg_id);
-                    table.ForeignKey(
-                        name: "fk_sous_categorie_parent",
-                        column: x => x.ctg_parent_id,
-                        principalTable: "t_e_categorie_ctg",
-                        principalColumn: "ctg_id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "t_e_produit_prd",
                 columns: table => new
                 {
@@ -285,7 +192,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     ctg_id = table.Column<int>(type: "integer", nullable: false),
                     cln_id = table.Column<int>(type: "integer", nullable: false),
                     prd_lib = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    prd_stock = table.Column<int>(type: "integer", nullable: false),
                     prd_instructions_entretien = table.Column<string>(type: "text", nullable: true),
                     prd_revetement = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     prd_matiere = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
@@ -301,7 +207,6 @@ namespace SAE_S4_MILIBOO.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_produit_prd", x => x.prd_id);
-                    table.CheckConstraint("CK_prd_stock", "prd_stock >= 0");
                     table.ForeignKey(
                         name: "fk_produit_categorie",
                         column: x => x.ctg_id,
@@ -315,6 +220,41 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_e_commande_cmd",
+                columns: table => new
+                {
+                    cmd_id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    eta_id = table.Column<int>(type: "integer", nullable: false),
+                    clt_id = table.Column<int>(type: "integer", nullable: false),
+                    adr_id = table.Column<int>(type: "integer", nullable: false),
+                    cmd_express = table.Column<bool>(type: "boolean", nullable: false),
+                    cmd_collect = table.Column<bool>(type: "boolean", nullable: false),
+                    cmd_points_fidelite_utilises = table.Column<int>(type: "integer", nullable: false),
+                    cmd_instructions = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_commande_cmd", x => x.cmd_id);
+                    table.CheckConstraint("CK_cmd_point_fidelite_utilises", "cmd_points_fidelite_utilises >= 0");
+                    table.ForeignKey(
+                        name: "fk_commande_adresse",
+                        column: x => x.adr_id,
+                        principalTable: "t_e_adresse_adr",
+                        principalColumn: "adr_id");
+                    table.ForeignKey(
+                        name: "fk_commande_client",
+                        column: x => x.clt_id,
+                        principalTable: "t_e_client_clt",
+                        principalColumn: "clt_id");
+                    table.ForeignKey(
+                        name: "fk_commande_etat",
+                        column: x => x.eta_id,
+                        principalTable: "t_e_etat_eta",
+                        principalColumn: "eta_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_e_variante_vrt",
                 columns: table => new
                 {
@@ -324,11 +264,14 @@ namespace SAE_S4_MILIBOO.Migrations
                     prd_id = table.Column<int>(type: "integer", nullable: false),
                     vrt_prix = table.Column<decimal>(type: "numeric(38,17)", nullable: false),
                     vrt_promo = table.Column<decimal>(type: "numeric(4,2)", nullable: false),
-                    vrt_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
+                    vrt_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    vrt_stock = table.Column<int>(type: "integer", nullable: false),
+                    vrt_date_creation = table.Column<DateTime>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_t_e_variante_vrt", x => x.vrt_id);
+                    table.CheckConstraint("CK_prd_stock", "vrt_stock >= 0");
                     table.CheckConstraint("CK_vrt_prix", "vrt_prix >= 0");
                     table.CheckConstraint("CK_vrt_promo", "vrt_promo between 0.01 and 1");
                     table.ForeignKey(
@@ -366,6 +309,34 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "t_e_avis_avi",
+                columns: table => new
+                {
+                    avi_id = table.Column<int>(type: "integer", nullable: false),
+                    vrt_id = table.Column<int>(type: "integer", nullable: false),
+                    clt_id = table.Column<int>(type: "integer", nullable: false),
+                    avi_titre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    avi_texte = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    avi_note = table.Column<int>(type: "integer", nullable: false),
+                    avi_date = table.Column<DateTime>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_t_e_avis_avi", x => x.avi_id);
+                    table.CheckConstraint("CK_avi_note", "avi_note between 1 and 5");
+                    table.ForeignKey(
+                        name: "fk_avis_client",
+                        column: x => x.clt_id,
+                        principalTable: "t_e_client_clt",
+                        principalColumn: "clt_id");
+                    table.ForeignKey(
+                        name: "fk_avis_variante",
+                        column: x => x.avi_id,
+                        principalTable: "t_e_variante_vrt",
+                        principalColumn: "vrt_id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "t_e_ligne_commande_lcm",
                 columns: table => new
                 {
@@ -392,24 +363,24 @@ namespace SAE_S4_MILIBOO.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_e_panier_lgp",
+                name: "t_e_ligne_panier_lpn",
                 columns: table => new
                 {
-                    lgp_id = table.Column<int>(type: "integer", nullable: false)
+                    lpn_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    pnr_id = table.Column<int>(type: "integer", nullable: false),
+                    clt_id = table.Column<int>(type: "integer", nullable: false),
                     vrt_id = table.Column<int>(type: "integer", nullable: false),
-                    lgp_quantite = table.Column<int>(type: "integer", nullable: false)
+                    lpn_quantite = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_e_panier_lgp", x => x.lgp_id);
-                    table.CheckConstraint("CK_lgp_quantite", "lgp_quantite >= 1");
+                    table.PrimaryKey("PK_t_e_ligne_panier_lpn", x => x.lpn_id);
+                    table.CheckConstraint("CK_lpn_quantite", "lpn_quantite >= 1");
                     table.ForeignKey(
                         name: "fk_ligne_panier_panier",
-                        column: x => x.pnr_id,
-                        principalTable: "t_e_panier_pnr",
-                        principalColumn: "pnr_id");
+                        column: x => x.clt_id,
+                        principalTable: "t_e_client_clt",
+                        principalColumn: "clt_id");
                     table.ForeignKey(
                         name: "fk_ligne_panier_variante",
                         column: x => x.vrt_id,
@@ -436,6 +407,11 @@ namespace SAE_S4_MILIBOO.Migrations
                         principalTable: "t_e_avis_avi",
                         principalColumn: "avi_id");
                     table.ForeignKey(
+                        name: "fk_photo_categorie",
+                        column: x => x.ctg_id,
+                        principalTable: "t_e_categorie_ctg",
+                        principalColumn: "ctg_id");
+                    table.ForeignKey(
                         name: "fk_photo_variante",
                         column: x => x.pht_id,
                         principalTable: "t_e_variante_vrt",
@@ -445,6 +421,11 @@ namespace SAE_S4_MILIBOO.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_avis_avi_clt_id",
                 table: "t_e_avis_avi",
+                column: "clt_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_cartebancaire_cbr_clt_id",
+                table: "t_e_cartebancaire_cbr",
                 column: "clt_id");
 
             migrationBuilder.CreateIndex(
@@ -490,24 +471,29 @@ namespace SAE_S4_MILIBOO.Migrations
                 column: "vrt_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_t_e_ligne_panier_lpn_clt_id",
+                table: "t_e_ligne_panier_lpn",
+                column: "clt_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_ligne_panier_lpn_vrt_id",
+                table: "t_e_ligne_panier_lpn",
+                column: "vrt_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_t_e_liste_lst_clt_id",
                 table: "t_e_liste_lst",
                 column: "clt_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_e_panier_lgp_pnr_id",
-                table: "t_e_panier_lgp",
-                column: "pnr_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_e_panier_lgp_vrt_id",
-                table: "t_e_panier_lgp",
-                column: "vrt_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_t_e_photo_pht_avi_id",
                 table: "t_e_photo_pht",
                 column: "avi_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_t_e_photo_pht_ctg_id",
+                table: "t_e_photo_pht",
+                column: "ctg_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_t_e_produit_prd_cln_id",
@@ -535,55 +521,27 @@ namespace SAE_S4_MILIBOO.Migrations
                 column: "adr_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_j_carte_enregistree_cbe_cbr_id",
-                table: "t_j_carte_enregistree_cbe",
-                column: "cbr_id");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_t_j_pdt_lst_lst_id",
                 table: "t_j_pdt_lst",
                 column: "lst_id");
-
-            migrationBuilder.AddForeignKey(
-                name: "fk_avis_variante",
-                table: "t_e_avis_avi",
-                column: "avi_id",
-                principalTable: "t_e_variante_vrt",
-                principalColumn: "vrt_id");
-
-            migrationBuilder.AddForeignKey(
-                name: "fk_photo_variante",
-                table: "t_e_categorie_ctg",
-                column: "ctg_id",
-                principalTable: "t_e_photo_pht",
-                principalColumn: "pht_id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "fk_avis_client",
-                table: "t_e_avis_avi");
-
-            migrationBuilder.DropForeignKey(
-                name: "fk_avis_variante",
-                table: "t_e_avis_avi");
-
-            migrationBuilder.DropForeignKey(
-                name: "fk_photo_variante",
-                table: "t_e_photo_pht");
+            migrationBuilder.DropTable(
+                name: "t_e_cartebancaire_cbr");
 
             migrationBuilder.DropTable(
                 name: "t_e_ligne_commande_lcm");
 
             migrationBuilder.DropTable(
-                name: "t_e_panier_lgp");
+                name: "t_e_ligne_panier_lpn");
+
+            migrationBuilder.DropTable(
+                name: "t_e_photo_pht");
 
             migrationBuilder.DropTable(
                 name: "t_j_adresse_livraison_adl");
-
-            migrationBuilder.DropTable(
-                name: "t_j_carte_enregistree_cbe");
 
             migrationBuilder.DropTable(
                 name: "t_j_pdt_lst");
@@ -592,7 +550,7 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "t_e_commande_cmd");
 
             migrationBuilder.DropTable(
-                name: "t_e_cartebancaire_cbr");
+                name: "t_e_avis_avi");
 
             migrationBuilder.DropTable(
                 name: "t_e_liste_lst");
@@ -604,13 +562,10 @@ namespace SAE_S4_MILIBOO.Migrations
                 name: "t_e_etat_eta");
 
             migrationBuilder.DropTable(
-                name: "t_e_client_clt");
-
-            migrationBuilder.DropTable(
-                name: "t_e_panier_pnr");
-
-            migrationBuilder.DropTable(
                 name: "t_e_variante_vrt");
+
+            migrationBuilder.DropTable(
+                name: "t_e_client_clt");
 
             migrationBuilder.DropTable(
                 name: "t_e_couleur_clr");
@@ -623,12 +578,6 @@ namespace SAE_S4_MILIBOO.Migrations
 
             migrationBuilder.DropTable(
                 name: "t_e_collection_cln");
-
-            migrationBuilder.DropTable(
-                name: "t_e_photo_pht");
-
-            migrationBuilder.DropTable(
-                name: "t_e_avis_avi");
         }
     }
 }

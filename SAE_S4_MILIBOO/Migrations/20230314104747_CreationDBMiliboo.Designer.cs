@@ -12,8 +12,8 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    [Migration("20230313160115_CreationDBMilibooDimension")]
-    partial class CreationDBMilibooDimension
+    [Migration("20230314104747_CreationDBMiliboo")]
+    partial class CreationDBMiliboo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,6 +148,10 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarteBancaireId"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer")
+                        .HasColumnName("clt_id");
+
                     b.Property<string>("CryptoCarte")
                         .IsRequired()
                         .HasColumnType("text")
@@ -176,26 +180,11 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     b.HasKey("CarteBancaireId");
 
+                    b.HasIndex("ClientId");
+
                     b.ToTable("t_e_cartebancaire_cbr");
 
                     b.HasCheckConstraint("CK_cbr_date_expiration", "cbr_date_expiration > now()");
-                });
-
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.CarteEnregistree", b =>
-                {
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer")
-                        .HasColumnName("clt_id");
-
-                    b.Property<int>("CarteBancaireId")
-                        .HasColumnType("integer")
-                        .HasColumnName("cbr_id");
-
-                    b.HasKey("ClientId", "CarteBancaireId");
-
-                    b.HasIndex("CarteBancaireId");
-
-                    b.ToTable("t_j_carte_enregistree_cbe");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", b =>
@@ -204,6 +193,8 @@ namespace SAE_S4_MILIBOO.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("ctg_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Categorieid"));
 
                     b.Property<int>("CategorieParentid")
                         .HasColumnType("integer")
@@ -221,10 +212,6 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("character varying(100)")
                         .HasColumnName("ctg_libelle");
 
-                    b.Property<int>("PhotoId")
-                        .HasColumnType("integer")
-                        .HasColumnName("pht_id");
-
                     b.HasKey("Categorieid");
 
                     b.HasIndex("CategorieParentid");
@@ -235,8 +222,11 @@ namespace SAE_S4_MILIBOO.Migrations
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Client", b =>
                 {
                     b.Property<int>("ClientId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasColumnName("clt_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ClientId"));
 
                     b.Property<string>("Civilite")
                         .IsRequired()
@@ -271,10 +261,6 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("clt_nom");
-
-                    b.Property<int>("PanierId")
-                        .HasColumnType("integer")
-                        .HasColumnName("pnr_id");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -471,17 +457,17 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Property<int>("LigneId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("lgp_id");
+                        .HasColumnName("lpn_id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LigneId"));
 
-                    b.Property<int>("PanierId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("integer")
-                        .HasColumnName("pnr_id");
+                        .HasColumnName("clt_id");
 
                     b.Property<int>("Quantite")
                         .HasColumnType("integer")
-                        .HasColumnName("lgp_quantite");
+                        .HasColumnName("lpn_quantite");
 
                     b.Property<int>("VarianteId")
                         .HasColumnType("integer")
@@ -489,13 +475,13 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     b.HasKey("LigneId");
 
-                    b.HasIndex("PanierId");
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("VarianteId");
 
-                    b.ToTable("t_e_panier_lgp");
+                    b.ToTable("t_e_ligne_panier_lpn");
 
-                    b.HasCheckConstraint("CK_lgp_quantite", "lgp_quantite >= 1");
+                    b.HasCheckConstraint("CK_lpn_quantite", "lpn_quantite >= 1");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Liste", b =>
@@ -532,28 +518,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.ToTable("t_e_liste_lst");
                 });
 
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Panier", b =>
-                {
-                    b.Property<int>("PanierId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("pnr_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PanierId"));
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("integer")
-                        .HasColumnName("clt_id");
-
-                    b.Property<DateTime>("DerniereModif")
-                        .HasColumnType("date")
-                        .HasColumnName("pnr_derniere_modif");
-
-                    b.HasKey("PanierId");
-
-                    b.ToTable("t_e_panier_pnr");
-                });
-
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Photo", b =>
                 {
                     b.Property<int>("PhotoId")
@@ -582,6 +546,8 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasKey("PhotoId");
 
                     b.HasIndex("AviId");
+
+                    b.HasIndex("CategorieId");
 
                     b.ToTable("t_e_photo_pht");
                 });
@@ -648,10 +614,6 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("character varying(150)")
                         .HasColumnName("prd_revetement");
 
-                    b.Property<int>("Stock")
-                        .HasColumnType("integer")
-                        .HasColumnName("prd_stock");
-
                     b.Property<string>("TypeMousseAssise")
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)")
@@ -669,8 +631,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("t_e_produit_prd");
-
-                    b.HasCheckConstraint("CK_prd_stock", "prd_stock >= 0");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.ProduitListe", b =>
@@ -699,6 +659,10 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdVariante"));
 
+                    b.Property<DateTime?>("DateCreation")
+                        .HasColumnType("date")
+                        .HasColumnName("vrt_date_creation");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -723,6 +687,10 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("numeric(4,2)")
                         .HasColumnName("vrt_promo");
 
+                    b.Property<int>("Stock")
+                        .HasColumnType("integer")
+                        .HasColumnName("vrt_stock");
+
                     b.HasKey("IdVariante");
 
                     b.HasIndex("IdCouleur");
@@ -730,6 +698,8 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.HasIndex("IdProduit");
 
                     b.ToTable("t_e_variante_vrt");
+
+                    b.HasCheckConstraint("CK_prd_stock", "vrt_stock >= 0");
 
                     b.HasCheckConstraint("CK_vrt_prix", "vrt_prix >= 0");
 
@@ -774,23 +744,15 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Navigation("VarianteAvisNavigation");
                 });
 
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.CarteEnregistree", b =>
+            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.CarteBancaire", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.CarteBancaire", "CarteLieeNavigation")
-                        .WithMany("CartesEnregistreesNavigation")
-                        .HasForeignKey("CarteBancaireId")
-                        .IsRequired()
-                        .HasConstraintName("fk_carte_enregistree_carte_bancaire");
-
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientLieNavigation")
-                        .WithMany("ClientsEnregistresNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientCarteBancaireNavigation")
+                        .WithMany("CarteBancaireClientNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
-                        .HasConstraintName("fk_carte_enregistree_client");
+                        .HasConstraintName("fk_client_panier");
 
-                    b.Navigation("CarteLieeNavigation");
-
-                    b.Navigation("ClientLieNavigation");
+                    b.Navigation("ClientCarteBancaireNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", b =>
@@ -801,26 +763,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_sous_categorie_parent");
 
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Photo", "PhotoCategorieNavigation")
-                        .WithOne("CategoriePhotoNavigation")
-                        .HasForeignKey("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "Categorieid")
-                        .IsRequired()
-                        .HasConstraintName("fk_photo_variante");
-
                     b.Navigation("CategorieParentNavigation");
-
-                    b.Navigation("PhotoCategorieNavigation");
-                });
-
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Client", b =>
-                {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Panier", "PanierClientNavigation")
-                        .WithOne("ClientPanierNavigation")
-                        .HasForeignKey("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientId")
-                        .IsRequired()
-                        .HasConstraintName("fk_panier_client");
-
-                    b.Navigation("PanierClientNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Commande", b =>
@@ -871,9 +814,9 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.LignePanier", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Panier", "LigneDuPanierNavigation")
-                        .WithMany("LignesDansPanierNavigation")
-                        .HasForeignKey("PanierId")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientLignePanierNavigation")
+                        .WithMany("LignesPanierClientNavigation")
+                        .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_ligne_panier_panier");
 
@@ -883,7 +826,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_ligne_panier_variante");
 
-                    b.Navigation("LigneDuPanierNavigation");
+                    b.Navigation("ClientLignePanierNavigation");
 
                     b.Navigation("VariantesLignePanierNavigation");
                 });
@@ -907,6 +850,12 @@ namespace SAE_S4_MILIBOO.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_photo_avis");
 
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "CategoriePhotoNavigation")
+                        .WithMany("PhotoCategorieNavigation")
+                        .HasForeignKey("CategorieId")
+                        .IsRequired()
+                        .HasConstraintName("fk_photo_categorie");
+
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VariantePhotoNavigation")
                         .WithMany("PhotosVarianteNavigation")
                         .HasForeignKey("PhotoId")
@@ -914,6 +863,8 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasConstraintName("fk_photo_variante");
 
                     b.Navigation("AvisPhotosNavigation");
+
+                    b.Navigation("CategoriePhotoNavigation");
 
                     b.Navigation("VariantePhotoNavigation");
                 });
@@ -987,13 +938,10 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Navigation("PhotosAvisNavigation");
                 });
 
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.CarteBancaire", b =>
-                {
-                    b.Navigation("CartesEnregistreesNavigation");
-                });
-
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", b =>
                 {
+                    b.Navigation("PhotoCategorieNavigation");
+
                     b.Navigation("ProduitsCategorieNavigation");
 
                     b.Navigation("SousCategoriesNavigation");
@@ -1003,11 +951,13 @@ namespace SAE_S4_MILIBOO.Migrations
                 {
                     b.Navigation("AvisClientsNavigation");
 
-                    b.Navigation("ClientsEnregistresNavigation");
+                    b.Navigation("CarteBancaireClientNavigation");
 
                     b.Navigation("ClientsLivraisonsNavigation");
 
                     b.Navigation("CommandesClientNavigation");
+
+                    b.Navigation("LignesPanierClientNavigation");
 
                     b.Navigation("ListesNavigation");
                 });
@@ -1035,20 +985,6 @@ namespace SAE_S4_MILIBOO.Migrations
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Liste", b =>
                 {
                     b.Navigation("ProduitListeNavigation");
-                });
-
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Panier", b =>
-                {
-                    b.Navigation("ClientPanierNavigation")
-                        .IsRequired();
-
-                    b.Navigation("LignesDansPanierNavigation");
-                });
-
-            modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Photo", b =>
-                {
-                    b.Navigation("CategoriePhotoNavigation")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Produit", b =>

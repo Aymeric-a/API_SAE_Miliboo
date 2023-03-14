@@ -176,7 +176,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .WithMany(p => p.PhotoCategorieNavigation)
                     .HasForeignKey(d => d.CategorieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_photo_variante");
+                    .HasConstraintName("fk_photo_categorie");
             });
 
             //Table Avis PK: AvisId; FK: CLientId et AvisId
@@ -225,7 +225,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ligne_panier_variante");
 
-                entity.HasCheckConstraint("CK_lgp_quantite", "lgp_quantite >= 1");
+                entity.HasCheckConstraint("CK_lpn_quantite", "lpn_quantite >= 1");
 
             });
 
