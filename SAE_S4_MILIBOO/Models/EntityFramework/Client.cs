@@ -16,10 +16,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("clt_id")]
         public int ClientId { get; set; }
 
-        [Column("cbr_id")]
-        public int? CarteBancaireId { get; set; }
-
-
         [Column("clt_email")]
         [EmailAddress]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "La longueur d’un email doit être comprise entre 6 et 100 caractères.")]
@@ -63,7 +59,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("ClientCarteBancaireNavigation")]
-        public virtual CarteBancaire CarteBancaireClientNavigation { get; set; }
+        public virtual ICollection<CarteBancaire> CarteBancaireClientNavigation { get; set; }
 
         [InverseProperty("ClientALivreNavigation")]
         public virtual ICollection<AdresseLivraison> ClientsLivraisonsNavigation { get; set; }
@@ -79,7 +75,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual ICollection<Commande> CommandesClientNavigation { get; set; } = null!;
 
         [InverseProperty("ClientLignePanierNavigation")]
-        public virtual IEnumerable<LignePanier> LignesPanierClientNavigation { get; set; } = null!;
+        public virtual ICollection<LignePanier> LignesPanierClientNavigation { get; set; } = null!;
 
     }
 }

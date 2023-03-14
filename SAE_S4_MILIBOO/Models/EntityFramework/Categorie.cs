@@ -14,10 +14,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("ctg_parent_id")]
         public int CategorieParentid { get; set; }
 
-        [ForeignKey("PhotoId")]
-        [Column("pht_id")]
-        public int PhotoId { get; set; }
-
         [Column("ctg_libelle")]
         [StringLength(100)]
         public string Libelle { get; set; } = null!;
@@ -29,7 +25,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("CategoriePhotoNavigation")]
-        public virtual Photo PhotoCategorieNavigation { get; set; } = null!;
+        public virtual ICollection<Photo> PhotoCategorieNavigation { get; set; } = null!;
 
         [InverseProperty("CategorieProduitNavigation")]
         public virtual ICollection<Produit> ProduitsCategorieNavigation { get; set; } = null!;

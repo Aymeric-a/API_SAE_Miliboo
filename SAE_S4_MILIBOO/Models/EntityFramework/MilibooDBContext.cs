@@ -56,8 +56,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                 entity.HasKey(e => e.CarteBancaireId);
 
                 entity.HasOne(d => d.ClientCarteBancaireNavigation)
-                    .WithOne(p => p.CarteBancaireClientNavigation)
-                    .HasForeignKey<Client>(d => d.ClientId)
+                    .WithMany(p => p.CarteBancaireClientNavigation)
+                    .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_client_panier");
 
@@ -110,12 +110,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
                 entity.HasIndex(e => e.Mail).IsUnique();
 
-                entity.HasOne(d => d.CarteBancaireClientNavigation)
-                    .WithOne(p => p.ClientCarteBancaireNavigation)
-                    .HasForeignKey<CarteBancaire>(d => d.CarteBancaireId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_client_panier");
-
                 entity.HasCheckConstraint("CK_clt_solde_fidelite", "clt_solde_fidelite >= 0");
             });
 
@@ -124,12 +118,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             modelBuilder.Entity<Categorie>(entity =>
             {
                 entity.HasKey(e => e.Categorieid);
-
-                entity.HasOne(d => d.PhotoCategorieNavigation)
-                    .WithOne(p => p.CategoriePhotoNavigation)
-                    .HasForeignKey<Photo>(d => d.PhotoId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_photo_variante");
 
                 entity.HasMany(d => d.SousCategoriesNavigation)
                     .WithOne(d => d.CategorieParentNavigation)
@@ -185,8 +173,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .HasConstraintName("fk_photo_variante");
 
                 entity.HasOne(d => d.CategoriePhotoNavigation)
-                    .WithOne(p => p.PhotoCategorieNavigation)
-                    .HasForeignKey<Categorie>(d => d.Categorieid)
+                    .WithMany(p => p.PhotoCategorieNavigation)
+                    .HasForeignKey(d => d.CategorieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_photo_variante");
             });

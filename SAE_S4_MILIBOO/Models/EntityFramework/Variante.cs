@@ -42,6 +42,9 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Required]
         public int Stock { get; set; }
 
+        [Column("vrt_date_creation", TypeName ="date")]
+        public DateTime? DateCreation { get; set; }
+
 
         [InverseProperty("VariantesCouleurNavigation")]
         public virtual Couleur CouleurVarianteNavigation { get; set; } = null!;
