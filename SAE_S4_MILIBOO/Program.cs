@@ -21,6 +21,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
             builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
+            builder.Services.AddScoped<IDataRepositoryProduits<Produit>, ProduitManager>();
 
             var app = builder.Build();
 

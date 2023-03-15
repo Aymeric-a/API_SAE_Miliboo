@@ -40,6 +40,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             
         }
 
+        public async Task<ActionResult<IEnumerable<Commande>>> GetAllCommandeByEtat(int etatId)
+        {
+            return await milibooDBContext.Commandes.Where<Commande>(c => c.EtatId == etatId).ToListAsync();
+        }
+
         public async Task<ActionResult<Commande>> GetByIdAsync(int id)
         {
             return await milibooDBContext.Commandes.FirstOrDefaultAsync(u => u.CommandeId == id);

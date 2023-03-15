@@ -59,6 +59,21 @@ namespace SAE_S4_MILIBOO.Controllers
             return produit;
         }
 
+        // GET: api/Commandes/5
+        [HttpGet]
+        [ActionName("GetCommandesByEtat")]
+        public async Task<ActionResult<IEnumerable<Commande>>> GetCommandesByEtat(int etatId)
+        {
+            var produit = await dataRepository.GetAllCommandeByEtat(etatId);
+
+            if (produit == null)
+            {
+                return NotFound();
+            }
+
+            return produit;
+        }
+
         // PUT: api/Commandes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
