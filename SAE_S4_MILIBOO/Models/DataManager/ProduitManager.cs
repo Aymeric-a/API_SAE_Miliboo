@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
 using System.Linq;
@@ -9,6 +10,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     public class ProduitManager : IDataRepositoryProduits<Produit>
     {
         readonly MilibooDBContext? milibooDBContext;
+
+        readonly VarianteManager varianteManager;
 
         private int nbrArticleParPage = 2;
 
@@ -236,9 +239,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<decimal> GetNumberPagesByCouleur(int couleurId)
         {
-            var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.IdCouleur == couleurId))
-                                                            .CountAsync();
-            return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
+            return await milibooDBContext.Produits.Where<Produit>(p => varianteManager.FindCouleur(couleurId, p.VariantesProduitNavigation)).CountAsync();
+            
         }
 
         //public Task<decimal> GetNumberPagesByCouleurAndPrix(int couleurId, double minprix, double maxprix)
