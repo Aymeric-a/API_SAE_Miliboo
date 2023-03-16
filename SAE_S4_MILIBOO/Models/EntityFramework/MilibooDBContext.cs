@@ -38,7 +38,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=postgresql-philippa.alwaysdata.net;port=5432;Database=philippa_api_miliboo; SearchPath=public; uid=philippa; password=postgres");
+            optionsBuilder.UseNpgsql("Server=localhost;port=5432;Database=MilibooDB; uid=postgres;password=postgres;");
             //if (!optionsBuilder.IsConfigured)
             //{
             //    //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.

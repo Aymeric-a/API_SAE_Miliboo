@@ -5,6 +5,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
     public interface IDataRepositoryProduits<TEntity>
     {
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
+        Task<ActionResult<TEntity>> GetProduitById(int id);
 
 
         Task<decimal> GetNumberPages();

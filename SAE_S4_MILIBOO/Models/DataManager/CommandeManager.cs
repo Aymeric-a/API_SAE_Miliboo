@@ -7,14 +7,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 {
     public class CommandeManager : IDataRepositoryCommande<Commande>
     {
-        readonly MilibooDBContext? milibooDBContext;
+    readonly MilibooDBContext? milibooDBContext;
 
-        public CommandeManager() { }
+    public CommandeManager() { }
 
-        public CommandeManager(MilibooDBContext context)
-        {
-            milibooDBContext = context;
-        }
+    public CommandeManager(MilibooDBContext context)
+    {
+        milibooDBContext = context;
+    }
 
 
         public async Task AddAsync(Commande entity)

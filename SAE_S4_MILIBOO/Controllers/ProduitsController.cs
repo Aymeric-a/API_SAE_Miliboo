@@ -35,7 +35,7 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetById")]
         public async Task<ActionResult<Produit>> GetProduit(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            var produit = await dataRepository.GetProduitById(id);
 
             if (produit == null)
             {

@@ -39,6 +39,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Produits.ToListAsync<Produit>();
         }
 
+        public async Task<ActionResult<Produit>> GetProduitById(int produitId)
+        {
+            return await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
+        }
+
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPage(int page)
         {
             var rawData = await milibooDBContext.Produits.ToListAsync<Produit>();
@@ -239,8 +244,9 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<decimal> GetNumberPagesByCouleur(int couleurId)
         {
-            return await milibooDBContext.Produits.Where<Produit>(p => varianteManager.FindCouleur(couleurId, p.VariantesProduitNavigation)).CountAsync();
-            
+            return 0;
+
+
         }
 
         //public Task<decimal> GetNumberPagesByCouleurAndPrix(int couleurId, double minprix, double maxprix)

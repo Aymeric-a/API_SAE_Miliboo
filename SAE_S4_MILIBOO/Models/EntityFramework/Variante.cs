@@ -50,7 +50,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual Couleur CouleurVarianteNavigation { get; set; } = null!;
 
         [InverseProperty("VariantesProduitNavigation")]
-        public virtual Produit ProduitVarianteNavigation { get; set; } = null!;
+        public Produit ProduitVarianteNavigation { get; set; } = null!;
 
         [InverseProperty("VariantesLignePanierNavigation")]
         public virtual ICollection<LignePanier> LignePanierVarianteNavigation { get; set; } = null!;
