@@ -25,24 +25,24 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/ListeSouhaits/5
         [HttpGet]
         [ActionName("GetById")]
-        public async Task<ActionResult<ProduitListe>> GetListeSouhait(int id)
+        public async Task<ActionResult<Liste>> GetListeSouhait(int id)
         {
-            var ListeSouhait = await dataRepository.GetByIdAsync(id);
+            var listeSouhait = await dataRepository.GetByIdAsync(id);
 
-            if (ListeSouhait == null)
+            if (listeSouhait == null)
             {
                 return NotFound();
             }
 
-            return ListeSouhait;
+            return listeSouhait;
         }
 
         // GET: api/ListeSouhaits/5
         [HttpGet]
-        [ActionName("GetByVille")]
-        public async Task<ActionResult<IEnumerable<ProduitListe>>> GetAllListeDeSouhaitsByClientId(int idClient)
+        [ActionName("GetByClient")]
+        public async Task<ActionResult<IEnumerable<Liste>>> GetAllListeSouhaitByClientId(int idClient)
         {
-            var listeSouhait = await dataRepository.GetAllListeDeSouhaitsByClientId(idClient);
+            var listeSouhait = await dataRepository.GetAllListeSouhaitByClientId(idClient);
 
             if (listeSouhait == null)
             {
@@ -55,9 +55,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // PUT: api/ListeSouhaits/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutListeSouhait(int id, ProduitListe ListeSouhait)
+        public async Task<IActionResult> PutListeSouhait(int id, Liste listeSouhait)
         {
-            if (id != ListeSouhait.ListeId)
+            if (id != listeSouhait.ListeId)
             {
                 return BadRequest();
             }
@@ -69,7 +69,7 @@ namespace SAE_S4_MILIBOO.Controllers
             }
             else
             {
-                await dataRepository.UpdateAsync(userToUpdate.Value, ListeSouhait);
+                await dataRepository.UpdateAsync(userToUpdate.Value, listeSouhait);
                 return NoContent();
             }
         }
@@ -77,17 +77,17 @@ namespace SAE_S4_MILIBOO.Controllers
         // POST: api/ListeSouhaits
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ProduitListe>> PostListeSouhait(ProduitListe ListeSouhait)
+        public async Task<ActionResult<Liste>> PostListeSouhait(Liste listeSouhait)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await dataRepository.AddAsync(ListeSouhait);
+            await dataRepository.AddAsync(listeSouhait);
 
 
-            return CreatedAtAction("GetById", new { id = ListeSouhait.ListeId }, ListeSouhait);
+            return CreatedAtAction("GetById", new { id = listeSouhait.ListeId }, listeSouhait);
         }
 
         // DELETE: api/ListeSouhaits/5
