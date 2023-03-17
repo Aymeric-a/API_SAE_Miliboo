@@ -68,7 +68,7 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         [HttpGet]
-        [ActionName("GetByPortable")]
+        [ActionName("GetByNomPrenom")]
         async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
         {
             var listClients = await dataRepository.GetAllClientsByNomPrenom(recherche);
