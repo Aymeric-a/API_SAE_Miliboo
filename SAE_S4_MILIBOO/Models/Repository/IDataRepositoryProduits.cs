@@ -8,29 +8,20 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<TEntity>> GetProduitById(int id);
 
 
-        Task<decimal> GetNumberPages();
         Task<decimal> GetNumberPagesByCollection(int collectionId);
         Task<decimal> GetNumberPagesByCategorie(int categorieId);
-        Task<decimal> GetNumberPagesByCouleur(int categorieId, int couleurId);
+        Task<decimal> GetNumberPagesByCouleur(int categorieId, List<int> couleurId);
         Task<decimal> GetNumberPagesByPrixMini(int categorieId, double minprix);
         Task<decimal> GetNumberPagesByPrixMaxi(int categorieId, double maxprix);
-        
-        //Task<decimal> GetNumberPagesByCategorieAndPrix(int categorieId, double minprix, double maxprix);
-        //Task<decimal> GetNumberPagesByCouleurAndPrix(int couleurId, double minprix, double maxprix);
-        //Task<decimal> GetNumberPagesByCouleurAndPrixAndCategorie(int couleurId, double minprix, double maxprix, int categorieId);
 
 
 
-
-        Task<ActionResult<IEnumerable<TEntity>>> GetAllByPage(int page);
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCollection(int page, int collectionId);
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCategorie(int page, int categorieId);
-        Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCouleur(int page, int categorieId, int couleurId);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCouleur(int page, int categorieId, List<int> couleurId);
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByPrixMini(int page, int categorieId, double minprix);
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByPrixMaxi(int page, int categorieId, double maxprix);
-        //Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCategorieAndPrix(int page, int categorieId, double minprix, double maxprix);
-        //Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCouleurAndPrix(int page, int couleurId, double minprix, double maxprix);
-        //Task<ActionResult<IEnumerable<TEntity>>> GetAllByPageByCouleurAndPrixAndCategorie(int page, int couleurId, double minprix, double maxprix, int categorieId);
+        
 
 
         Task<ActionResult<TEntity>> GetByIdAsync(int id);
