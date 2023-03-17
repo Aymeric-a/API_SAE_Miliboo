@@ -26,7 +26,7 @@ namespace SAE_S4_MILIBOO
 
             // Add services to the container.
             builder.Services.AddDbContext<MilibooDBContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDLocale")));
+                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDistante")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

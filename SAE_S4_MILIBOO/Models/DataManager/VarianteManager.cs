@@ -16,19 +16,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
         }
 
-        public bool FindCouleur(int couleurId, ICollection<Variante> mesVariantes)
-        {
-            Console.WriteLine("test");
-            foreach (Variante variante in mesVariantes)
-            {
-                if (variante.IdCouleur == couleurId)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public async Task<ActionResult<IEnumerable<Variante>>> GetAll()
         {
             return await milibooDBContext.Variantes.ToListAsync<Variante>();
@@ -37,6 +24,24 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task<ActionResult<IEnumerable<Variante>>> GetAllByByCouleur(int couleurId)
         {
             return await milibooDBContext.Variantes.Where<Variante>(v => v.IdCouleur == couleurId).ToListAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Variante>>> GetAllByProduit(int produitId)
+        {
+            return await milibooDBContext.Variantes.Where<Variante>(v => v.IdProduit== produitId).ToListAsync();
+        }
+
+        public async Task<List<int>> GetProduitsIdByCouleur(int couleurId)
+        {
+            var lesVariantes = await milibooDBContext.Variantes.Where(var => var.IdCouleur== couleurId).ToListAsync();
+            List<int> lesIdProduits = new List<int>();
+
+            foreach(Variante var in lesVariantes)
+            {
+                lesIdProduits.Add(var.IdProduit);
+            }
+
+            return lesIdProduits;
         }
     }
 }

@@ -21,5 +21,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             return await milibooDBContext.Couleurs.ToListAsync<Couleur>();
         }
+
+        public string GetCodeCouleur(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetIdByLibelle(string libelle)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

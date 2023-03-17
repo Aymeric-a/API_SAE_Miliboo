@@ -45,7 +45,20 @@ namespace SAE_S4_MILIBOO.Controllers
             return produit;
         }
 
-        
+        // GET: api/Produits/5
+        [HttpGet]
+        [ActionName("GetAllByProduit")]
+        public async Task<ActionResult<IEnumerable<Variante>>> GetProduitsByProduit(int produitId)
+        {
+            var produit = await dataRepository.GetAllByProduit(produitId);
+
+            if (produit == null)
+            {
+                return NotFound();
+            }
+
+            return produit;
+        }
 
     }
 }
