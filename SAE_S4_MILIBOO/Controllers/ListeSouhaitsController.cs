@@ -12,51 +12,52 @@ namespace SAE_S4_MILIBOO.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class LignePaniersController : ControllerBase
+    public class ListeSouhaitsController : ControllerBase
     {
-        private readonly IDataRepositoryLignePanier<LignePanier> dataRepository;
+        private readonly IDataRepositoryListeSouhait<ProduitListe> dataRepository;
 
-        public LignePaniersController(IDataRepositoryLignePanier<LignePanier> dataRepo)
+        public ListeSouhaitsController(IDataRepositoryListeSouhait<ProduitListe> dataRepo)
         {
             dataRepository = dataRepo;
         }
 
-        // GET: api/LignePaniers/5
+
+        // GET: api/ListeSouhaits/5
         [HttpGet]
         [ActionName("GetById")]
-        public async Task<ActionResult<LignePanier>> GetLignePanier(int id)
+        public async Task<ActionResult<ProduitListe>> GetListeSouhait(int id)
         {
-            var LignePanier = await dataRepository.GetByIdAsync(id);
+            var ListeSouhait = await dataRepository.GetByIdAsync(id);
 
-            if (LignePanier == null)
+            if (ListeSouhait == null)
             {
                 return NotFound();
             }
 
-            return LignePanier;
+            return ListeSouhait;
         }
 
-        // GET: api/LignePaniers/5
+        // GET: api/ListeSouhaits/5
         [HttpGet]
-        [ActionName("GetByClientId")]
-        public async Task<ActionResult<IEnumerable<LignePanier>>> GetLignePaniersByClientId(int idClient)
+        [ActionName("GetByVille")]
+        public async Task<ActionResult<IEnumerable<ProduitListe>>> GetAllListeDeSouhaitsByClientId(int idClient)
         {
-            var lignePanier = await dataRepository.GetLignePaniersByClientId(idClient);
+            var listeSouhait = await dataRepository.GetAllListeDeSouhaitsByClientId(idClient);
 
-            if (lignePanier == null)
+            if (listeSouhait == null)
             {
                 return NotFound();
             }
 
-            return lignePanier;
+            return listeSouhait;
         }
 
-        // PUT: api/LignePaniers/5
+        // PUT: api/ListeSouhaits/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLignePanier(int id, LignePanier lignePanier)
+        public async Task<IActionResult> PutListeSouhait(int id, ProduitListe ListeSouhait)
         {
-            if (id != lignePanier.LigneId)
+            if (id != ListeSouhait.ListeId)
             {
                 return BadRequest();
             }
@@ -68,30 +69,30 @@ namespace SAE_S4_MILIBOO.Controllers
             }
             else
             {
-                await dataRepository.UpdateAsync(userToUpdate.Value, lignePanier);
+                await dataRepository.UpdateAsync(userToUpdate.Value, ListeSouhait);
                 return NoContent();
             }
         }
 
-        // POST: api/LignePaniers
+        // POST: api/ListeSouhaits
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<LignePanier>> PostLignePanier(LignePanier lignePanier)
+        public async Task<ActionResult<ProduitListe>> PostListeSouhait(ProduitListe ListeSouhait)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            await dataRepository.AddAsync(lignePanier);
+            await dataRepository.AddAsync(ListeSouhait);
 
 
-            return CreatedAtAction("GetById", new { id = lignePanier.LigneId }, lignePanier);
+            return CreatedAtAction("GetById", new { id = ListeSouhait.ListeId }, ListeSouhait);
         }
 
-        // DELETE: api/LignePaniers/5
+        // DELETE: api/ListeSouhaits/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLignePanier(int id)
+        public async Task<IActionResult> DeleteListeSouhait(int id)
         {
             var produit = await dataRepository.GetByIdAsync(id);
             if (produit == null)
@@ -104,9 +105,9 @@ namespace SAE_S4_MILIBOO.Controllers
             return NoContent();
         }
 
-        //private bool LignePanierExists(int id)
+        //private bool ListeSouhaitExists(int id)
         //{
-        //    return _context.LignePaniers.Any(e => e.LignePanierId == id);
+        //    return _context.ListeSouhaits.Any(e => e.ListeSouhaitId == id);
         //}
     }
 }

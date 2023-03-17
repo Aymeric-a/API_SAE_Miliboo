@@ -10,7 +10,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
 
         Task DeleteAsync(LignePanier entity);
 
-        Task<ActionResult<IEnumerable<LignePanier>>> GetLignesPanierByClientId(int idClient);
+        Task<ActionResult<IEnumerable<LignePanier>>> GetLignePaniersByClientId(int idClient);
 
         Task<ActionResult<LignePanier>> GetByIdAsync(int id);
 
