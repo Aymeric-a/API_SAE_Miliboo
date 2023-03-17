@@ -31,12 +31,30 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Variantes.Where<Variante>(v => v.IdProduit== produitId).ToListAsync();
         }
 
-        public async Task<List<int>> GetProduitsIdByCouleur(int couleurId)
+        public async Task<List<int>> GetProduitsIdByCouleur(List<int> couleurId)
         {
-            var lesVariantes = await milibooDBContext.Variantes.Where(var => var.IdCouleur== couleurId).ToListAsync();
+            List<int> lesIdProduits = new List<int>();
+            foreach(int unId in couleurId)
+            {
+                var lesVariantes = await milibooDBContext.Variantes.Where(var => var.IdCouleur== unId).ToListAsync();
+
+                foreach(Variante var in lesVariantes)
+                {
+                    if (lesIdProduits.Contains(var.IdVariante))
+                    lesIdProduits.Add(var.IdProduit);
+                }
+
+            }
+
+            return lesIdProduits;
+        }
+
+        public async Task<List<int>> GetProduitsIdByMinPrix(int minPrix)
+        {
+            var lesVariantes = await milibooDBContext.Variantes.Where(var => var.Prix >= minPrix).ToListAsync();
             List<int> lesIdProduits = new List<int>();
 
-            foreach(Variante var in lesVariantes)
+            foreach (Variante var in lesVariantes)
             {
                 lesIdProduits.Add(var.IdProduit);
             }

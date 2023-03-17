@@ -83,32 +83,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return data;
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCategorieAndCouleur(int page, int categorieId, int couleurId)
-        {
-            var rawData = await milibooDBContext.Produits.Where<Produit>(p => (p.CollectionId == categorieId))
-                                                         .Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.IdCouleur == couleurId))
-                                                         .ToListAsync();
-
-            List<Produit> data = new List<Produit>();
-            if (page * nbrArticleParPage > rawData.Count)
-            {
-                return data;
-            }
-            else
-            {
-                for (int i = (page - 1) * nbrArticleParPage; i < nbrArticleParPage * page; i++)
-                {
-                    data.Add(rawData[i]);
-                }
-            }
-            return data;
-        }
-
-        //public Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCategorieAndPrix(int page, int categorieId, double minprix, double maxprix)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCollection(int page, int collectionId)
         {
             var rawData = await milibooDBContext.Produits.Where<Produit>(p => p.CollectionId == collectionId).ToListAsync();
@@ -128,32 +102,34 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return data;
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCouleur(int page, int couleurId)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCouleur(int page, int categorieId, int couleurId )
         {
             List<int> lesIdProduits = await varianteManager.GetProduitsIdByCouleur(couleurId);
 
             List<Produit> resultProduit = new List<Produit>();
             foreach (int id in lesIdProduits)
             {
-                resultProduit.Add(await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(produit => produit.IdProduit == id));
-                
+                resultProduit.Add(await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(produit => produit.IdProduit == id)); 
+            }
+            foreach(Produit produit in resultProduit)
+            {
+                produit.VariantesProduitNavigation = null;
             }
 
-
-            return resultProduit;
-            //List<Produit> data = new List<Produit>();
-            //if (page * nbrArticleParPage > resultProduit.Count)
-            //{
-            //    return data;
-            //}
-            //else
-            //{
-            //    for (int i = (page - 1) * nbrArticleParPage; i < nbrArticleParPage * page; i++)
-            //    {
-            //        data.Add(resultProduit[i]);
-            //    }
-            //}
-            //return data;
+            
+            List<Produit> data = new List<Produit>();
+            if (page * nbrArticleParPage > resultProduit.Count)
+            {
+                return data;
+            }
+            else
+            {
+                for (int i = (page - 1) * nbrArticleParPage; i < nbrArticleParPage * page; i++)
+                {
+                    data.Add(resultProduit[i]);
+                }
+            }
+            return data;
         }
 
         //public Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCouleurAndPrix(int page, int couleurId, double minprix, double maxprix)
@@ -166,7 +142,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         //    throw new NotImplementedException();
         //}
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMini(int page, double minprix)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMini(int page, int categorieId, double minprix)
         {
             var rawData = await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.Prix >= minprix)).ToListAsync();
 
@@ -185,7 +161,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return data;
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMaxi(int page, double maxprix)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMaxi(int page, int categorieId, double maxprix)
         {
             var rawData = await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.Prix <= maxprix)).ToListAsync();
 
@@ -233,26 +209,13 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
         }
 
-        public async Task<decimal> GetNumberPagesByCategorieAndCouleur(int categorieId, int couleurId)
-        {
-            var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => (p.CategorieId == categorieId))
-                                                             .Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.IdCouleur == couleurId))
-                                                            .CountAsync();
-            return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
-        }
-
-        //public Task<decimal> GetNumberPagesByCategorieAndPrix(int categorieId, double minprix, double maxprix)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<decimal> GetNumberPagesByCollection(int collectionId)
         {
             var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => p.CollectionId == collectionId).CountAsync();
             return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
         }
 
-        public async Task<decimal> GetNumberPagesByCouleur(int couleurId)
+        public async Task<decimal> GetNumberPagesByCouleur(int categorieId, int couleurId)
         {
             List<int> lesIdProduits = await varianteManager.GetProduitsIdByCouleur(couleurId);
 
@@ -265,23 +228,13 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return Math.Floor((decimal)(resultProduit.Count / nbrArticleParPage));
         }
 
-        //public Task<decimal> GetNumberPagesByCouleurAndPrix(int couleurId, double minprix, double maxprix)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<decimal> GetNumberPagesByCouleurAndPrixAndCategorie(int couleurId, double minprix, double maxprix, int categorieId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        public async Task<decimal> GetNumberPagesByPrixMini(double minprix)
+        public async Task<decimal> GetNumberPagesByPrixMini(int categorieId, double minprix)
         {
             var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.Prix >= minprix)).CountAsync();
             return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
         }
 
-        public async Task<decimal> GetNumberPagesByPrixMaxi(double maxprix)
+        public async Task<decimal> GetNumberPagesByPrixMaxi(int categorieId, double maxprix)
         {
             var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.Prix <= maxprix)).CountAsync();
             return Math.Floor((decimal)(nbrArticles / nbrArticleParPage));
@@ -314,5 +267,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             await milibooDBContext.SaveChangesAsync();
         }
+
+        
     }
 }
