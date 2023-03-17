@@ -6,14 +6,14 @@ namespace SAE_S4_MILIBOO.Models.Repository
 {
     public interface IDataRepositoryLignePanier<TEntity>
     {
-        Task AddAsync(LignePanier entity);
+        Task AddAsync(TEntity entity);
 
-        Task DeleteAsync(LignePanier entity);
+        Task DeleteAsync(TEntity entity);
 
-        Task<ActionResult<IEnumerable<LignePanier>>> GetLignePaniersByClientId(int idClient);
+        Task<ActionResult<IEnumerable<TEntity>>> GetLignePaniersByClientId(int idClient);
 
-        Task<ActionResult<LignePanier>> GetByIdAsync(int id);
+        Task<ActionResult<TEntity>> GetByIdAsync(int id);
 
-        Task UpdateAsync(LignePanier entityToUpdate, LignePanier entity);
+        Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
     }
 }

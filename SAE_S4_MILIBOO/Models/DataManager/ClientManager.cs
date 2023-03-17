@@ -16,7 +16,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Client>>> GetAll(int id)
+        public async Task<ActionResult<IEnumerable<Client>>> GetAll()
         {
             return await milibooDBContext.Clients.ToListAsync<Client>();
         }

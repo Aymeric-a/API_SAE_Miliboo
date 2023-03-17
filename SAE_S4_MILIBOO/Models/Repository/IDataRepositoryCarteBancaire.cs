@@ -5,9 +5,9 @@ namespace SAE_S4_MILIBOO.Models.Repository
 {
     public interface IDataRepositoryCarteBancaire<TEntity>
     {
-        Task AddAsync(CarteBancaire entity);
-        Task<ActionResult<CarteBancaire>> GetByIdAsync(int id);
-        Task DeleteAsync(CarteBancaire entity);
-        Task<ActionResult<IEnumerable<CarteBancaire>>> GetAllCartesBancairesByClientId(int ClientId);
+        Task AddAsync(TEntity entity);
+        Task<ActionResult<TEntity>> GetByIdAsync(int id);
+        Task DeleteAsync(TEntity entity);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllCartesBancairesByClientId(int ClientId);
     }
 }

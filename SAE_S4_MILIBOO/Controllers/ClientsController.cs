@@ -21,6 +21,13 @@ namespace SAE_S4_MILIBOO.Controllers
             dataRepository = dataRepo;
         }
 
+        // GET: api/Clients
+        [HttpGet]
+        [ActionName("GetAll")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClients()
+        {
+            return await dataRepository.GetAll();
+        }
 
         // GET: api/Clients/5
         [HttpGet]
@@ -131,6 +138,29 @@ namespace SAE_S4_MILIBOO.Controllers
 
 
             return CreatedAtAction("GetById", new { id = Client.ClientId }, Client);
+        }
+
+        // PUT: api/Client/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        [ActionName("Put")]
+        public async Task<IActionResult> PutAvis(int id, Client client)
+        {
+            if (id != client.ClientId)
+            {
+                return BadRequest();
+            }
+
+            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            if (userToUpdate == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                await dataRepository.UpdateAsync(userToUpdate.Value, client);
+                return NoContent();
+            }
         }
 
         // DELETE: api/Clients/5

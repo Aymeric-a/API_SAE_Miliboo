@@ -7,7 +7,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
     {
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByByCouleur( int couleurId);
-        bool FindCouleur(int couleurId, ICollection<Variante> mesVariantes);
+        bool FindCouleur(int couleurId, ICollection<TEntity> mesVariantes);
 
         //Task AddAsync(TEntity entity);
         //Task UpdateAsync(TEntity entityToUpdate, TEntity entity);

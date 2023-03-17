@@ -37,9 +37,46 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(p => p.AvisId == AvisId);
         }
 
-        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisById(int AvisId)
+        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByProduit(int produitId)
         {
-            return await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(p => p.Pro == AvisId);
+            List<Variante> allVariantes = await milibooDBContext.Variantes.Where(p => p.IdProduit == produitId).ToListAsync();
+
+            List<Avis> allAvis = new List<Avis>();  
+            foreach (var v in allVariantes)
+            {
+                List<Avis> avis = await milibooDBContext.Avis.Where<Avis>(p => p.VarianteId == v.IdVariante).ToListAsync();
+                foreach (Avis a in avis)
+                {
+                    allAvis.Add(a);
+                }
+            }
+
+            return allAvis;
+        }
+
+        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByVariante(int varianteId)
+        {
+            return await milibooDBContext.Avis.Where<Avis>(p => p.VarianteId == varianteId).ToListAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByClient(int clientId)
+        {
+            return await milibooDBContext.Avis.Where<Avis>(p => p.ClientId == clientId).ToListAsync();
+        }
+
+        public async Task UpdateAsync(Avis entityToUpdate, Avis entity)
+        {
+            milibooDBContext.Entry(entityToUpdate).State = EntityState.Modified;
+
+            entityToUpdate.AvisId = entity.AvisId;
+            entityToUpdate.VarianteId = entity.VarianteId;
+            entityToUpdate.ClientId = entity.ClientId;
+            entityToUpdate.AvisTitre = entity.AvisTitre;
+            entityToUpdate.AvisTexte = entity.AvisTexte;
+            entityToUpdate.AvisNote = entity.AvisNote;
+            entityToUpdate.AvisDate = entity.AvisDate;
+
+            await milibooDBContext.SaveChangesAsync();
         }
     }
 }
