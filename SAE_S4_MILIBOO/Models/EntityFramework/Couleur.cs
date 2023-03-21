@@ -17,6 +17,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string Libelle { get; set; } = null!;
 
         [InverseProperty("CouleurVarianteNavigation")]
-        public virtual ICollection<Variante> VariantesCouleurNavigation { get; set; } = null!;
+        public virtual ICollection<Variante> VariantesCouleurNavigation { get; set; } = new List<Variante>();
     }
 }

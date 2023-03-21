@@ -86,16 +86,16 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("ProduitVarianteNavigation")]
-        public ICollection<Variante> VariantesProduitNavigation { get; set; } = null!;
+        public ICollection<Variante> VariantesProduitNavigation { get; set; } = new List<Variante>();
 
         [InverseProperty("ProduitsCategorieNavigation")]
-        public virtual Categorie CategorieProduitNavigation { get; set; } = null!;
+        public virtual Categorie? CategorieProduitNavigation { get; set; } = null!;
 
         [InverseProperty("ProduitsCollectionNavigation")]
-        public virtual Collection CollectionProduitNavigation { get; set; } = null!;
+        public virtual Collection? CollectionProduitNavigation { get; set; } = null!;
 
         [InverseProperty("ProduitDansListeNavigation")]
-        public virtual ICollection<ProduitListe> ListeProduitNavigation { get; set; } = null!;
+        public virtual ICollection<ProduitListe> ListeProduitNavigation { get; set; } = new List<ProduitListe>();
     }
 
     public class TDimensions

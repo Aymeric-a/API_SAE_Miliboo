@@ -78,9 +78,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/Produits/5
         [HttpGet]
         [ActionName("GetByAllByPageAndCouleur")]
-        public async Task<ActionResult<IEnumerable<Produit>>> GetByAllByPageAndCouleur(int page, int categorieId, List<int> couleurId)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByAllByPageAndCouleur(int page, int categorieId, [FromQuery]int[] couleurId)
         {
-            var produit = await dataRepository.GetAllByPageByCouleur(page, categorieId, couleurId);
+            var produit = await dataRepository.GetAllByPageByCouleur(page, categorieId, couleurId.ToList());
 
             if (produit == null)
             {
@@ -152,9 +152,9 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetNumberPagesByCouleur")]
-        public async Task<ActionResult<decimal>> GetNumberPagesByCouleur(int categorieId, [FromQuery] List<int> couleurId)
+        public async Task<ActionResult<decimal>> GetNumberPagesByCouleur(int categorieId, [FromQuery]int[] couleurId)
         {
-            var nbrpages = await dataRepository.GetNumberPagesByCouleur(categorieId, couleurId);
+            var nbrpages = await dataRepository.GetNumberPagesByCouleur(categorieId, couleurId.ToList());
 
             if (nbrpages == 0)
             {

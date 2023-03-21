@@ -42,8 +42,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
                 foreach(Variante var in lesVariantes)
                 {
-                    if (lesIdProduits.Contains(var.IdVariante))
-                    lesIdProduits.Add(var.IdProduit);
+                    if (!lesIdProduits.Contains(var.IdVariante))
+                        lesIdProduits.Add(var.IdProduit);
                 }
 
             //}

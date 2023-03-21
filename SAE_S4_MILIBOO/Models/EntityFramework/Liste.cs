@@ -29,9 +29,9 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("ListesNavigation")]
-        public virtual Client ClientNavigation { get; set; } = null!;
+        public virtual Client? ClientNavigation { get; set; } = null!;
 
         [InverseProperty("ListeDeProduitNavigation")]
-        public virtual ICollection<ProduitListe> ProduitListeNavigation { get; set; } = null!;
+        public virtual ICollection<ProduitListe> ProduitListeNavigation { get; set; } = new List<ProduitListe>();
     }
 }
