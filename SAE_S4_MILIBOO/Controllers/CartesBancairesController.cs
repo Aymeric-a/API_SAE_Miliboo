@@ -4,6 +4,8 @@ using SAE_S4_MILIBOO.Models.Repository;
 
 namespace SAE_S4_MILIBOO.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class CartesBancairesControlleur : ControllerBase
     {
 

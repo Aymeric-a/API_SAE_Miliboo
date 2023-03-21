@@ -14,9 +14,9 @@ namespace SAE_S4_MILIBOO.Controllers
     [ApiController]
     public class ListeSouhaitsController : ControllerBase
     {
-        private readonly IDataRepositoryListeSouhait<ProduitListe> dataRepository;
+        private readonly IDataRepositoryListeSouhait<Liste> dataRepository;
 
-        public ListeSouhaitsController(IDataRepositoryListeSouhait<ProduitListe> dataRepo)
+        public ListeSouhaitsController(IDataRepositoryListeSouhait<Liste> dataRepo)
         {
             dataRepository = dataRepo;
         }
@@ -25,9 +25,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/ListeSouhaits/5
         [HttpGet]
         [ActionName("GetById")]
-        public async Task<ActionResult<Liste>> GetListeSouhait(int id)
+        public async Task<ActionResult<Liste>> GetListeSouhaitById(int id)
         {
-            var listeSouhait = await dataRepository.GetByIdAsync(id);
+            var listeSouhait = await dataRepository.GetListeSouhaitById(id);
 
             if (listeSouhait == null)
             {
@@ -40,9 +40,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/ListeSouhaits/5
         [HttpGet]
         [ActionName("GetByClient")]
-        public async Task<ActionResult<IEnumerable<Liste>>> GetAllListeSouhaitByClientId(int idClient)
+        public async Task<ActionResult<IEnumerable<Liste>>> GetAllListeSouhaitsByClientId(int idClient)
         {
-            var listeSouhait = await dataRepository.GetAllListeSouhaitByClientId(idClient);
+            var listeSouhait = await dataRepository.GetAllListeSouhaitsByClientId(idClient);
 
             if (listeSouhait == null)
             {
@@ -62,7 +62,7 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest();
             }
 
-            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            var userToUpdate = await dataRepository.GetListeSouhaitById(id);
             if (userToUpdate == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace SAE_S4_MILIBOO.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteListeSouhait(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            var produit = await dataRepository.GetListeSouhaitById(id);
             if (produit == null)
             {
                 return NotFound();

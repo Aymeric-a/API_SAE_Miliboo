@@ -9,24 +9,11 @@ namespace SAE_S4_MILIBOO
     {
         public static void Main(string[] args)
         {
-            using (var ctx = new MilibooDBContext())
-            {
-                Couleur couleurBeige = ctx.Couleurs.FirstOrDefault(c => c.Libelle == "beige");
-                
-
-                ctx.Entry(couleurBeige).Collection(c => c.VariantesCouleurNavigation).Load();
-                foreach(var film in couleurBeige.VariantesCouleurNavigation)
-                {
-                    Console.WriteLine(film.Prix);
-                }
-                
-            }
-
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddDbContext<MilibooDBContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDLocale")));
+                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDistante")));
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,6 +24,13 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryProduits<Produit>, ProduitManager>();
             builder.Services.AddScoped<IDataRepositoryVariante<Variante>, VarianteManager>();
             builder.Services.AddScoped<IDataRepositoryCouleur<Couleur>, CouleurManager>();
+            builder.Services.AddScoped<IDataRepositoryAvis<Avis>, AvisManager>();
+            builder.Services.AddScoped<IDataRepositoryCarteBancaire<CarteBancaire>, CarteBancaireManager>();
+            builder.Services.AddScoped<IDataRepositoryClient<Client>, ClientManager>();
+            builder.Services.AddScoped<IDataRepositoryCollection<Collection>, CollectionManager>();
+            builder.Services.AddScoped<IDataRepositoryLignePanier<LignePanier>, LignePanierManager>();
+            builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
+            builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
 
             var app = builder.Build();
 

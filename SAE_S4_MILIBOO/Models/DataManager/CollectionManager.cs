@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
+using SAE_S4_MILIBOO.Models.Repository;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
-    public class CollectionManager
+    public class CollectionManager : IDataRepositoryCollection<Collection>
     {
         readonly MilibooDBContext? milibooDBContext;
 

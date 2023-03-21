@@ -4,6 +4,8 @@ using SAE_S4_MILIBOO.Models.Repository;
 
 namespace SAE_S4_MILIBOO.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class AvisController : ControllerBase
     {
         private readonly IDataRepositoryAvis<Avis> dataRepository;
@@ -38,10 +40,10 @@ namespace SAE_S4_MILIBOO.Controllers
 
         // GET: api/Avis/fauteuil
         [HttpGet]
-        [ActionName("GetByAvis")]
-        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByProduit(int AvisId)
+        [ActionName("GetByProduit")]
+        public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByProduit(int produitId)
         {
-            var Avis = await dataRepository.GetAvisByProduit(AvisId);
+            var Avis = await dataRepository.GetAvisByProduit(produitId);
 
             if (Avis == null)
             {

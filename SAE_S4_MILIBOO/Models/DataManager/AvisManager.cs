@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
+using System.Windows;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
@@ -41,15 +42,18 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             List<Variante> allVariantes = await milibooDBContext.Variantes.Where(p => p.IdProduit == produitId).ToListAsync();
 
-            List<Avis> allAvis = new List<Avis>();  
+            List<Avis> allAvis = new List<Avis>();
             foreach (var v in allVariantes)
             {
                 List<Avis> avis = await milibooDBContext.Avis.Where<Avis>(p => p.VarianteId == v.IdVariante).ToListAsync();
                 foreach (Avis a in avis)
                 {
+                    a.VarianteAvisNavigation = null;
                     allAvis.Add(a);
                 }
             }
+
+            Console.WriteLine(allAvis.Count.ToString());
 
             return allAvis;
         }
