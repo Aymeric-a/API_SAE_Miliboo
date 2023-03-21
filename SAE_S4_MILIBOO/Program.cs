@@ -9,18 +9,7 @@ namespace SAE_S4_MILIBOO
     {
         public static void Main(string[] args)
         {
-            using (var ctx = new MilibooDBContext())
-            {
-                Couleur couleurBeige = ctx.Couleurs.FirstOrDefault(c => c.Libelle == "beige");
-                
-
-                ctx.Entry(couleurBeige).Collection(c => c.VariantesCouleurNavigation).Load();
-                foreach(var film in couleurBeige.VariantesCouleurNavigation)
-                {
-                    Console.WriteLine(film.Prix);
-                }
-                
-            }
+            
 
             var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +26,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryProduits<Produit>, ProduitManager>();
             builder.Services.AddScoped<IDataRepositoryVariante<Variante>, VarianteManager>();
             builder.Services.AddScoped<IDataRepositoryCouleur<Couleur>, CouleurManager>();
+            builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
 
             var app = builder.Build();
 

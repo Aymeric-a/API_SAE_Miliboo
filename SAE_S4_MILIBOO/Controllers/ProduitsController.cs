@@ -152,7 +152,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetNumberPagesByCouleur")]
-        public async Task<ActionResult<decimal>> GetNumberPagesByCouleur(int categorieId, List<int> couleurId)
+        public async Task<ActionResult<decimal>> GetNumberPagesByCouleur(int categorieId, [FromQuery] List<int> couleurId)
         {
             var nbrpages = await dataRepository.GetNumberPagesByCouleur(categorieId, couleurId);
 

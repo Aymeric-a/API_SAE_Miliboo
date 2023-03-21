@@ -18,7 +18,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Categorie>>> GetAll()
         {
-            return await milibooDBContext.Categories.ToListAsync<Categorie>();
+            var categories = await milibooDBContext.Categories.ToListAsync<Categorie>();
+            if (categories != null)
+            {
+                foreach( Categorie cat in categories) { cat.CategorieParentNavigation = null; }
+            }
+            return categories;
         }
 
         public async Task<ActionResult<Categorie>> GetByIdAsync(int id)
@@ -28,17 +33,20 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Categorie>> GetParent(int id)
         {
-            Categorie IdParent = await milibooDBContext?.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == id);
-            return await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == IdParent.CategorieParentid);
-                //if(aymeric is not null)
-                //    goto ensimag
-                //else
-                //    goto this.PlayWith(trouducul)
+            Categorie? IdParent = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == id);
+            var leParent = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == IdParent.CategorieParentid);
+            if(leParent != null)
+                leParent.SousCategoriesNavigation = null;
+            return leParent;
+
         }
 
         public async Task<ActionResult<IEnumerable<Categorie>>> GetSousCategories(int id)
         {
-            return await milibooDBContext.Categories.Where<Categorie>(cat => cat.CategorieParentid== id).ToListAsync<Categorie>();
+            var lesCategories =  await milibooDBContext.Categories.Where<Categorie>(cat => cat.CategorieParentid== id).ToListAsync<Categorie>();
+            if(lesCategories != null)
+                foreach(Categorie cat in lesCategories) { cat.CategorieParentNavigation = null; } 
+            return lesCategories;
         }
     }
 }
