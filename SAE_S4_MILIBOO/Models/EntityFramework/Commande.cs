@@ -50,6 +50,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual Etat EtatCommandeNavigation { get; set; } = null!;
 
         [InverseProperty("LigneAppartientACommandeNavigation")]
-        public virtual ICollection<LigneCommande> LignesDansLaCommandeNavigation { get; set; } = null!;
+        public virtual ICollection<LigneCommande> LignesDansLaCommandeNavigation { get; set; } = new List<LigneCommande>();
     }
 }

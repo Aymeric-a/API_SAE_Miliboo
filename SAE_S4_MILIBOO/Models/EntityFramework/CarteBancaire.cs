@@ -37,7 +37,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("CarteBancaireClientNavigation")]
-        public virtual Client ClientCarteBancaireNavigation { get; set; }
+        public virtual Client? ClientCarteBancaireNavigation { get; set; }
 
 
     }

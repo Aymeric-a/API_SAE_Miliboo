@@ -35,13 +35,13 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("AvisPhotosNavigation")]
-        public virtual ICollection<Photo> PhotosAvisNavigation { get; set; } = null!;
+        public virtual ICollection<Photo>? PhotosAvisNavigation { get; set; } = new List<Photo>();
 
         [InverseProperty("AvisClientsNavigation")]
-        public virtual Client ClientsAvisNavigation { get; set; } = null!;
+        public virtual Client? ClientsAvisNavigation { get; set; } = null!;
 
         [InverseProperty("AvisVarianteNavigation")]
-        public virtual Variante VarianteAvisNavigation { get; set; } = null!;
+        public virtual Variante? VarianteAvisNavigation { get; set; } = null!;
 
 
     }

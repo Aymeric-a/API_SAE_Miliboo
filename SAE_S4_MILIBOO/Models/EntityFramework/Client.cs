@@ -59,23 +59,23 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         [InverseProperty("ClientCarteBancaireNavigation")]
-        public virtual ICollection<CarteBancaire> CarteBancaireClientNavigation { get; set; }
+        public virtual ICollection<CarteBancaire> CarteBancaireClientNavigation { get; set; } = new List<CarteBancaire>();
 
         [InverseProperty("ClientALivreNavigation")]
-        public virtual ICollection<AdresseLivraison> ClientsLivraisonsNavigation { get; set; }
+        public virtual ICollection<AdresseLivraison> ClientsLivraisonsNavigation { get; set; } = new List<AdresseLivraison>();
 
 
         [InverseProperty("ClientNavigation")]
-        public virtual ICollection<Liste> ListesNavigation { get; set; } = null!;
+        public virtual ICollection<Liste> ListesNavigation { get; set; } = new List<Liste>();
 
         [InverseProperty("ClientsAvisNavigation")]
-        public virtual ICollection<Avis> AvisClientsNavigation { get; set; } = null!;
+        public virtual ICollection<Avis> AvisClientsNavigation { get; set; } = new List<Avis>();
 
         [InverseProperty("ClientCommandeNavigation")]
-        public virtual ICollection<Commande> CommandesClientNavigation { get; set; } = null!;
+        public virtual ICollection<Commande> CommandesClientNavigation { get; set; } = new List<Commande>();
 
         [InverseProperty("ClientLignePanierNavigation")]
-        public virtual ICollection<LignePanier> LignesPanierClientNavigation { get; set; } = null!;
+        public virtual ICollection<LignePanier> LignesPanierClientNavigation { get; set; } = new List<LignePanier>();
 
     }
 }
