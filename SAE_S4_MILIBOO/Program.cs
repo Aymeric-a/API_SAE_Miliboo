@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
@@ -9,6 +9,8 @@ namespace SAE_S4_MILIBOO
     {
         public static void Main(string[] args)
         {
+            
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -31,6 +33,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryLignePanier<LignePanier>, LignePanierManager>();
             builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
             builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
+            builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
 
             var app = builder.Build();
 

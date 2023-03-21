@@ -31,12 +31,12 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string Chemin { get; set; } = null!;
 
         [InverseProperty("PhotoCategorieNavigation")]
-        public virtual Categorie CategoriePhotoNavigation { get; set; } = null!;
+        public virtual Categorie? CategoriePhotoNavigation { get; set; } = null!;
 
         [InverseProperty("PhotosVarianteNavigation")]
-        public virtual Variante VariantePhotoNavigation { get; set; } = null!;
+        public virtual Variante? VariantePhotoNavigation { get; set; } = null!;
 
         [InverseProperty("PhotosAvisNavigation")]
-        public virtual Avis AvisPhotosNavigation { get; set; } = null!;
+        public virtual Avis? AvisPhotosNavigation { get; set; } = null!;
     }
 }

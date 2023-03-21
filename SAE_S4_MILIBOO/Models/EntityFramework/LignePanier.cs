@@ -25,9 +25,9 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public int Quantite { get; set; }
 
         [InverseProperty("LignesPanierClientNavigation")]
-        public virtual Client ClientLignePanierNavigation { get; set; } = null!;
+        public virtual Client? ClientLignePanierNavigation { get; set; } = null!;
 
         [InverseProperty("LignePanierVarianteNavigation")]
-        public virtual Variante VariantesLignePanierNavigation { get; set; } = null!;
+        public virtual Variante? VariantesLignePanierNavigation { get; set; } = null!;
     }
 }

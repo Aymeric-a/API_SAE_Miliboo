@@ -20,7 +20,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string Libelle { get; set; }
 
         [InverseProperty("EtatCommandeNavigation")]
-        public virtual ICollection<Commande> CommandeEtatNavigation{ get; set; } = null!;
+        public virtual ICollection<Commande> CommandeEtatNavigation{ get; set; } = new List<Commande>();
 
 
     }
