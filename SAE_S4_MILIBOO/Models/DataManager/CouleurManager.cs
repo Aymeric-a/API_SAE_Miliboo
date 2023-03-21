@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
+using System.Drawing;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
@@ -22,14 +23,25 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Couleurs.ToListAsync<Couleur>();
         }
 
-        public string GetCodeCouleur(int id)
+        public async Task<string> GetCodeCouleur(int id)
         {
-            throw new NotImplementedException();
+            string libelle = await milibooDBContext.Couleurs
+            .Where(c => c.IdCouleur == id)
+            .Select(c => c.Libelle)
+            .FirstOrDefaultAsync();
+
+            return GetHexCode(libelle);
         }
 
-        public int GetIdByLibelle(string libelle)
+        public async Task<ActionResult<Couleur>> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await milibooDBContext.Couleurs.FirstOrDefaultAsync(u => u.IdCouleur == id);
+        }
+
+        public static string GetHexCode(string colorName)
+        {
+            Color color = Color.FromName(colorName);
+            return "#" + color.ToArgb().ToString("X8").Substring(2);
         }
     }
 }

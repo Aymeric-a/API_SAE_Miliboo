@@ -39,15 +39,15 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         //Lien vers les clients
         [InverseProperty("CommandesClientNavigation")]
-        public virtual Client ClientCommandeNavigation { get; set; } = null!;
+        public virtual Client? ClientCommandeNavigation { get; set; } = null!;
 
         //Lien vers les adresse
         [InverseProperty("CommandeAdresseNavigation")]
-        public virtual Adresse AdresseCommandeNavigation { get; set; } = null!;
+        public virtual Adresse? AdresseCommandeNavigation { get; set; } = null!;
 
         //Lien vers les lignes de etat
         [InverseProperty("CommandeEtatNavigation")]
-        public virtual Etat EtatCommandeNavigation { get; set; } = null!;
+        public virtual Etat? EtatCommandeNavigation { get; set; } = null!;
 
         [InverseProperty("LigneAppartientACommandeNavigation")]
         public virtual ICollection<LigneCommande> LignesDansLaCommandeNavigation { get; set; } = new List<LigneCommande>();
