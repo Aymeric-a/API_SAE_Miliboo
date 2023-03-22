@@ -57,7 +57,7 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/Adresses/5
         [HttpGet]
         [ActionName("GetSousCategorie")]
-        public async Task<ActionResult<IEnumerable<Categorie>>> GetSousCategorie(int id)
+        public async Task<ActionResult<List<Categorie>>> GetSousCategorie(int id)
         {
             var adresse = await dataRepository.GetSousCategories(id);
 

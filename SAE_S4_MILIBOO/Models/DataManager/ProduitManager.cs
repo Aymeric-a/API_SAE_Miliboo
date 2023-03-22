@@ -14,7 +14,9 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         readonly VarianteManager? varianteManager;
 
-        private int nbrArticleParPage = 2;
+        readonly CategorieManager? categorieManager;
+
+        private int nbrArticleParPage = 20;
 
         public ProduitManager() { }
 
@@ -22,6 +24,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             milibooDBContext = context;
             varianteManager = new VarianteManager(context);
+            categorieManager = new CategorieManager(context);
         }
 
         public async Task AddAsync(Produit entity)
@@ -48,9 +51,26 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCategorie(int page, int categorieId)
         {
-            var rawData = await milibooDBContext.Produits.Where<Produit>(p => p.CategorieId == categorieId).ToListAsync();
+            var category = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(p => p.Categorieid == categorieId);
 
-            return DecouperListe(page, rawData);
+            var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
+            List<Categorie> allCategoriesChilds = allCategoriesChildsVar.Value;
+
+            List<Produit> allProducts = new List<Produit>();
+
+            foreach (Categorie cat in allCategoriesChilds)
+            {
+                List<Produit> rawData = milibooDBContext.Produits.Where<Produit>(p => p.CategorieId == cat.Categorieid).ToList();
+
+                foreach (Produit prd in rawData)
+                {
+                    prd.CategorieProduitNavigation = null;
+                    allProducts.Add(prd);
+                }
+            }
+
+            Console.WriteLine("DIS MOI : " + allProducts.Count());
+            return DecouperListe(page, allProducts);
         }
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCollection(int page, int collectionId)
@@ -62,17 +82,25 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCouleur(int page, int categorieId, List<int> couleurId )
         {
-                
+            var category = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(p => p.Categorieid == categorieId);
+
+            var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
+            List<Categorie> allCategoriesChilds = allCategoriesChildsVar.Value;
+
             List<int> lesIdProduits = await varianteManager.GetProduitsIdByCouleur(couleurId);
 
             List<Produit> resultProduit = new List<Produit>();
             for(int i=0; i<lesIdProduits.Count; i++)
             {
                 Produit produit = await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(produit => produit.IdProduit == lesIdProduits[i]);
-                resultProduit.Add(produit);
-                resultProduit[i].VariantesProduitNavigation = null;
-            }
 
+                if (allCategoriesChilds.Contains(await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(p => p.Categorieid == produit.CategorieId)))
+                {
+                    produit.VariantesProduitNavigation = null;
+                    produit.CategorieProduitNavigation = null;
+                    resultProduit.Add(produit);
+                }
+            }
 
             return DecouperListe(page, resultProduit.Where(p => p.CategorieId== categorieId).ToList());
         }
@@ -193,7 +221,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             List<Produit> data = new List<Produit>();
             if (page * nbrArticleParPage > rawData.Count)
             {
-                return data;
+                for (int i = (page - 1) * nbrArticleParPage; i < rawData.Count; i++)
+                {
+                    data.Add(rawData[i]);
+                }
             }
             else
             {
