@@ -756,6 +756,7 @@ insert into t_e_variante_vrt(vrt_id,clr_id,prd_id,vrt_prix,vrt_promo,vrt_stock,v
 (117,16,48,249,1,80,NULL),
 (118,8,48,249,0.9,50,NULL),
 (119,16,49,989,1,50,NULL);
+(120,9,30,989,1,50,NULL);
 
 --changer avis (pas tres dur)
 insert into t_e_avis_avi(avi_id,vrt_id,clt_id,avi_titre,avi_texte,avi_note,avi_date) values
@@ -1771,6 +1772,4 @@ INSERT INTO t_j_prd_lst(prd_id, lst_id) VALUES
 
 -- PQ DANS UNIFIER YA PAS 30
 -- PRODUIT 48 AU LIEU DE 50
--- CHANGER DESCRIPTIONS DE MERDE + LES METTRE DANS PRODUIT
 -- METTRE LES COMMENTAIRSE ENTRETIENS DANS PRODUITS
--- 
