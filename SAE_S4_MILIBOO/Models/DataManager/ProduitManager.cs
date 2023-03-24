@@ -271,6 +271,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             entityToUpdate.CategorieId = entity.CategorieId;
             entityToUpdate.CollectionId = entity.CollectionId;
+            entityToUpdate.Description= entity.Description;
             entityToUpdate.DensiteAssise = entity.DensiteAssise;
             entityToUpdate.DensiteDossier = entity.DensiteDossier;
             entityToUpdate.DimAccoudoir = entity.DimAccoudoir;

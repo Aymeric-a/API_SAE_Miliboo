@@ -386,6 +386,12 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdCouleur"));
 
+                    b.Property<string>("CodeHexa")
+                        .IsRequired()
+                        .HasMaxLength(7)
+                        .HasColumnType("char(7)")
+                        .HasColumnName("clr_code");
+
                     b.Property<string>("Libelle")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -581,6 +587,11 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("prd_densite_dossier");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
+                        .HasColumnName("vrt_description");
+
                     b.Property<decimal?>("HauteurPieds")
                         .HasColumnType("numeric(5,2)")
                         .HasColumnName("prd_hauteur_pieds");
@@ -666,12 +677,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Property<DateTime?>("DateCreation")
                         .HasColumnType("date")
                         .HasColumnName("vrt_date_creation");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("vrt_description");
 
                     b.Property<int>("IdCouleur")
                         .ValueGeneratedOnAdd()
