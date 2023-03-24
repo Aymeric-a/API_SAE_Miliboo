@@ -192,7 +192,7 @@ namespace SAE_S4_MILIBOO.Migrations
                     ctg_id = table.Column<int>(type: "integer", nullable: false),
                     cln_id = table.Column<int>(type: "integer", nullable: true),
                     prd_lib = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    vrt_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    prd_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     prd_instructions_entretien = table.Column<string>(type: "text", nullable: true),
                     prd_revetement = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     prd_matiere = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),

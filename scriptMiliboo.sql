@@ -755,7 +755,7 @@ insert into t_e_variante_vrt(vrt_id,clr_id,prd_id,vrt_prix,vrt_promo,vrt_stock,v
 (116,14,47,299,1,50,NULL),
 (117,16,48,249,1,80,NULL),
 (118,8,48,249,0.9,50,NULL),
-(119,16,49,989,1,50,NULL);
+(119,16,49,989,1,50,NULL),
 (120,9,30,989,1,50,NULL);
 
 --changer avis (pas tres dur)

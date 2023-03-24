@@ -590,7 +590,7 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
-                        .HasColumnName("vrt_description");
+                        .HasColumnName("prd_description");
 
                     b.Property<decimal?>("HauteurPieds")
                         .HasColumnType("numeric(5,2)")

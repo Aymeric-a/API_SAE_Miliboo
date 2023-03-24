@@ -12,7 +12,7 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    [Migration("20230324092253_CreationDBMiliboo")]
+    [Migration("20230324095929_CreationDBMiliboo")]
     partial class CreationDBMiliboo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -592,7 +592,7 @@ namespace SAE_S4_MILIBOO.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
-                        .HasColumnName("vrt_description");
+                        .HasColumnName("prd_description");
 
                     b.Property<decimal?>("HauteurPieds")
                         .HasColumnType("numeric(5,2)")
