@@ -26,6 +26,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Photos.Where<Photo>(p => p.AviId == avisId).ToListAsync();
         }
 
+        public async Task<ActionResult<IEnumerable<Photo>>> GetAllPhotosByVariante(int varianteId)
+        {
+            return await milibooDBContext.Photos.Where<Photo>(p => p.VarianteId == varianteId).ToListAsync();
+        }
+
         public async Task AddAsync(Photo entity)
         {
             await milibooDBContext.AddAsync(entity);

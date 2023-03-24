@@ -8,7 +8,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         int GetIdByLibelle(string libelle);
         string GetCodeCouleur(int id);
-        Task<ActionResult<IEnumerable<Couleur>>> GetCouleurofProduit(int produitId)
+        Task<ActionResult<IEnumerable<Couleur>>> GetCouleurofProduit(int produitId);
 
     }
 }
