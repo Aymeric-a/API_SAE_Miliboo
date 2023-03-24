@@ -360,12 +360,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             List<Produit> productsAfterFilterMaxPriceList = productsAfterFilterMaxPrice.Value.ToList();
             List<Produit> productsAfterFilterMinPriceList = productsAfterFilterMinPrice.Value.ToList();
 
-            List<Produit> finalList = (List<Produit>)productsAfterFilterCatList.Intersect(productsAfterFilterCollectionList);
-            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterColorsList);
-            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterMaxPriceList);
-            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterMinPriceList);
+            List<Produit> finalList = productsAfterFilterCatList.Intersect(productsAfterFilterCollectionList).ToList();
+            finalList = finalList.Intersect(productsAfterFilterColorsList).ToList();
+            finalList = finalList.Intersect(productsAfterFilterMaxPriceList).ToList();
+            finalList = finalList.Intersect(productsAfterFilterMinPriceList).ToList();
 
-            return finalList;
+            return (List<Produit>)finalList;
         }
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetByAllFiltersByPage(int page, int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
