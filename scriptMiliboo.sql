@@ -245,19 +245,19 @@ CREATE INDEX "IX_t_j_adresse_livraison_adl_adr_id" ON t_j_adresse_livraison_adl 
 CREATE INDEX "IX_t_j_prd_lst_lst_id" ON t_j_prd_lst (lst_id);
 
 
-CREATE TYPE tdimensions AS ( x integer, y integer, z integer)
+CREATE TYPE tdimensions AS ( x integer, y integer, z integer);
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_totale tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_totale tdimensions NULL;
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_dossier tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_dossier tdimensions NULL;
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_assise tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_assise tdimensions NULL;
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_colis tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_colis tdimensions NULL;
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_deplie tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_deplie tdimensions NULL;
 
-ALTER TABLE t_e_produit_prd ADD prd_dim_accoudoir tdimensions NULL
+ALTER TABLE t_e_produit_prd ADD prd_dim_accoudoir tdimensions NULL;
 
 -- bon2
 insert into t_e_adresse_adr(adr_id, adr_rue, adr_numero, adr_cp, adr_ville, adr_pays, adr_tel_fixe, adr_remarque) VALUES
