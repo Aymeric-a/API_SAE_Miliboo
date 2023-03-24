@@ -23,5 +23,20 @@ namespace SAE_S4_MILIBOO.Controllers
             var lesCouleurs = await dataRepository.GetAll();
             return lesCouleurs;
         }
+
+        // GET: api/Produits
+        [HttpGet]
+        [ActionName("GetCouleurOfProduit")]
+        public async Task<ActionResult<IEnumerable<Couleur>>> GetCouleurOfProduit(int produitId)
+        {
+            var lesCouleurs = await dataRepository.GetCouleurofProduit(produitId);
+
+            if (lesCouleurs == null)
+            {
+                return NotFound();
+            }
+
+            return lesCouleurs;
+        }
     }
 }

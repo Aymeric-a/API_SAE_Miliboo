@@ -31,5 +31,18 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             throw new NotImplementedException();
         }
+
+
+        public async Task<ActionResult<IEnumerable<Couleur>>> GetCouleurofProduit(int produitId)
+        {
+            var lesVariantes = await milibooDBContext.Variantes.Where<Variante>(var => var.IdProduit == produitId).ToListAsync();
+            List<Couleur> lesCouleurs = new List<Couleur>();
+            foreach (Variante var in lesVariantes)
+            {
+                lesCouleurs.Add(await milibooDBContext.Couleurs.FirstAsync<Couleur>(c => c.IdCouleur == var.IdCouleur));
+            }
+
+            return lesCouleurs;
+        }
     }
 }
