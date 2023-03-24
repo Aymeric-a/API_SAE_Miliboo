@@ -105,6 +105,17 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
     public class TDimensions
     {
+        private decimal? x;
+        private decimal? y;
+        private decimal? z;
+
+        public TDimensions(decimal? x, decimal? y, decimal? z)
+        {
+            this.x = X;
+            this.y = Y;
+            this.z = Z;
+        }
+
         public decimal X { get; set; }
         public decimal Y { get; set; }
         public decimal Z { get; set; }
