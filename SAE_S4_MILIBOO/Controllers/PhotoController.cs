@@ -34,7 +34,7 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/Photos/5
         [HttpGet]
         [ActionName("GetAllPhotosByVariante")]
-        public async Task<ActionResult<IEnumerable<Photo>>> GetAllPhotosByVariante(int varianteId)
+        public async Task<ActionResult<IEnumerable<string>>> GetAllPhotosByVariante(int varianteId)
         {
             var Photo = await dataRepository.GetAllPhotosByVariante(varianteId);
 
