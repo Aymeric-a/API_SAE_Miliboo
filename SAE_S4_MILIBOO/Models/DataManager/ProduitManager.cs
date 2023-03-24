@@ -355,10 +355,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
 
             List<Produit> productsAfterFilterCatList = productsAfterFilterCat.Value.ToList();
-            List<Produit> productsAfterFilterCollectionList = productsAfterFilterCat.Value.ToList();
-            List<Produit> productsAfterFilterColorsList = productsAfterFilterCat.Value.ToList();
-            List<Produit> productsAfterFilterMaxPriceList = productsAfterFilterCat.Value.ToList();
-            List<Produit> productsAfterFilterMinPriceList = productsAfterFilterCat.Value.ToList();
+            List<Produit> productsAfterFilterCollectionList = productsAfterFilterCollection.Value.ToList();
+            List<Produit> productsAfterFilterColorsList = productsAfterFilterColors.Value.ToList();
+            List<Produit> productsAfterFilterMaxPriceList = productsAfterFilterMaxPrice.Value.ToList();
+            List<Produit> productsAfterFilterMinPriceList = productsAfterFilterMinPrice.Value.ToList();
 
             List<Produit> finalList = (List<Produit>)productsAfterFilterCatList.Intersect(productsAfterFilterCollectionList);
             finalList = (List<Produit>)finalList.Intersect(productsAfterFilterColorsList);

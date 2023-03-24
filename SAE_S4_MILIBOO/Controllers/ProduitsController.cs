@@ -138,9 +138,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/Produits/5
         [HttpGet]
         [ActionName("GetAllByAllFilters")]
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByAllFilters(int page, int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByAllFilters(int page, int? categorieId, int? collectionId, [FromQuery] int[] couleurId, double? maxprix, double? minprix)
         {
-            var produit = await dataRepository.GetByAllFiltersByPage(page, categorieId, collectionId, couleurId, maxprix, minprix);
+            var produit = await dataRepository.GetByAllFiltersByPage(page, categorieId, collectionId, couleurId.ToList(), maxprix, minprix);
 
             if (produit == null)
             {
