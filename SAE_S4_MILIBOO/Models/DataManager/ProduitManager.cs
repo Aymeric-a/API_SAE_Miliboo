@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using SAE_S4_MILIBOO.Models.EntityFramework;
@@ -86,16 +87,18 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         }
 
 
-
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByCollection(int collectionId)
+        {
+            return await milibooDBContext.Produits.Where<Produit>(p => p.CollectionId == collectionId).ToListAsync();
+        }
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCollection(int page, int collectionId)
         {
-            var rawData = await milibooDBContext.Produits.Where<Produit>(p => p.CollectionId == collectionId).ToListAsync();
 
+            var rawDataVar = await GetAllByCollection(collectionId);
+            List<Produit> rawData = rawDataVar.Value.ToList();
             return DecouperListe(page, rawData);
         }
-
-
 
 
 
@@ -230,8 +233,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<decimal> GetNumberPagesByCollection(int collectionId)
         {
-            var nbrArticles = await milibooDBContext.Produits.Where<Produit>(p => p.CollectionId == collectionId).CountAsync();
-            return Math.Ceiling((decimal)(nbrArticles / nbrArticleParPage));
+            var nbrArticlesVar = await GetAllByCollection(collectionId);
+            List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
+
+            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
         }
 
 
@@ -317,6 +322,50 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
 
             return allCategoriesInt;
+        }
+
+        public async Task<ActionResult<IEnumerable<Produit>>> GetBitchesForRemy(int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
+        {
+            var productsAfterFilterCat = await GetAll();
+            var productsAfterFilterCollection = await GetAll();
+            var productsAfterFilterColors = await GetAll();
+            var productsAfterFilterMaxPrice = await GetAll();
+            var productsAfterFilterMinPrice = await GetAll();
+
+            if (categorieId != null)
+            {
+                productsAfterFilterCat = await GetAllByCategorie((int)categorieId);
+                if (couleurId != null)
+                {
+                    productsAfterFilterColors = await GetAllByCouleur((int)categorieId, couleurId);
+                }
+                if (maxprix != null)
+                {
+                    productsAfterFilterMaxPrice = await GetAllByPrixMaxi((int)categorieId, (int)maxprix);
+                }
+                if (minprix != null)
+                {
+                    productsAfterFilterMinPrice = await GetAllByPrixMini((int)categorieId, (int)minprix);
+                }
+            }
+            if (collectionId != null)
+            {
+                productsAfterFilterCollection = await GetAllByCollection((int)collectionId);
+            }
+
+            List<Produit> productsAfterFilterCatList = productsAfterFilterCat.Value.ToList();
+            List<Produit> productsAfterFilterCollectionList = productsAfterFilterCat.Value.ToList();
+            List<Produit> productsAfterFilterColorsList = productsAfterFilterCat.Value.ToList();
+            List<Produit> productsAfterFilterMaxPriceList = productsAfterFilterCat.Value.ToList();
+            List<Produit> productsAfterFilterMinPriceList = productsAfterFilterCat.Value.ToList();
+
+            List<Produit> finalList = (List<Produit>)productsAfterFilterCatList.Intersect(productsAfterFilterCollectionList);
+            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterColorsList);
+            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterMaxPriceList);
+            finalList = (List<Produit>)finalList.Intersect(productsAfterFilterMinPriceList);
+
+            return finalList;
+
         }
     }
 }
