@@ -324,7 +324,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return allCategoriesInt;
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetBitchesForRemy(int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByAllFilters(int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
         {
             var productsAfterFilterCat = await GetAll();
             var productsAfterFilterCollection = await GetAll();
@@ -365,7 +365,22 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             finalList = (List<Produit>)finalList.Intersect(productsAfterFilterMinPriceList);
 
             return finalList;
+        }
 
+        public async Task<ActionResult<IEnumerable<Produit>>> GetByAllFiltersByPage(int page, int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
+        {
+            var resultProduitVar = await GetByAllFilters(categorieId, collectionId, couleurId, maxprix, minprix);
+            List<Produit> resultProduit = (List<Produit>)resultProduitVar.Value;
+
+            return DecouperListe(page, resultProduit.ToList());
+        }
+
+        public async Task<decimal> GetNumberPagesByAllFilters(int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
+        {
+            var nbrArticlesVar = await GetByAllFilters(categorieId, collectionId, couleurId, maxprix, minprix);
+            List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
+
+            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
         }
     }
 }
