@@ -42,6 +42,22 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         }
 
+        public async Task<ActionResult<List<Categorie>>> GetCategoriesPremierNiveau()
+        {
+            var lesCategories = await milibooDBContext.Categories.Where<Categorie>(cat => cat.CategorieParentid== null).ToListAsync();
+
+
+            if (lesCategories != null)
+            {
+                foreach (Categorie cat in lesCategories) 
+                {
+                    cat.CategorieParentNavigation = null;
+                }
+
+            }
+            return lesCategories;
+        }
+
         public async Task<ActionResult<List<Categorie>>> GetSousCategories(int id)
         {
             var lesCategories =  await milibooDBContext.Categories.Where<Categorie>(cat => cat.CategorieParentid == id).ToListAsync<Categorie>();

@@ -41,6 +41,14 @@ namespace SAE_S4_MILIBOO.Controllers
 
         // GET: api/Adresses/5
         [HttpGet]
+        [ActionName("GetAllCategoriesPremierNiveau")]
+        public async Task<ActionResult<List<Categorie>>> GetAllCategoriesPremierNiveau()
+        {
+            return await dataRepository.GetCategoriesPremierNiveau();
+        }
+
+        // GET: api/Adresses/5
+        [HttpGet]
         [ActionName("GetCategorieParent")]
         public async Task<ActionResult<Categorie>> GetParent(int id)
         {
