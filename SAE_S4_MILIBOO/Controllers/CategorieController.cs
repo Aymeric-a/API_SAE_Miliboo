@@ -31,13 +31,7 @@ namespace SAE_S4_MILIBOO.Controllers
             return adresse;
         }
 
-        // GET: api/Adresses/5
-        [HttpGet]
-        [ActionName("GetAllCategories")]
-        public async Task<ActionResult<IEnumerable<Categorie>>> GetCategories()
-        {
-            return await dataRepository.GetAll();
-        }
+
 
         // GET: api/Adresses/5
         [HttpGet]

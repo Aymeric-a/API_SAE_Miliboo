@@ -5,7 +5,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
 {
     public interface IDataRepositoryCategorie<TEntity>
     {
-        Task<ActionResult<IEnumerable<TEntity>>> GetAll();
+
         Task<ActionResult<TEntity>> GetByIdAsync(int id);
         Task<ActionResult<TEntity>> GetParent(int id);
         Task<ActionResult<List<Categorie>>> GetCategoriesPremierNiveau();

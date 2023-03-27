@@ -17,15 +17,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Categorie>>> GetAll()
-        {
-            var categories = await milibooDBContext.Categories.ToListAsync<Categorie>();
-            if (categories != null)
-            {
-                foreach( Categorie cat in categories) { cat.CategorieParentNavigation = null; }
-            }
-            return categories;
-        }
 
         public async Task<ActionResult<Categorie>> GetByIdAsync(int id)
         {
@@ -44,18 +35,22 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<List<Categorie>>> GetCategoriesPremierNiveau()
         {
-            var lesCategories = await milibooDBContext.Categories.Where<Categorie>(cat => cat.CategorieParentid== null).ToListAsync();
-
-
-            if (lesCategories != null)
+            var categories = await milibooDBContext.Categories.ToListAsync<Categorie>();
+            if (categories != null)
             {
-                foreach (Categorie cat in lesCategories) 
-                {
-                    cat.CategorieParentNavigation = null;
-                }
-
+                foreach (Categorie cat in categories) { cat.CategorieParentNavigation = null; }
             }
-            return lesCategories;
+
+            List<Categorie> result = new List<Categorie>();
+            foreach(Categorie cat in categories)
+            {
+                if(cat.CategorieParentid == null)
+                {
+                    result.Add(cat);
+                }
+            }
+
+            return result;
         }
 
         public async Task<ActionResult<List<Categorie>>> GetSousCategories(int id)
