@@ -69,7 +69,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(user);
+            mockRepository.Setup(x => x.GetProduitById(1).Result).Returns(user);
             var produitController = new ProduitsController(mockRepository.Object);
 
             // Act
@@ -77,8 +77,65 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
 
             // Assert
             Assert.IsNotNull(actionResult);
-            Assert.IsNotNull(actionResult.Result);
+            Assert.IsNotNull(actionResult.Value);
             Assert.AreEqual(user, actionResult.Value as Produit);
+        }
+
+        [TestMethod]
+        public void GetProduitByIdCouleur_ReturnsExistingProduct_Moq()
+        {
+            Produit prd = new Produit
+            {
+                IdProduit = 1,
+                CategorieId = 15,
+                CollectionId = null,
+                Libelle = "Canapé 3 places éco-responsable en tissu recyclé naturel FOREST",
+                Description = null,
+                InscructionsEntretien = null,
+                HauteurPieds = 186,
+                Revetement = null,
+                Matiere = null,
+                MatierePieds = null,
+                TypeMousseAssise = null,
+                TypeMousseDossier = null,
+                DensiteAssise = null,
+                PoidsColis = null,
+                DimTotale = new TDimensions(186, 105, 65),
+                DimAssise = new TDimensions(null, (decimal)65.4, null),
+                DimDossier = new TDimensions(null, null, null),
+                DimColis = new TDimensions(null, null, null),
+                DimDeplie = new TDimensions(null, null, null),
+                DimAccoudoir = new TDimensions(null, null, null),
+                MadeInFrance = false,
+                VariantesProduitNavigation = null
+            };
+
+            Variante vrt_with_goodColor = new Variante
+            {
+                IdVariante = 1,
+                IdProduit = 1,
+                IdCouleur = 1,
+                DateCreation = DateTime.Now,
+                Stock = 5,
+                Prix = 0,
+                Promo = 1,
+                ProduitVarianteNavigation = prd
+            };
+
+            prd.VariantesProduitNavigation = new List<Variante>() { vrt_with_goodColor };
+
+            var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
+            mockRepository.Setup(x => x.GetAllByPageByCouleur(1, 1, new List<int> { 1 }).Result).Returns(new List<Produit> { prd });
+
+            var produitController = new ProduitsController(mockRepository.Object);
+
+            // Act
+            var actionResult = produitController.GetByAllByPageAndCouleur(1, 1, new[] { 1 }).Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(new List<Produit> { prd }, actionResult.Value as List<Produit>);
         }
     } 
 }

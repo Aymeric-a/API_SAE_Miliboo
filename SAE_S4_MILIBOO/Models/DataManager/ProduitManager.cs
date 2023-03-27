@@ -204,12 +204,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return DecouperListe(page, resultProduit.ToList());
         }
 
-
-        public async Task<ActionResult<Produit>> GetByIdAsync(int id)
-        {
-            return await milibooDBContext.Produits.FirstOrDefaultAsync(u => u.IdProduit == id);
-        }
-
         //public async Task<ActionResult<IEnumerable<Produit>>> GetByStockNull()
         //{
         //    return await milibooDBContext.Produits.Where<Produit>(p => p.VariantesProduitNavigation.ToList().Exists(v => v.Stock == 0));
@@ -336,7 +330,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             if (categorieId != null)
             {
                 productsAfterFilterCat = await GetAllByCategorie((int)categorieId);
-                if (couleurId != null)
+                if (couleurId.Count() != 0)
                 {
                     productsAfterFilterColors = await GetAllByCouleur((int)categorieId, couleurId);
                 }

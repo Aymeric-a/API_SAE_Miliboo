@@ -27,8 +27,6 @@ namespace SAE_S4_MILIBOO.Models.Repository
 
 
 
-
-        Task<ActionResult<TEntity>> GetByIdAsync(int id);
         Task<ActionResult<TEntity>> GetByStringAsync(string libelle);
         //Task<ActionResult<IEnumerable<TEntity>>> GetByStockNull();
 

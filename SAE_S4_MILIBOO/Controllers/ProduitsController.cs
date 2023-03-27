@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -65,6 +66,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetByAllByPageAndCategorie")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetProduitsByPageAndCategorie(int page, int categorieId)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
             var produit = await dataRepository.GetAllByPageByCategorie(page, categorieId);
 
             if (produit == null)
@@ -80,6 +89,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetByAllByPageAndCouleur")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetByAllByPageAndCouleur(int page, int categorieId, [FromQuery]int[] couleurId)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
             var produit = await dataRepository.GetAllByPageByCouleur(page, categorieId, couleurId.ToList());
 
             if (produit == null)
@@ -95,6 +112,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetByPageAndPrixMini")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetProduitsByPageAndPrixMini(int page, int categorieId, int min)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
             var produit = await dataRepository.GetAllByPageByPrixMini(page, categorieId, min);
 
             if (produit == null)
@@ -110,6 +135,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetByPageAndPrixMaxi")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetProduitsByPageAndPrixMaxi(int page,  int categorieId, int max)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
             var produit = await dataRepository.GetAllByPageByPrixMaxi(page, categorieId, max);
 
             if (produit == null)
@@ -125,6 +158,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetAllByPageAndCollection")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetByAllByPageAndCollection(int page, int collectionId)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
             var produit = await dataRepository.GetAllByPageByCategorie(page, collectionId);
 
             if (produit == null)
@@ -140,6 +181,30 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetAllByAllFilters")]
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByAllFilters(int page, int? categorieId, int? collectionId, [FromQuery] int[] couleurId, double? maxprix, double? minprix)
         {
+            if (page == 0)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
+            }
+
+            if (categorieId == null && collectionId == null)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nSoit la catégorie, soit la collection est requise");
+            }
+
+            if (categorieId == null && (couleurId != null || minprix != null || maxprix != null ))
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nLes filtres qui s'appliquent sur la couleur et les prix nécessitent en argument implicite le numéro de catégorie");
+            }
+
             var produit = await dataRepository.GetByAllFiltersByPage(page, categorieId, collectionId, couleurId.ToList(), maxprix, minprix);
 
             if (produit == null)
@@ -233,7 +298,7 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest();
             }
 
-            var userToUpdate = await dataRepository.GetByIdAsync(id);
+            var userToUpdate = await dataRepository.GetProduitById(id);
             if (userToUpdate == null)
             {
                 return NotFound();
@@ -267,7 +332,7 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("Delete")]
         public async Task<IActionResult> DeleteProduit(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            var produit = await dataRepository.GetProduitById(id);
             if (produit == null)
             {
                 return NotFound();
