@@ -61,7 +61,7 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetSousCategorie")]
         public async Task<ActionResult<List<Categorie>>> GetSousCategorie(int id)
         {
-            var adresse = await dataRepository.GetSousCategories(id);
+            var adresse = await dataRepository.GetSousCategories(id); 
 
             if (adresse == null)
             {
