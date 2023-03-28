@@ -196,9 +196,9 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return resultProduit.ToList();
         }
 
-        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMaxi(int page, int categorieId, double minprix)
+        public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByPrixMaxi(int page, int categorieId, double maxprix)
         {
-            var resultProduitVar = await GetAllByPrixMaxi(categorieId, minprix);
+            var resultProduitVar = await GetAllByPrixMaxi(categorieId, maxprix);
             List<Produit> resultProduit = (List<Produit>)resultProduitVar.Value;
 
             return DecouperListe(page, resultProduit.ToList());
@@ -220,7 +220,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetAllByCategorie(categorieId);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
 
 
@@ -230,7 +230,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetAllByCollection(collectionId);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
 
 
@@ -239,7 +239,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetAllByCouleur(categorieId, couleurId);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
 
 
@@ -248,7 +248,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetAllByPrixMini(categorieId, minprix);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
 
         public async Task<decimal> GetNumberPagesByPrixMaxi(int categorieId, double maxprix)
@@ -256,7 +256,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetAllByPrixMaxi(categorieId, maxprix);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
 
         public async Task UpdateAsync(Produit entityToUpdate, Produit entity)
@@ -375,7 +375,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var nbrArticlesVar = await GetByAllFilters(categorieId, collectionId, couleurId, maxprix, minprix);
             List<Produit> nbrArticles = (List<Produit>)nbrArticlesVar.Value;
 
-            return Math.Ceiling((decimal)(nbrArticles.Count() / nbrArticleParPage));
+            Console.WriteLine("COUNT : " + nbrArticles.Count());
+            Console.WriteLine("ARTICLES : " + nbrArticleParPage);
+            Console.WriteLine("CALCUL : " + ((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage));
+            Console.WriteLine("PAGES : " + Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage));
+
+            return Math.Ceiling((decimal)nbrArticles.Count() / (decimal)nbrArticleParPage);
         }
     }
 }

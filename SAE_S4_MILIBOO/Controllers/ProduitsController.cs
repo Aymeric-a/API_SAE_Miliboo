@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -166,7 +168,7 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
             }
 
-            var produit = await dataRepository.GetAllByPageByCategorie(page, collectionId);
+            var produit = await dataRepository.GetAllByPageByCollection(page, collectionId);
 
             if (produit == null)
             {
@@ -278,6 +280,20 @@ namespace SAE_S4_MILIBOO.Controllers
         public async Task<ActionResult<decimal>> GetNumberPagesByCollection(int collectionId)
         {
             var nbrpages = await dataRepository.GetNumberPagesByCollection(collectionId);
+
+            if (nbrpages == 0)
+            {
+                return NotFound();
+            }
+
+            return nbrpages;
+        }
+
+        [HttpGet]
+        [ActionName("GetNumberPagesByAllFilters")]
+        public async Task<ActionResult<decimal>> GetNumberPagesByAllFilters(int? categorieId, int? collectionId, [FromQuery] int[] couleurId, double? maxprix, double? minprix)
+        {
+            var nbrpages = await dataRepository.GetNumberPagesByAllFilters(categorieId, collectionId, couleurId.ToList(), maxprix, minprix);
 
             if (nbrpages == 0)
             {
