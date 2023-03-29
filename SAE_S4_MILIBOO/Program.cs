@@ -1,4 +1,5 @@
     using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
@@ -16,6 +17,10 @@ namespace SAE_S4_MILIBOO
             // Add services to the container.
             builder.Services.AddDbContext<MilibooDBContext>(options =>
                     options.UseNpgsql(builder.Configuration.GetConnectionString("BDDistante")));
+
+            //builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //    );
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
