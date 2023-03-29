@@ -334,7 +334,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetAllByPageByPrixMini(1, 1, 750).Result).Returns(new List<Produit> { prd });
+            mockRepository.Setup(x => x.GetAllByPageByPrixMini(1, 1, 750).Result).Returns(new List<Produit>());
 
             var mockVarianteRepository = new Mock<IDataRepositoryVariante<Variante>>();
             mockVarianteRepository.Setup(x => x.GetAll().Result).Returns(new List<Variante> { vrt_with_prix_700 });
@@ -407,7 +407,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             //prd.VariantesProduitNavigation = new List<Variante>() { vrt_with_goodColor };
 
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetAllByPageByPrixMaxi(1, 1, 100).Result).Returns(new List<Produit> { prd });
+            mockRepository.Setup(x => x.GetAllByPageByPrixMaxi(1, 1, 750).Result).Returns(new List<Produit> { prd });
 
             var mockVarianteRepository = new Mock<IDataRepositoryVariante<Variante>>();
             mockVarianteRepository.Setup(x => x.GetAll().Result)
@@ -468,7 +468,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetAllByPageByPrixMaxi(1, 1, 500).Result).Returns(new List<Produit> { });
+            mockRepository.Setup(x => x.GetAllByPageByPrixMaxi(1, 1, 750).Result).Returns(new List<Produit>());
 
             var mockVarianteRepository = new Mock<IDataRepositoryVariante<Variante>>();
             mockVarianteRepository.Setup(x => x.GetAll().Result).Returns(new List<Variante> { vrt_with_prix_800 });

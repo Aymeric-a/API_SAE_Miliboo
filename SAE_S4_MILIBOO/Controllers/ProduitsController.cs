@@ -122,14 +122,14 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
             }
 
-            var produit = await dataRepository.GetAllByPageByPrixMini(page, categorieId, min);
+            var listProduit = await dataRepository.GetAllByPageByPrixMini(page, categorieId, min);
 
-            if (produit == null)
+            if (listProduit.Value.Count() == 0)
             {
                 return NotFound();
             }
 
-            return produit;
+            return listProduit;
         }
 
         // GET: api/Produits/5
@@ -145,14 +145,14 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest("Erreur " + codeError + " : Bad Request \nLe numéro de page est requis");
             }
 
-            var produit = await dataRepository.GetAllByPageByPrixMaxi(page, categorieId, max);
+            var listProduit = await dataRepository.GetAllByPageByPrixMaxi(page, categorieId, max);
 
-            if (produit == null)
+            if (listProduit.Value.Count() == 0)
             {
                 return NotFound();
             }
 
-            return produit;
+            return listProduit;
         }
 
         // GET: api/Produits/5
