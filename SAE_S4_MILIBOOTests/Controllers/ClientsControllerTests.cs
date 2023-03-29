@@ -54,19 +54,17 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         }
 
         [TestMethod]
-        public void GetProduitById_ReturnsExistingProduct_Moq()
+        public void GetClientTest_ReturnsNotFound_Moq()
         {
-            var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetProduitById(1).Result).Returns(user);
-            var produitController = new ProduitsController(mockRepository.Object);
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns();
+            var clientController = new ClientsController(mockRepository.Object);
 
             // Act
-            var actionResult = produitController.GetProduit(1).Result;
+            var actionResult = clientController.GetClient(1).Result;
 
             // Assert
-            Assert.IsNotNull(actionResult);
-            Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(user, actionResult.Value as Produit);
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
         }
 
         [TestMethod]

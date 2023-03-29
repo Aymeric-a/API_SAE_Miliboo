@@ -43,7 +43,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         public void GetProduitById_ReturnsExistingProduct_Moq()
         {
             // Arrange
-            Produit user = new Produit
+            Produit prd = new Produit
             {
                 IdProduit = 1,
                 CategorieId = 15,
@@ -69,7 +69,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetProduitById(1).Result).Returns(user);
+            mockRepository.Setup(x => x.GetProduitById(1).Result).Returns(prd);
             var produitController = new ProduitsController(mockRepository.Object);
 
             // Act
@@ -78,19 +78,45 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(user, actionResult.Value as Produit);
+            Assert.AreEqual(prd, actionResult.Value as Produit);
         }
 
         [TestMethod]
         public void GetProduitById_ReturnsNull_Moq()
         {
+            // Arrange
+            Produit prd = new Produit
+            {
+                IdProduit = 1,
+                CategorieId = 15,
+                CollectionId = null,
+                Libelle = "Canapé 3 places éco-responsable en tissu recyclé naturel FOREST",
+                Description = null,
+                InscructionsEntretien = null,
+                HauteurPieds = 186,
+                Revetement = null,
+                Matiere = null,
+                MatierePieds = null,
+                TypeMousseAssise = null,
+                TypeMousseDossier = null,
+                DensiteAssise = null,
+                PoidsColis = null,
+                DimTotale = new TDimensions(186, 105, 65),
+                DimAssise = new TDimensions(null, (decimal)65.4, null),
+                DimDossier = new TDimensions(null, null, null),
+                DimColis = new TDimensions(null, null, null),
+                DimDeplie = new TDimensions(null, null, null),
+                DimAccoudoir = new TDimensions(null, null, null),
+                MadeInFrance = false
+            };
+
             var mockRepository = new Mock<IDataRepositoryProduits<Produit>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Produit> { });
+            mockRepository.Setup(x => x.GetProduitById(1).Result).Returns(prd);
 
             var produitController = new ProduitsController(mockRepository.Object);
 
             // Act
-            var actionResult = produitController.GetProduit(1).Result;
+            var actionResult = produitController.GetProduit(2).Result;
 
             // Assert
             Assert.IsNull(actionResult.Value);
