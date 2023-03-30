@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
+using SAE_S4_MILIBOO.SpecialTypes;
 
 namespace SAE_S4_MILIBOO
 {
@@ -39,6 +40,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
             builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
             builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
+            builder.Services.AddScoped<IDataRepositoryFunction<ClientsPlusCommandes>, FunctionManager>();
 
             var app = builder.Build();
 

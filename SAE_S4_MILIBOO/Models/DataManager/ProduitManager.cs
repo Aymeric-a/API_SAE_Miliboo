@@ -110,13 +110,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCollection(int page, int collectionId)
         {
-
             var rawDataVar = await GetAllByCollection(collectionId);
             List<Produit> rawData = rawDataVar.Value.ToList();
             return DecouperListe(page, rawData);
         }
-
-
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPageByCouleur(int page, int categorieId, List<int> couleurId )
         {
