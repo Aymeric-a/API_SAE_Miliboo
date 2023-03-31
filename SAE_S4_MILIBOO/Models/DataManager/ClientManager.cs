@@ -23,6 +23,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Client>> GetByIdAsync(int id)
         {
+            //var commande = await milibooDBContext.Commandes.ToListAsync<Commande>();
+
             return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == id);
         }
 

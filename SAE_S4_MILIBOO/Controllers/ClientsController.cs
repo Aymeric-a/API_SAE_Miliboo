@@ -34,14 +34,31 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetById")]
         public async Task<ActionResult<Client>> GetClient(int id)
         {
-            var Client = await dataRepository.GetByIdAsync(id);
+            var client = await dataRepository.GetByIdAsync(id);
 
-            if (Client == null)
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return Client;
+            return client;
+        }
+
+        [HttpGet]
+        [ActionName("GetById")]
+        public async Task<ActionResult<Client>> GetClientWithoutPassword(int id)
+        {
+            var clientvar = await dataRepository.GetByIdAsync(id);
+            Client client = clientvar.Value;
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            client.Password = null;
+
+            return client;
         }
 
         // GET: api/Clients/DorseyAnne@gmail.com
@@ -90,18 +107,18 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNewsletterM")]
-        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
-        {
-            var clients = await dataRepository.GetAllClientsNewsletterM();
-            List<Client> listClients = clients.Value.ToList();
-
-            if (listClients.Count == 0)
+            public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
             {
-                return NotFound();
-            }
+                var clients = await dataRepository.GetAllClientsNewsletterM();
+                List<Client> listClients = clients.Value.ToList();
 
-            return listClients;
-        }
+                if (listClients.Count == 0 || listClients == null)
+                {
+                    return NotFound();
+                }
+
+                return listClients;
+            }
 
 
         // PUT: api/Clients/5
