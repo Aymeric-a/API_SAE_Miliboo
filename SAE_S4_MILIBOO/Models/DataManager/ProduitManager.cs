@@ -168,8 +168,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             {
                 if (ConvertCategoriesIntoIds(allCategoriesChilds).Contains(p.CategorieId))
                 {
-                    p.CategorieProduitNavigation = null;
-                    p.VariantesProduitNavigation = null;
+                    p.CategorieProduitNavigation.ProduitsCategorieNavigation = null;
                     resultProduit.Add(p);
                 }
             }
@@ -203,8 +202,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             {
                 if (ConvertCategoriesIntoIds(allCategoriesChilds).Contains(p.CategorieId))
                 {
-                    p.CategorieProduitNavigation = null;
-                    p.VariantesProduitNavigation = null;
+                    p.CategorieProduitNavigation.ProduitsCategorieNavigation = null;
                     resultProduit.Add(p);
                 }
             }
@@ -351,7 +349,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var avis = await milibooDBContext.Avis.ToListAsync<Avis>();
             foreach(Avis avi in avis)
             {
-                avi.VarianteAvisNavigation = null;
+                avi.VarianteAvisNavigation.ProduitVarianteNavigation = null;
             }
 
             var productsAfterFilterCat = await GetAll();

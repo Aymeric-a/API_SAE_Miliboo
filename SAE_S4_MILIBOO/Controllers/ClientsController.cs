@@ -178,6 +178,37 @@ namespace SAE_S4_MILIBOO.Controllers
             return NoContent();
         }
 
+        async Task<ActionResult<Client>> ReplacePassword(string oldPassword, string newPassword, int idClient)
+        {
+            var client = await dataRepository.GetByIdAsync(idClient);
+            Client c = client.Value;
+
+            if (c.Password != oldPassword)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nL'ancien mot de passe ne correspond pas a celui relié a ce compte");
+            }
+
+            if (oldPassword == newPassword)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nL'ancien et le nouveau mot de passe ne peuvent pas être le même");
+            }
+
+            dataRepository.ReplacePassword(newPassword, idClient);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            return c;
+        }
+
         //private bool ClientExists(int id)
         //{
         //    return _context.Clients.Any(e => e.ClientId == id);
