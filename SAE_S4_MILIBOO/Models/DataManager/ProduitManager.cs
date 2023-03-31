@@ -392,6 +392,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             finalList = finalList.Intersect(productsAfterFilterMaxPriceList).ToList();
             finalList = finalList.Intersect(productsAfterFilterMinPriceList).ToList();
 
+            //if(valeurTri == 1)
+            //{
+            //    var listri = finalList.OrderBy(p => p.Libelle);
+            //}
+            
             return (List<Produit>)finalList;
         }
 
@@ -402,6 +407,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             return DecouperListe(page, resultProduit.ToList());
         }
+
+        //public async Task<ActionResult<IEnumerable<Produit>>> GetByAllFiltersByPage(int page, int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix, int valeurTri)
+        //{
+        //    var resultProduitVar = await GetByAllFilters(categorieId, collectionId, couleurId, maxprix, minprix, valeurTri);
+        //    List<Produit> resultProduit = (List<Produit>)resultProduitVar.Value;
+
+        //    return DecouperListe(page, resultProduit.ToList());
+        //}
 
         public async Task<decimal> GetNumberPagesByAllFilters(int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix)
         {
