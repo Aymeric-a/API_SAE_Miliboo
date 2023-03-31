@@ -1,6 +1,4 @@
-﻿using SAE_S4_MILIBOO.Models.EntityFramework;
-
-namespace SAE_S4_MILIBOO.SpecialTypes
+﻿namespace SAE_S4_MILIBOO.Models.EntityFramework
 {
     public class ClientSansMdp
     {
@@ -21,32 +19,32 @@ namespace SAE_S4_MILIBOO.SpecialTypes
 
         }
 
-        public ClientSansMdp(int clientId, string mail, string nom, string prenom, string portable, bool newsMiliboo, bool newsPartenaire, 
+        public ClientSansMdp(int clientId, string mail, string nom, string prenom, string portable, bool newsMiliboo, bool newsPartenaire,
             int soldeFidelite, DateTime? derniereConnexion, DateTime dateCreation, string civilite)
         {
-            this.ClientId = clientId;
-            this.Mail = mail;
-            this.Nom = nom;
-            this.Prenom = prenom;
-            this.Portable = portable;
-            this.NewsMiliboo = newsMiliboo;
-            this.NewsPartenaire = newsPartenaire;
-            this.SoldeFidelite = soldeFidelite;
-            this.DerniereConnexion = derniereConnexion;
-            this.DateCreation = dateCreation;
-            this.Civilite = civilite;
+            ClientId = clientId;
+            Mail = mail;
+            Nom = nom;
+            Prenom = prenom;
+            Portable = portable;
+            NewsMiliboo = newsMiliboo;
+            NewsPartenaire = newsPartenaire;
+            SoldeFidelite = soldeFidelite;
+            DerniereConnexion = derniereConnexion;
+            DateCreation = dateCreation;
+            Civilite = civilite;
         }
 
         public int ClientId
         {
             get
             {
-                return this.clientId;
+                return clientId;
             }
 
             set
             {
-                this.clientId = value;
+                clientId = value;
             }
         }
 
@@ -54,12 +52,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.mail;
+                return mail;
             }
 
             set
             {
-                this.mail = value;
+                mail = value;
             }
         }
 
@@ -67,12 +65,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.nom;
+                return nom;
             }
 
             set
             {
-                this.nom = value;
+                nom = value;
             }
         }
 
@@ -80,12 +78,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.prenom;
+                return prenom;
             }
 
             set
             {
-                this.prenom = value;
+                prenom = value;
             }
         }
 
@@ -93,12 +91,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.portable;
+                return portable;
             }
 
             set
             {
-                this.portable = value;
+                portable = value;
             }
         }
 
@@ -106,12 +104,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.newsMiliboo;
+                return newsMiliboo;
             }
 
             set
             {
-                this.newsMiliboo = value;
+                newsMiliboo = value;
             }
         }
 
@@ -119,12 +117,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.newsPartenaire;
+                return newsPartenaire;
             }
 
             set
             {
-                this.newsPartenaire = value;
+                newsPartenaire = value;
             }
         }
 
@@ -132,12 +130,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.soldeFidelite;
+                return soldeFidelite;
             }
 
             set
             {
-                this.soldeFidelite = value;
+                soldeFidelite = value;
             }
         }
 
@@ -145,12 +143,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.derniereConnexion;
+                return derniereConnexion;
             }
 
             set
             {
-                this.derniereConnexion = value;
+                derniereConnexion = value;
             }
         }
 
@@ -158,12 +156,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.dateCreation;
+                return dateCreation;
             }
 
             set
             {
-                this.dateCreation = value;
+                dateCreation = value;
             }
         }
 
@@ -171,12 +169,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.civilite;
+                return civilite;
             }
 
             set
             {
-                this.civilite = value;
+                civilite = value;
             }
         }
     }

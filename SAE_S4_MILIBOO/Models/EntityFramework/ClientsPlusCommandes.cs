@@ -1,6 +1,6 @@
-﻿using SAE_S4_MILIBOO.Models.EntityFramework;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SAE_S4_MILIBOO.SpecialTypes
+namespace SAE_S4_MILIBOO.Models.EntityFramework
 {
     public class ClientsPlusCommandes
     {
@@ -13,20 +13,20 @@ namespace SAE_S4_MILIBOO.SpecialTypes
 
         public ClientsPlusCommandes(ClientSansMdp client, List<Commande> listCommandes)
         {
-            this.Client = client;
-            this.ListCommandes = listCommandes;
+            Client = client;
+            ListCommandes = listCommandes;
         }
 
         public ClientSansMdp Client
         {
             get
             {
-                return this.client;
+                return client;
             }
 
             set
             {
-                this.client = value;
+                client = value;
             }
         }
 
@@ -34,12 +34,12 @@ namespace SAE_S4_MILIBOO.SpecialTypes
         {
             get
             {
-                return this.listCommandes;
+                return listCommandes;
             }
 
             set
             {
-                this.listCommandes = value;
+                listCommandes = value;
             }
         }
     }

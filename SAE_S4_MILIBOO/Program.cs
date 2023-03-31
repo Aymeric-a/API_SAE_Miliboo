@@ -1,9 +1,8 @@
-    using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
-using SAE_S4_MILIBOO.SpecialTypes;
 
 namespace SAE_S4_MILIBOO
 {
@@ -28,6 +27,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
+            builder.Services.AddScoped<IDataRepositoryCommande<Commande>, CommandeManager>();
             builder.Services.AddScoped<IDataRepositoryAdresse<Adresse>, AdresseManager>();
             builder.Services.AddScoped<IDataRepositoryProduits<Produit>, ProduitManager>();
             builder.Services.AddScoped<IDataRepositoryVariante<Variante>, VarianteManager>();
@@ -39,7 +39,6 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryLignePanier<LignePanier>, LignePanierManager>();
             builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
             builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
-            builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
             builder.Services.AddScoped<IDataRepositoryFunction<ClientsPlusCommandes>, FunctionManager>();
 
             var app = builder.Build();

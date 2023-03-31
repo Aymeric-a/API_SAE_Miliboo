@@ -76,7 +76,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNomPrenom")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
         {
             var listClients = await dataRepository.GetAllClientsByNomPrenom(recherche);
 
@@ -90,21 +90,18 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNewsletterM")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
         {
-            var listClients = await dataRepository.GetAllClientsNewsletterM();
+            var clients = await dataRepository.GetAllClientsNewsletterM();
+            List<Client> listClients = clients.Value.ToList();
 
-
-            if (listClients == null)
+            if (listClients.Count == 0)
             {
                 return NotFound();
-            } 
+            }
 
             return listClients;
         }
-
-        //Task<ActionResult<Client>> GetAllClientsNewsletterM();
-        //Task<ActionResult<Client>> GetAllClientsNewsletterP();
 
 
         // PUT: api/Clients/5
@@ -112,11 +109,12 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNewsletterP")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
         {
-            var listClients = await dataRepository.GetAllClientsNewsletterP();
+            var clients = await dataRepository.GetAllClientsNewsletterP();
+            List<Client> listClients = clients.Value.ToList();
 
-            if (listClients == null)
+            if (listClients.Count == 0)
             {
                 return NotFound();
             }
