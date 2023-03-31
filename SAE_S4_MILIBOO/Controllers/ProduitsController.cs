@@ -238,9 +238,9 @@ namespace SAE_S4_MILIBOO.Controllers
         {
             var nbrpages = await dataRepository.GetNumberPagesByCouleur(categorieId, couleurId.ToList());
 
-            if (nbrpages == 0)
+            if (nbrpages < 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return nbrpages;
@@ -252,9 +252,9 @@ namespace SAE_S4_MILIBOO.Controllers
         {
             var nbrpages = await dataRepository.GetNumberPagesByPrixMaxi(categorieId, max);
 
-            if (nbrpages == 0)
+            if (nbrpages < 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return nbrpages;
@@ -266,9 +266,9 @@ namespace SAE_S4_MILIBOO.Controllers
         {
             var nbrpages = await dataRepository.GetNumberPagesByPrixMini(categorieId, min);
 
-            if (nbrpages == 0)
+            if (nbrpages < 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return nbrpages;
@@ -281,9 +281,9 @@ namespace SAE_S4_MILIBOO.Controllers
         {
             var nbrpages = await dataRepository.GetNumberPagesByCollection(collectionId);
 
-            if (nbrpages == 0)
+            if (nbrpages < 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return nbrpages;
@@ -295,9 +295,9 @@ namespace SAE_S4_MILIBOO.Controllers
         {
             var nbrpages = await dataRepository.GetNumberPagesByAllFilters(categorieId, collectionId, couleurId.ToList(), maxprix, minprix);
 
-            if (nbrpages == 0)
+            if (nbrpages < 0)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return nbrpages;
