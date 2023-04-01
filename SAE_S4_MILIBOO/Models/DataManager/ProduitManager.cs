@@ -384,7 +384,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
             var avis = await milibooDBContext.Avis.ToListAsync<Avis>();
             foreach(Avis avi in avis)
-            {
+            { 
                 avi.VarianteAvisNavigation = null;
             }
             var photos = await milibooDBContext.Photos.ToListAsync<Photo>();
