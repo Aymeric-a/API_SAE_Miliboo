@@ -300,6 +300,8 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest();
             }
 
+            
+
             return nbrpages;
         }
 
