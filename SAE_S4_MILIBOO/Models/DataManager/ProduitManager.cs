@@ -71,10 +71,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var variantes = await milibooDBContext.Variantes.Where<Variante>(var => var.IdProduit == produitId).ToListAsync();
             var couleurs = new List<Couleur>();
             var avis = new List<Avis>();
+            var photos = new List<Photo>();
             for(int i =0; i< variantes.Count; i++)
             {
                 couleurs.Add(await milibooDBContext.Couleurs.FirstOrDefaultAsync<Couleur>(c => c.IdCouleur == variantes[i].IdCouleur));
                 avis.Add(await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(a => a.VarianteId == variantes[i].IdVariante));
+                photos.Add(await milibooDBContext.Photos.FirstOrDefaultAsync<Photo>(photo => photo.VarianteId == variantes[i].IdVariante));
                 variantes[i].ProduitVarianteNavigation = null;
              
             }
@@ -86,6 +88,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 if (avi != null)
                 {
                     avi.VarianteAvisNavigation = null;
+                }
+            }
+
+            foreach (Photo photo in photos)
+            {
+                if (photo != null)
+                {
+                    photo.VariantePhotoNavigation = null;
                 }
             }
 
@@ -232,17 +242,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                     resultProduit.Add(p);
                 }
             }
-            //var variante = await milibooDBContext.Variantes.ToListAsync<Variante>();
-            //var couleurs = await milibooDBContext.Couleurs.ToListAsync<Couleur>();
-            //foreach (Couleur couleur in couleurs)
-            //{
-            //    couleur.VariantesCouleurNavigation = null;
-            //}
-            //var avis = await milibooDBContext.Avis.ToListAsync<Avis>();
-            //foreach (Avis avi in avis)
-            //{
-            //    avi.VarianteAvisNavigation.ProduitVarianteNavigation = null;
-            //}
 
             return resultProduit.ToList();
         }
@@ -386,7 +385,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var avis = await milibooDBContext.Avis.ToListAsync<Avis>();
             foreach(Avis avi in avis)
             {
-                avi.VarianteAvisNavigation.ProduitVarianteNavigation = null;
+                avi.VarianteAvisNavigation = null;
+            }
+            var photos = await milibooDBContext.Photos.ToListAsync<Photo>();
+            foreach(Photo photo in photos)
+            {
+                photo.VariantePhotoNavigation = null;
             }
 
             var productsAfterFilterCat = await GetAll();
