@@ -65,7 +65,31 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Produit>> GetProduitById(int produitId)
         {
-            return await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
+            var leProduit = await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
+            var categorie = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(c => c.Categorieid == leProduit.CategorieId);
+            categorie.ProduitsCategorieNavigation = null;
+            var variantes = await milibooDBContext.Variantes.Where<Variante>(var => var.IdProduit == produitId).ToListAsync();
+            var couleurs = new List<Couleur>();
+            var avis = new List<Avis>();
+            for(int i =0; i< variantes.Count; i++)
+            {
+                couleurs.Add(await milibooDBContext.Couleurs.FirstOrDefaultAsync<Couleur>(c => c.IdCouleur == variantes[i].IdCouleur));
+                avis.Add(await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(a => a.VarianteId == variantes[i].IdVariante));
+                variantes[i].ProduitVarianteNavigation = null;
+             
+            }
+
+            foreach (Couleur couleur in couleurs) { couleur.VariantesCouleurNavigation = null; }
+            
+            foreach (Avis avi in avis) 
+            { 
+                if (avi != null)
+                {
+                    avi.VarianteAvisNavigation = null;
+                }
+            }
+
+            return leProduit;
         }
 
 
@@ -189,6 +213,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByPrixMaxi(int categorieId, double maxprix)
         {
+
             var category = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(p => p.Categorieid == categorieId);
 
             var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
@@ -200,12 +225,24 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             foreach (Produit p in rawData)
             {
+                
                 if (ConvertCategoriesIntoIds(allCategoriesChilds).Contains(p.CategorieId))
                 {
                     p.CategorieProduitNavigation.ProduitsCategorieNavigation = null;
                     resultProduit.Add(p);
                 }
             }
+            //var variante = await milibooDBContext.Variantes.ToListAsync<Variante>();
+            //var couleurs = await milibooDBContext.Couleurs.ToListAsync<Couleur>();
+            //foreach (Couleur couleur in couleurs)
+            //{
+            //    couleur.VariantesCouleurNavigation = null;
+            //}
+            //var avis = await milibooDBContext.Avis.ToListAsync<Avis>();
+            //foreach (Avis avi in avis)
+            //{
+            //    avi.VarianteAvisNavigation.ProduitVarianteNavigation = null;
+            //}
 
             return resultProduit.ToList();
         }
