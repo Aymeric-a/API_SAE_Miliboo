@@ -89,7 +89,7 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         [HttpGet]
-        [ActionName("GetByPortable")]
+        [ActionName("GetAllClientsNewsletterM")]
         public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterM();
@@ -111,7 +111,7 @@ namespace SAE_S4_MILIBOO.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 
         [HttpGet]
-        [ActionName("GetByPortable")]
+        [ActionName("GetAllClientsNewsletterP")]
         public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterP();

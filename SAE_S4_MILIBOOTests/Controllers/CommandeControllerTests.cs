@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SAE_S4_MILIBOO.Controllers;
+using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
 using System;
@@ -15,6 +17,19 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
     [TestClass()]
     public class CommandesControllerTests
     {
+        private readonly MilibooDBContext _context;
+        private readonly CommandesController _controller;
+        private IDataRepositoryCommande<Commande> _dataRepository;
+
+        public CommandesControllerTests()
+        {
+
+            var builder = new DbContextOptionsBuilder<MilibooDBContext>().UseNpgsql("Server=postgresql-philippa.alwaysdata.net;port=5432;Database=philippa_bdapi_milibite; SearchPath=public; uid=philippa; password=postgres"); // Chaine de connexion à mettre dans les ( )
+            _context = new MilibooDBContext(builder.Options);
+            _dataRepository = new CommandeManager(_context);
+            _controller = new CommandesController(_dataRepository);
+        }
+
         [TestMethod()]
         public void GetCommandeTest_ReturnsExistingClient_Moq()
         {
