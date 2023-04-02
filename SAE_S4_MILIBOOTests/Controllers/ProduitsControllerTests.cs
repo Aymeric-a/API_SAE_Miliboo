@@ -678,8 +678,8 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         {
             // INSERTION DE 18 PRODUITS, 5 PAGES PAR PRODUITS, DEVRAIT RETOURNER CEILING(18 / 5) = 4
 
-            List<Produit> mesProduits= new List<Produit>();
-            for (int i = 1;i <= 18; i++)
+            List<Produit> mesProduits = new List<Produit>();
+            for (int i = 1; i <= 18; i++)
             {
                 mesProduits.Add(
                     new Produit
@@ -687,7 +687,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                         IdProduit = i,
                         CategorieId = 15,
                         CollectionId = null,
-                        Libelle = "Canapé 3 places éco-responsable en tissu recyclé naturel FOREST"+i.ToString(),
+                        Libelle = "Canapé 3 places éco-responsable en tissu recyclé naturel FOREST" + i.ToString(),
                         Description = null,
                         InscructionsEntretien = null,
                         HauteurPieds = 186,
@@ -745,5 +745,5 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             Assert.IsNotNull(actionResult.Value);
             Assert.AreEqual(4, actionResult.Value);
         }
-    } 
+    }
 }

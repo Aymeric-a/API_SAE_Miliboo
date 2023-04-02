@@ -84,6 +84,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
 
             // Act
             var actionResult = clientController.GetClient(2).Result;
+        }
 
         //    // Assert
         //    Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
@@ -279,23 +280,296 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
         }
 
+        [TestMethod]
         public void GetAllClientsByNomPrenom_ReturnsExistingClient_Moq()
         {
-            Assert.Fail();
+            Client clt = new Client
+            {
+                ClientId = 1,
+                Mail = "tristan.ginet@gmail.com",
+                Password = "password",
+                Nom = "GINET",
+                Prenom = "Tristan",
+                Portable = "0606060606",
+                NewsMiliboo = true,
+                NewsPartenaire = true,
+                SoldeFidelite = 50,
+                DerniereConnexion = new DateTime(2023 - 03 - 10),
+                DateCreation = new DateTime(2022 - 03 - 10),
+                Civilite = "homme",
+                AvisClientsNavigation = null,
+                CarteBancaireClientNavigation = null,
+                ClientsLivraisonsNavigation = null,
+                CommandesClientNavigation = null,
+                LignesPanierClientNavigation = null,
+                ListesNavigation = null
+            };
+
+            // LA FONCTION GET BY NOM PRENOM TEST LES DEUX INDEPENDAMENT ET RASSEMBLE LES RESULTATS
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAllClientsByNomPrenom("GINET").Result).Returns(new List<Client> { clt });
+            var clientController = new ClientsController(mockRepository.Object);
+
+            var mockRepository2 = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository2.Setup(x => x.GetAllClientsByNomPrenom("Tristan").Result).Returns(new List<Client> { clt });
+
+            // Act
+            var actionResult = clientController.GetAllClientsByNomPrenom("GINET").Result;
+            var actionResult2 = clientController.GetAllClientsByNomPrenom("Tristan").Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(new List<Client> { clt }, actionResult.Value as List<Client>);
+            //Assert.AreEqual(new List<Client> { clt }, actionResult2.Value as List<Client>);
         }
 
+        [TestMethod]
         public void GetAllClientsByNomPrenom_ReturnsNotFound_Moq()
         {
-            Assert.Fail();
+            Client clt = new Client
+            {
+                ClientId = 1,
+                Mail = "tristan.ginet@gmail.com",
+                Password = "password",
+                Nom = "GINET",
+                Prenom = "Tristan",
+                Portable = "0606060606",
+                NewsMiliboo = true,
+                NewsPartenaire = true,
+                SoldeFidelite = 50,
+                DerniereConnexion = new DateTime(2023 - 03 - 10),
+                DateCreation = new DateTime(2022 - 03 - 10),
+                Civilite = "homme",
+                AvisClientsNavigation = null,
+                CarteBancaireClientNavigation = null,
+                ClientsLivraisonsNavigation = null,
+                CommandesClientNavigation = null,
+                LignesPanierClientNavigation = null,
+                ListesNavigation = null
+            };
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAllClientsByNomPrenom("Ginet").Result).Returns(new List<Client> { clt });
+            var clientController = new ClientsController(mockRepository.Object);
+
+            // Act
+            var actionResult = clientController.GetAllClientsByNomPrenom("Guyon").Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
         }
 
+        [TestMethod]
         public void GetAllClientsNewsletterMTest_ReturnsExistingClient_Moq()
         {
-            Assert.Fail();
+            List<Client> mesClients = new List<Client>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                mesClients.Add(
+                    new Client
+                    {
+                        ClientId = i,
+                        Mail = "tristan.ginet@gmail.com",
+                        Password = "password",
+                        Nom = "GINET",
+                        Prenom = "Tristan",
+                        Portable = "0606060606",
+                        NewsMiliboo = true,
+                        NewsPartenaire = true,
+                        SoldeFidelite = 50,
+                        DerniereConnexion = new DateTime(2023 - 03 - 10),
+                        DateCreation = new DateTime(2022 - 03 - 10),
+                        Civilite = "homme",
+                        AvisClientsNavigation = null,
+                        CarteBancaireClientNavigation = null,
+                        ClientsLivraisonsNavigation = null,
+                        CommandesClientNavigation = null,
+                        LignesPanierClientNavigation = null,
+                        ListesNavigation = null
+                    }
+                );
+            }
+
+            // LA FONCTION GET BY NOM PRENOM TEST LES DEUX INDEPENDAMENT ET RASSEMBLE LES RESULTATS
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAllClientsNewsletterM().Result).Returns(new List<Client> { mesClients[0], mesClients[1], mesClients[2], mesClients[3], mesClients[4] });
+            var clientController = new ClientsController(mockRepository.Object);
+
+            // Act
+            var actionResult = clientController.GetAllClientsNewsletterM().Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            CollectionAssert.AreEqual(new List<Client> { mesClients[0], mesClients[1], mesClients[2], mesClients[3], mesClients[4] }, actionResult.Value as List<Client>);
         }
+
+        [TestMethod]
+        public void GetAllClientsNewsletterMTest_ReturnsNotFound()
+        {
+            List<Client> mesClients = new List<Client>();
+
+            for (int i = 1; i < 6; i++)
+            {
+                mesClients.Add(
+                    new Client
+                    {
+                        ClientId = i,
+                        Mail = "tristan.ginet@gmail.com" + i,
+                        Password = "password",
+                        Nom = "GINET",
+                        Prenom = "Tristan",
+                        Portable = "0606060606",
+                        NewsMiliboo = false,
+                        NewsPartenaire = false,
+                        SoldeFidelite = 50,
+                        DerniereConnexion = new DateTime(2023 - 03 - 10),
+                        DateCreation = new DateTime(2022 - 03 - 10),
+                        Civilite = "homme",
+                        AvisClientsNavigation = null,
+                        CarteBancaireClientNavigation = null,
+                        ClientsLivraisonsNavigation = null,
+                        CommandesClientNavigation = null,
+                        LignesPanierClientNavigation = null,
+                        ListesNavigation = null
+                    }
+                );
+            }
+
+            // LA FONCTION GET BY NOM PRENOM TEST LES DEUX INDEPENDAMENT ET RASSEMBLE LES RESULTATS
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAll().Result).Returns(mesClients);
+            var clientController = new ClientsController(mockRepository.Object);
+
+            //// Act
+            var actionResult = clientController.GetAllClientsNewsletterM().Result;
+
+            // Assert
+            Assert.AreEqual(404, (actionResult.Result as NotFoundResult).StatusCode);
+        }
+
+        [TestMethod]
         public void GetAllClientsNewsletterPTest_ReturnsExistingClient_Moq()
         {
-            Assert.Fail();
+            List<Client> mesClients = new List<Client>();
+
+            for (int i = 1; i <= 5; i++)
+            {
+                mesClients.Add(
+                    new Client
+                    {
+                        ClientId = i,
+                        Mail = "tristan.ginet@gmail.com",
+                        Password = "password",
+                        Nom = "GINET",
+                        Prenom = "Tristan",
+                        Portable = "0606060606",
+                        NewsMiliboo = true,
+                        NewsPartenaire = true,
+                        SoldeFidelite = 50,
+                        DerniereConnexion = new DateTime(2023 - 03 - 10),
+                        DateCreation = new DateTime(2022 - 03 - 10),
+                        Civilite = "homme",
+                        AvisClientsNavigation = null,
+                        CarteBancaireClientNavigation = null,
+                        ClientsLivraisonsNavigation = null,
+                        CommandesClientNavigation = null,
+                        LignesPanierClientNavigation = null,
+                        ListesNavigation = null
+                    }
+                );
+            }
+
+            for (int i = 6; i <= 10; i++)
+            {
+                mesClients.Add(
+                    new Client
+                    {
+                        ClientId = i,
+                        Mail = "tristan.ginet@gmail.com",
+                        Password = "password",
+                        Nom = "GINET",
+                        Prenom = "Tristan",
+                        Portable = "0606060606",
+                        NewsMiliboo = false,
+                        NewsPartenaire = false,
+                        SoldeFidelite = 50,
+                        DerniereConnexion = new DateTime(2023 - 03 - 10),
+                        DateCreation = new DateTime(2022 - 03 - 10),
+                        Civilite = "homme",
+                        AvisClientsNavigation = null,
+                        CarteBancaireClientNavigation = null,
+                        ClientsLivraisonsNavigation = null,
+                        CommandesClientNavigation = null,
+                        LignesPanierClientNavigation = null,
+                        ListesNavigation = null
+                    }
+                );
+            }
+
+            // LA FONCTION GET BY NOM PRENOM TEST LES DEUX INDEPENDAMENT ET RASSEMBLE LES RESULTATS
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAllClientsNewsletterP().Result).Returns(new List<Client> { mesClients[0], mesClients[1], mesClients[2], mesClients[3], mesClients[4] });
+            var clientController = new ClientsController(mockRepository.Object);
+
+            // Act
+            var actionResult = clientController.GetAllClientsNewsletterP().Result;
+
+            // Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            CollectionAssert.AreEqual(new List<Client> { mesClients[0], mesClients[1], mesClients[2], mesClients[3], mesClients[4] }, actionResult.Value as List<Client>);
+        }
+
+        [TestMethod]
+        public void GetAllClientsNewsletterPTest_ReturnsNotFound()
+        {
+            List<Client> mesClients = new List<Client>();
+
+            for (int i = 1; i < 6; i++)
+            {
+                mesClients.Add(
+                    new Client
+                    {
+                        ClientId = i,
+                        Mail = "tristan.ginet@gmail.com",
+                        Password = "password",
+                        Nom = "GINET",
+                        Prenom = "Tristan",
+                        Portable = "0606060606",
+                        NewsMiliboo = false,
+                        NewsPartenaire = false,
+                        SoldeFidelite = 50,
+                        DerniereConnexion = new DateTime(2023 - 03 - 10),
+                        DateCreation = new DateTime(2022 - 03 - 10),
+                        Civilite = "homme",
+                        AvisClientsNavigation = null,
+                        CarteBancaireClientNavigation = null,
+                        ClientsLivraisonsNavigation = null,
+                        CommandesClientNavigation = null,
+                        LignesPanierClientNavigation = null,
+                        ListesNavigation = null
+                    }
+                );
+            }
+
+            // LA FONCTION GET BY NOM PRENOM TEST LES DEUX INDEPENDAMENT ET RASSEMBLE LES RESULTATS
+
+            var mockRepository = new Mock<IDataRepositoryClient<Client>>();
+            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Client> { mesClients[0], mesClients[1], mesClients[2], mesClients[3], mesClients[4] });
+            var clientController = new ClientsController(mockRepository.Object);
+
+            // Act
+            var actionResult = clientController.GetAllClientsNewsletterP().Result;
+
+            // Assert
+            Assert.IsInstanceOfType(actionResult.Result, typeof(NotFoundResult));
         }
 
         public void PostClientTest()

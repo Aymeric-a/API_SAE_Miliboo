@@ -76,7 +76,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNomPrenom")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
         {
             var listClients = await dataRepository.GetAllClientsByNomPrenom(recherche);
 
@@ -90,7 +90,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByPortable")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterM();
 
@@ -112,7 +112,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByPortable")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterP();
 
