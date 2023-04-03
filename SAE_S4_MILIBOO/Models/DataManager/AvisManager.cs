@@ -10,11 +10,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     {
         readonly MilibooDBContext? milibooDBContext;
 
+        readonly DeleteAllCycles? deleteAllCycles;
+
         public AvisManager() { }
 
         public AvisManager(MilibooDBContext context)
         {
             milibooDBContext = context;
+
+            deleteAllCycles = new DeleteAllCycles();
         }
         public async Task AddAsync(Avis entity)
         {
@@ -48,14 +52,13 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 List<Avis> avis = await milibooDBContext.Avis.Where<Avis>(p => p.VarianteId == v.IdVariante).ToListAsync();
                 foreach (Avis a in avis)
                 {
-                    a.VarianteAvisNavigation = null;
                     allAvis.Add(a);
                 }
             }
 
-            Console.WriteLine(allAvis.Count.ToString());
+            List<Avis> allAvisAfterDeleteCycles = deleteAllCycles.DeleteAllCyclesFunction(allAvis);
 
-            return allAvis;
+            return allAvisAfterDeleteCycles;
         }
 
         public async Task<ActionResult<IEnumerable<Avis>>> GetAvisByVariante(int varianteId)

@@ -8,14 +8,16 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 {
     public class CouleurManager : IDataRepositoryCouleur<Couleur>
     {
-
         readonly MilibooDBContext? milibooDBContext;
 
+        readonly DeleteAllCycles? deleteAllCycles;
         public CouleurManager() { }
 
         public CouleurManager(MilibooDBContext context)
         {
             milibooDBContext = context;
+
+            deleteAllCycles = new DeleteAllCycles();
         }
 
         public async Task<ActionResult<IEnumerable<Couleur>>> GetAll()
@@ -41,10 +43,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             for(int i = 0; i<lesVariantes.Count; i++)
             {
                 lesCouleurs.Add(await milibooDBContext.Couleurs.FirstAsync<Couleur>(c => c.IdCouleur == lesVariantes[i].IdCouleur));
-                lesCouleurs[i].VariantesCouleurNavigation = null;
             }
+            
+            List<Couleur> allCouleursAfterDeleteCycles = deleteAllCycles.DeleteAllCyclesFunction(lesCouleurs);
 
-            return lesCouleurs;
+            return allCouleursAfterDeleteCycles;
         }
     }
 }
