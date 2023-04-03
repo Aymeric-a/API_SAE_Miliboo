@@ -64,14 +64,28 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetCommandesByEtat")]
         public async Task<ActionResult<IEnumerable<Commande>>> GetCommandesByEtat(int etatId)
         {
-            var produit = await dataRepository.GetAllCommandeByEtat(etatId);
+            var commande = await dataRepository.GetAllCommandeByEtat(etatId);
 
-            if (produit == null)
+            if (commande == null)
             {
                 return NotFound();
             }
 
-            return produit;
+            return commande;
+        }
+
+        [HttpGet]
+        [ActionName("GetPanierByClient")]
+        public async Task<ActionResult<IEnumerable<Commande>>> GetPanierByIdClient(int clientId)
+        {
+            var panier = await dataRepository.GetPanierByIdClient(clientId);
+
+            if (panier == null)
+            {
+                return NotFound();
+            }
+
+            return panier;
         }
 
         // PUT: api/Commandes/5
