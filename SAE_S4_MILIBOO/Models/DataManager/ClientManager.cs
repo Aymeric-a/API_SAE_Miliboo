@@ -23,7 +23,16 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Client>> GetByIdAsync(int id)
         {
-            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == id);
+            var lescommandes = await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == id).ToListAsync();
+            
+            var leclient =  await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == id);
+
+            foreach(Commande saCommande in leclient.CommandesClientNavigation) 
+            {
+                saCommande.ClientCommandeNavigation = null;
+            }
+
+            return leclient;
         }
 
         public async Task<ActionResult<Client>> GetClientByEmail(string email)
@@ -50,6 +59,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Clients.Where<Client>(c => c.NewsPartenaire == true).ToListAsync();
         }
 
+        public async Task<ActionResult<Client>> ReplacePassword(string newPassword, int idClient)
+        {
+            var c = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
+            c.Password = newPassword;
+            milibooDBContext.SaveChanges();
+
+            return c;
+        }
 
         public async Task AddAsync(Client entity)
         {

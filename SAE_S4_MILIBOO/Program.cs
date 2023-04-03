@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SAE_S4_MILIBOO.Models;
 using SAE_S4_MILIBOO.Models.DataManager;
@@ -19,7 +20,11 @@ namespace SAE_S4_MILIBOO
 
             // Add services to the container.
             builder.Services.AddDbContext<MilibooDBContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDistante")));
+                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDLocale")));
+
+            //builder.Services.AddControllers().AddNewtonsoftJson(options =>
+            //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            //    );
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +43,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
             builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
             builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
+
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -76,14 +82,12 @@ namespace SAE_S4_MILIBOO
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
 
             app.MapControllers();
 
             app.Run();
-
         }
     }
 }

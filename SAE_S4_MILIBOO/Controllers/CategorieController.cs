@@ -31,12 +31,14 @@ namespace SAE_S4_MILIBOO.Controllers
             return adresse;
         }
 
+
+
         // GET: api/Adresses/5
         [HttpGet]
-        [ActionName("GetAllCategories")]
-        public async Task<ActionResult<IEnumerable<Categorie>>> GetCategories()
+        [ActionName("GetAllCategoriesPremierNiveau")]
+        public async Task<ActionResult<List<Categorie>>> GetAllCategoriesPremierNiveau()
         {
-            return await dataRepository.GetAll();
+            return await dataRepository.GetCategoriesPremierNiveau();
         }
 
         // GET: api/Adresses/5
@@ -57,9 +59,9 @@ namespace SAE_S4_MILIBOO.Controllers
         // GET: api/Adresses/5
         [HttpGet]
         [ActionName("GetSousCategorie")]
-        public async Task<ActionResult<IEnumerable<Categorie>>> GetSousCategorie(int id)
+        public async Task<ActionResult<List<Categorie>>> GetSousCategorie(int id)
         {
-            var adresse = await dataRepository.GetSousCategories(id);
+            var adresse = await dataRepository.GetSousCategories(id); 
 
             if (adresse == null)
             {

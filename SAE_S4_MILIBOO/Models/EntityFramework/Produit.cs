@@ -27,6 +27,11 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Required]
         public string Libelle { get; set; }
 
+        [Column("prd_description")]
+        [StringLength(500)]
+        public string? Description { get; set; }
+
+
         [Column("prd_instructions_entretien", TypeName = "text")]
         public string? InscructionsEntretien { get; set; }
 
@@ -100,6 +105,17 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
     public class TDimensions
     {
+        private decimal? x;
+        private decimal? y;
+        private decimal? z;
+
+        public TDimensions(decimal? x, decimal? y, decimal? z)
+        {
+            this.x = X;
+            this.y = Y;
+            this.z = Z;
+        }
+
         public decimal X { get; set; }
         public decimal Y { get; set; }
         public decimal Z { get; set; }

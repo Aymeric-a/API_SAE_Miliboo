@@ -96,7 +96,8 @@ namespace SAE_S4_MILIBOO.Migrations
                 {
                     clr_id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    clr_libelle = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false)
+                    clr_libelle = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    clr_code = table.Column<string>(type: "char(7)", maxLength: 7, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,6 +192,7 @@ namespace SAE_S4_MILIBOO.Migrations
                     ctg_id = table.Column<int>(type: "integer", nullable: false),
                     cln_id = table.Column<int>(type: "integer", nullable: true),
                     prd_lib = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    prd_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     prd_instructions_entretien = table.Column<string>(type: "text", nullable: true),
                     prd_revetement = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
                     prd_matiere = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: true),
@@ -263,7 +265,6 @@ namespace SAE_S4_MILIBOO.Migrations
                     prd_id = table.Column<int>(type: "integer", nullable: false),
                     vrt_prix = table.Column<decimal>(type: "numeric(38,17)", nullable: false),
                     vrt_promo = table.Column<decimal>(type: "numeric(4,2)", nullable: false),
-                    vrt_description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                     vrt_stock = table.Column<int>(type: "integer", nullable: false),
                     vrt_date_creation = table.Column<DateTime>(type: "date", nullable: true)
                 },

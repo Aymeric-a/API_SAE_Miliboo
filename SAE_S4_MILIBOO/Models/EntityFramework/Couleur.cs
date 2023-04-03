@@ -16,6 +16,11 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Required]
         public string Libelle { get; set; } = null!;
 
+        [Column("clr_code", TypeName="char(7)")]
+        [StringLength(7)]
+        [Required]
+        public string CodeHexa { get; set; } = null!;
+
         [InverseProperty("CouleurVarianteNavigation")]
         public virtual ICollection<Variante> VariantesCouleurNavigation { get; set; } = new List<Variante>();
     }

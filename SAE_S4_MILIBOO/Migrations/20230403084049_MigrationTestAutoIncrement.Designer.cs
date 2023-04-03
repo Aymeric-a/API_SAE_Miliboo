@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SAE_S4_MILIBOO.Models.EntityFramework;
@@ -11,9 +12,10 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    partial class MilibooDBContextModelSnapshot : ModelSnapshot
+    [Migration("20230403084049_MigrationTestAutoIncrement")]
+    partial class MigrationTestAutoIncrement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

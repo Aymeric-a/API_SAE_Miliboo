@@ -76,7 +76,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetByNomPrenom")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
         {
             var listClients = await dataRepository.GetAllClientsByNomPrenom(recherche);
 
@@ -89,8 +89,8 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         [HttpGet]
-        [ActionName("GetByPortable")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
+        [ActionName("GetAllClientsNewsletterM")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterM();
 
@@ -111,8 +111,8 @@ namespace SAE_S4_MILIBOO.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
 
         [HttpGet]
-        [ActionName("GetByPortable")]
-        async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
+        [ActionName("GetAllClientsNewsletterP")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
         {
             var listClients = await dataRepository.GetAllClientsNewsletterP();
 
@@ -176,6 +176,37 @@ namespace SAE_S4_MILIBOO.Controllers
             await dataRepository.DeleteAsync(produit.Value);
 
             return NoContent();
+        }
+
+        async Task<ActionResult<Client>> ReplacePassword(string oldPassword, string newPassword, int idClient)
+        {
+            var client = await dataRepository.GetByIdAsync(idClient);
+            Client c = client.Value;
+
+            if (c.Password != oldPassword)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nL'ancien mot de passe ne correspond pas a celui relié a ce compte");
+            }
+
+            if (oldPassword == newPassword)
+            {
+                Response.StatusCode = 400;
+                var codeError = Response.StatusCode;
+
+                return BadRequest("Erreur " + codeError + " : Bad Request \nL'ancien et le nouveau mot de passe ne peuvent pas être le même");
+            }
+
+            dataRepository.ReplacePassword(newPassword, idClient);
+
+            if (c == null)
+            {
+                return NotFound();
+            }
+
+            return c;
         }
 
         //private bool ClientExists(int id)

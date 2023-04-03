@@ -34,10 +34,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("vrt_promo", TypeName = "numeric(4,2)")]
         public double Promo { get; set; }
 
-        [Column("vrt_description")]
-        [StringLength(500)]
-        public string Description { get; set; } = null!;
-
         [Column("vrt_stock")]
         [Required]
         public int Stock { get; set; }

@@ -26,7 +26,6 @@ namespace SAE_S4_MILIBOO.Migrations
             migrationBuilder.Sql("ALTER TABLE t_e_produit_prd DROP COLUMN prd_dim_colis");
             migrationBuilder.Sql("ALTER TABLE t_e_produit_prd DROP COLUMN prd_dim_deplie");
             migrationBuilder.Sql("ALTER TABLE t_e_produit_prd DROP COLUMN prd_dim_accoudoir");
-        
         }
     }
 }

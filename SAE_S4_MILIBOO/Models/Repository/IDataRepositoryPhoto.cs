@@ -10,5 +10,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
         Task DeleteAsync(TEntity entity);
+        Task<ActionResult<IEnumerable<string>>> GetAllPhotosByVariante(int varianteId);
+
     }
 }
