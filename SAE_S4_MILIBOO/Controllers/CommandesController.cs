@@ -34,14 +34,14 @@ namespace SAE_S4_MILIBOO.Controllers
         [ActionName("GetById")]
         public async Task<ActionResult<Commande>> GetCommande(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
+            var commande = await dataRepository.GetByIdAsync(id);
 
-            if (produit == null)
+            if (commande == null)
             {
                 return NotFound();
             }
 
-            return produit;
+            return commande;
         }
 
         // GET: api/Commandes/5

@@ -22,15 +22,13 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         }
 
         public async Task<ActionResult<Client>> GetByIdAsync(int id)
-        {
-            var lescommandes = await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == id).ToListAsync();
-            
+        {          
             var leclient =  await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == id);
 
-            foreach(Commande saCommande in leclient.CommandesClientNavigation) 
-            {
-                saCommande.ClientCommandeNavigation = null;
-            }
+            //foreach (Commande saCommande in leclient.CommandesClientNavigation) 
+            //{
+            //    saCommande.ClientCommandeNavigation = null;
+            //}
 
             return leclient;
         }
