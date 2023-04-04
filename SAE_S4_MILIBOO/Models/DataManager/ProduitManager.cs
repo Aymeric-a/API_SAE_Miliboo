@@ -109,6 +109,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             var category = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(p => p.Categorieid == categorieId);
 
+            if(category == null)
+            {
+                return new List<Produit>();
+            }
             var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
             List<Categorie> allCategoriesChilds = allCategoriesChildsVar.Value;
 
