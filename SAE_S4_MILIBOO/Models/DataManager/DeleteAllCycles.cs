@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Documents;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
@@ -67,79 +68,50 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
             return list;
         }
-
-        public List<Produit> test(List<Produit> list)
-        {
-            foreach (Produit p in list)
-            {
-                foreach (Variante v in p.VariantesProduitNavigation)
-                {
-                    v.ProduitVarianteNavigation = null;
-                }
-            }
-
-            return list;
-        }
-
-        public T DeleteAllCyclesFunction<T>(T t)
+        public T DeleteAllCyclesFunction<T>(T item)
         {
             Type type = typeof(T);
-            PropertyInfo[] properties = type.GetProperties();
 
+            var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
             foreach (PropertyInfo property in properties)
             {
-                if (property.Name.EndsWith("Navigation"))
+                var firstNavigation = property.GetValue(item);
+                Type typeCycle = null;
+                if (firstNavigation != null)
                 {
-                    object value = property.GetValue(t);
-                    if (value != null)
+                    if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                     {
-                        Type typeCycle = value.GetType();
-                        PropertyInfo[] propertiesCycle = typeCycle.GetProperties();
+                        typeCycle = firstNavigation.GetType().GetGenericArguments()[0];
+                    }
+                    else
+                    {
+                        typeCycle = firstNavigation.GetType();
+                    }
 
-                        foreach (PropertyInfo propertyCycle in propertiesCycle)
+                    var propertiesCycle = typeCycle.GetProperties().Where(p => p.Name.EndsWith("Navigation") && p.Name.StartsWith(type.Name));
+
+                    foreach (PropertyInfo propertyCycle in propertiesCycle)
+                    {
+                        object secondNavigation = null;
+                        if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                         {
-                            if (propertyCycle.Name.EndsWith("Navigation"))
+                            foreach (var firstNav in (IEnumerable)firstNavigation)
                             {
-                                Console.WriteLine("NAME : " + propertyCycle.Name);
-                                propertyCycle.SetValue(value, null);
+                                secondNavigation = propertyCycle.GetValue(firstNav);
+                                propertyCycle.SetValue(firstNav, null);
+
                             }
+                        }
+                        else
+                        {
+                            secondNavigation = propertyCycle.GetValue(firstNavigation);
+                            propertyCycle.SetValue(firstNavigation, null);
                         }
                     }
                 }
             }
-            return t;
+            return item;
         }
-
-        //public async Task<List<T>> ChargeComposantsListe<T>(Func<int, Task<T>> functionToAddNaviguations, List<string> naviguations, int id)
-        //{
-        //    List<T> listFromManager = functionToAddNaviguations(id);
-
-        //    Type type = typeof(T);
-        //    PropertyInfo[] properties = type.GetProperties();
-
-        //    foreach (T item in listFromManager)
-        //    {
-        //        foreach (PropertyInfo property in properties)
-        //        {
-        //            if (property.Name.EndsWith("Navigation") && naviguations.Contains(property.Name))
-        //            {   
-        //                foreach (string manager in naviguations)
-        //                {
-        //                    Type managerType = Type.GetType(manager + "Manager");
-        //                    object managerInstance = Activator.CreateInstance(managerType);
-
-        //                    Type DBContextType = Type.GetType(char.ToUpper(manager[0]) + manager.Substring(1) + "s");
-        //                    object DBContextInstance = Activator.CreateInstance(managerType);
-
-        //                    var dbSet = milibooDBContext.GetType().GetProperty(DBContextInstance.ToString()).GetValue(milibooDBContext) as DbSet<Variante>;
-        //                    var result = dbSet.ToList();
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return listFromManager;
-        //}
 
         public T ChargeComposants<T>(T item, List<string> naviguations)
         {
@@ -156,11 +128,43 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 object managerInstance = Activator.CreateInstance(managerType);
 
                 var dbSetProperty = typeof(MilibooDBContext).GetProperty(manager + "s");
+                if (navToLoad == "Avis")
+                {
+                    dbSetProperty = typeof(MilibooDBContext).GetProperty(manager);
+                }
+
                 var dbSetInstance = dbSetProperty.GetValue(milibooDBContext);
                 var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
             }
 
             return item;
+        }
+
+        public List<T> ChargeComposants<T>(List<T> list, List<string> naviguations)
+        {
+            //T fromManager = functionToAddNaviguations(id);
+
+            foreach (string navToLoad in naviguations)
+            {
+                string manager = navToLoad;
+                string typeName = "SAE_S4_MILIBOO.Models.DataManager." + manager + "Manager";
+                string entityTypeString = "SAE_S4_MILIBOO.Models.EntityFramework." + manager;
+
+                Type managerType = Type.GetType(typeName);
+
+                object managerInstance = Activator.CreateInstance(managerType);
+
+                var dbSetProperty = typeof(MilibooDBContext).GetProperty(manager + "s");
+                if (navToLoad == "Avis")
+                {
+                    dbSetProperty = typeof(MilibooDBContext).GetProperty(manager);
+                }
+
+                var dbSetInstance = dbSetProperty.GetValue(milibooDBContext);
+                var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
+            }
+
+            return list;
         }
     }
 }
