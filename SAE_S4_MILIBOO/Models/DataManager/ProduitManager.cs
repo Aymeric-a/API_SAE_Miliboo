@@ -56,41 +56,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task<ActionResult<Produit>> GetProduitById(int produitId)
         {
             var leProduit = await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
-            var variantes = await milibooDBContext.Variantes.ToListAsync();
-            variantes = deleteAllCycles.DeleteAllCyclesFunction(variantes);
 
-            //List<string> naviguations = new List<string>() { "Variante" };
-            //int rank = 0;
-            //Produit TFromManagerValue = leProduit;
-
-            //PropertyInfo[] properties = typeof(Produit).GetProperties();
-
-            //foreach (PropertyInfo property in properties)
-            //{
-            //    if (property.Name.EndsWith("Navigation") && property.Name.StartsWith(naviguations[0]))
-            //    {
-            //        foreach (string manager in naviguations)
-            //        {
-            //            Console.WriteLine(typeof(VarianteManager));
-
-            //            string typeName = "SAE_S4_MILIBOO.Models.DataManager." + manager + "Manager";
-            //            Type managerType = Type.GetType(typeName);
-            //            object managerInstance = Activator.CreateInstance(managerType);
-
-            //            string DBContextInstance = "Variantes";
-
-            //            var dbSet = milibooDBContext.GetType().GetProperty(DBContextInstance.ToString()).GetValue(milibooDBContext) as DbSet<Variante>;
-            //            var navAdd = dbSet.ToList();
-            //            navAdd = deleteAllCycles.DeleteAllCyclesFunction(navAdd);
-            //            Console.WriteLine("rrrrrrrrrrrrr : " + navAdd[0].ProduitVarianteNavigation);
-            //            navAdd[0].ProduitVarianteNavigation = null;
-
-            //            //Console.WriteLine(navAdd.Count());
-            //        }
-            //        rank++;
-            //        Console.WriteLine(rank);
-            //    }
-            //}
+            deleteAllCycles.ChargeComposants(leProduit, new List<string> { "Categorie" });
 
             return leProduit;
         }

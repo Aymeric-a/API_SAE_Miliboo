@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -21,46 +23,61 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public List<T> DeleteAllCyclesFunction<T>(List<T> list)
         {
             Type type = typeof(T);
-            Console.WriteLine(type.Name + "Navigation");
-            PropertyInfo[] properties = type.GetProperties();
 
             foreach (T item in list)
             {
+                var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
                 foreach (PropertyInfo property in properties)
                 {
-                    if (property.Name.EndsWith("Navigation"))
+                    var firstNavigation = property.GetValue(item);
+                    Type typeCycle = null;
+                    if (firstNavigation != null)
                     {
-                        var firstNaviguation = property.GetValue(item); 
-                        if (firstNaviguation != null) 
+                        if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                         {
-                            Type typeCycle = null;
-                            if (firstNaviguation.GetType().IsGenericType && firstNaviguation.GetType().GetGenericTypeDefinition() == typeof(List<>))
+                            typeCycle = firstNavigation.GetType().GetGenericArguments()[0];
+                        }
+                        else
+                        {
+                            typeCycle = firstNavigation.GetType();
+                        }
+
+                        var propertiesCycle = typeCycle.GetProperties().Where(p => p.Name.EndsWith("Navigation") && p.Name.StartsWith(type.Name));
+
+                        foreach (PropertyInfo propertyCycle in propertiesCycle)
+                        {
+                            object secondNavigation = null;
+                            if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                             {
-                                typeCycle = firstNaviguation.GetType().GetGenericArguments()[0];
+                                foreach (var firstNav in (IEnumerable)firstNavigation)
+                                {
+                                    secondNavigation = propertyCycle.GetValue(firstNav);
+                                    propertyCycle.SetValue(firstNav, null);
+
+                                }
                             }
                             else
                             {
-                                typeCycle = firstNaviguation.GetType();
-                            }
-                            PropertyInfo[] propertiesCycle = typeCycle.GetProperties();
-
-                            foreach (PropertyInfo propertyCycle in propertiesCycle)
-                            {
-                                if (propertyCycle.Name.EndsWith("Navigation") && propertyCycle.Name.StartsWith(type.Name))
-                                {
-                                    var secondNavigation = propertyCycle.GetValue(firstNaviguation);
-                                    if (secondNavigation != null)
-                                    {
-                                        Console.WriteLine(secondNavigation.GetType());
-                                        Variante v = null;
-                                        propertyCycle.SetValue(secondNavigation, new Variante());
-                                    }
-                                }
+                                secondNavigation = propertyCycle.GetValue(firstNavigation);
+                                propertyCycle.SetValue(firstNavigation, null);
                             }
                         }
-                    }
+                    }                   
                 }
             }
+            return list;
+        }
+
+        public List<Produit> test(List<Produit> list)
+        {
+            foreach (Produit p in list)
+            {
+                foreach (Variante v in p.VariantesProduitNavigation)
+                {
+                    v.ProduitVarianteNavigation = null;
+                }
+            }
+
             return list;
         }
 
@@ -124,43 +141,26 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         //    return listFromManager;
         //}
 
-        public async Task<T> ChargeComposants<T>(Func<int, Task<ActionResult<T>>> functionToAddNaviguations, List<string> naviguations, int id)
+        public T ChargeComposants<T>(T item, List<string> naviguations)
         {
-            int rank = 0;
-            var TFromManager = await functionToAddNaviguations(id);
-            T TFromManagerValue = TFromManager.Value;
+            //T fromManager = functionToAddNaviguations(id);
 
-            Type type = typeof(T);
-
-            PropertyInfo[] properties = type.GetProperties();
-
-            foreach (PropertyInfo property in properties)
+            foreach (string navToLoad in naviguations)
             {
-                if (property.Name.EndsWith("Navigation") && property.Name.StartsWith(naviguations[0]))
-                {
-                    foreach (string manager in naviguations)    
-                    {
-                        Console.WriteLine(typeof(VarianteManager));
+                string manager = navToLoad;
+                string typeName = "SAE_S4_MILIBOO.Models.DataManager." + manager + "Manager";
+                string entityTypeString = "SAE_S4_MILIBOO.Models.EntityFramework." + manager;
 
-                        string typeName = "SAE_S4_MILIBOO.Models.DataManager." + manager + "Manager";
-                        Type managerType = Type.GetType(typeName);
-                        object managerInstance = Activator.CreateInstance(managerType);
+                Type managerType = Type.GetType(typeName);
 
-                        string DBContextInstance = "Variantes";
+                object managerInstance = Activator.CreateInstance(managerType);
 
-                        var dbSet = milibooDBContext.GetType().GetProperty(DBContextInstance.ToString()).GetValue(milibooDBContext) as DbSet<Variante>;
-                        var navAdd = dbSet.ToList();
-                        Console.WriteLine("rrrrrrrrrrrrr : " + navAdd[0].ProduitVarianteNavigation);
-                        navAdd = DeleteAllCyclesFunction(navAdd);
-
-                        TFromManagerValue = TFromManager.Value;
-                        //Console.WriteLine(navAdd.Count());
-                    }
-                    rank++;
-                    Console.WriteLine(rank);
-                }
+                var dbSetProperty = typeof(MilibooDBContext).GetProperty(manager + "s");
+                var dbSetInstance = dbSetProperty.GetValue(milibooDBContext);
+                var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
             }
-            return DeleteAllCyclesFunction(TFromManagerValue);
+
+            return item;
         }
     }
 }
