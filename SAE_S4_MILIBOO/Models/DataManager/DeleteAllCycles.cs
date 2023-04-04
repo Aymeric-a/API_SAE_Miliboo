@@ -52,7 +52,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                                 if (propertyCycle.Name.EndsWith("Navigation") && propertyCycle.Name.StartsWith(type.Name))
                                 {
                                     Console.WriteLine("00000000000000");
-                                    object valueCycle = propertyCycle.GetValue(item);
+                                    var valueCycle = propertyCycle.GetValue(item);
                                     if (valueCycle != null)
                                     {
                                         Console.WriteLine("NAME : " + propertyCycle.Name);
