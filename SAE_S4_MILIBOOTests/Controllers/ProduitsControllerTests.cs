@@ -745,5 +745,5 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             Assert.IsNotNull(actionResult.Value);
             Assert.AreEqual(4, actionResult.Value);
         }
-    } 
+    }
 }

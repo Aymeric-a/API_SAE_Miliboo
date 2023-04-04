@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
+using System.Drawing.Drawing2D;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
@@ -35,13 +36,24 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Commande>>> GetAllCommandeByClientId(int clientId)
         {
-            return await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == clientId).ToListAsync();
-            
+            return await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == clientId).ToListAsync();   
         }
 
         public async Task<ActionResult<IEnumerable<Commande>>> GetAllCommandeByEtat(int etatId)
         {
             return await milibooDBContext.Commandes.Where<Commande>(c => c.EtatId == etatId).ToListAsync();
+        }
+
+        public async Task<ActionResult<IEnumerable<Commande>>> GetPanierByIdClient(int clientId)
+        {
+            var commandesByClient = await GetAllCommandeByClientId(clientId);
+            var commandesByEtat = await GetAllCommandeByEtat(1);
+
+            List<Commande> commandesByClientList = commandesByClient.Value.ToList();
+            List<Commande> commandesByEtatList = commandesByEtat.Value.ToList();
+            List<Commande> finalList = commandesByClientList.Intersect(commandesByEtatList).ToList();
+
+            return finalList;   
         }
 
         public async Task<ActionResult<Commande>> GetByIdAsync(int id)
