@@ -59,6 +59,20 @@ namespace SAE_S4_MILIBOO.Controllers
             return Client;
         }
 
+        [HttpGet]
+        [ActionName("GetByAdresse")]
+        public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
+        {
+            var Client = await dataRepository.GetClientByIdAdresse(idAdresse);
+
+            if (Client == null)
+            {
+                return NotFound();
+            }
+
+            return Client;
+        }
+
         // GET: api/Clients/0000000000
         [HttpGet]
         [ActionName("GetByPortable")]
