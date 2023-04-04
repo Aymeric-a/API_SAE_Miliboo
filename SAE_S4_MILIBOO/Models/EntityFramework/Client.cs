@@ -12,7 +12,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             
         }
 
-        
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("clt_id")]
         public int ClientId { get; set; }
 

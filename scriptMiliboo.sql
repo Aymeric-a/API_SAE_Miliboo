@@ -404,6 +404,8 @@ INSERT INTO t_e_client_clt(clt_id, clt_email, clt_password, clt_nom, clt_prenom,
 (49,'JohnstonHiroko@gmail.com','PSY17EVL7TK','Johnston','Hiroko','0724731032','FALSE','FALSE',30,'2022-01-07','2022-04-25','HOMME'),
 (50,'AndersonBrooke@gmail.com','PCB67CCR8BS','Anderson','Brooke','0608546357','TRUE','TRUE',30,'2020-01-25','2023-02-09','HOMME');
 
+ALTER SEQUENCE t_e_client_clt_clt_id_seq RESTART WITH 51;
+
 insert into t_e_couleur_clr(clr_id,clr_libelle, clr_code) values
 (1,'bleu clair','#ADD8E6'),
 (2,'bleu foncé','#00008B'),
