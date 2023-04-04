@@ -37,21 +37,6 @@ namespace SAE_S4_MILIBOO.Controllers
             return adresse;
         }
 
-        // GET: api/Adresses/5
-        [HttpGet]
-        [ActionName("GetByVille")]
-        public async Task<ActionResult<IEnumerable<Adresse>>> GetAdresseByVille(string ville)
-        {
-            var adresse = await dataRepository.GetAllByVilleAsync(ville);
-
-            if (adresse == null)
-            {
-                return NotFound();
-            }
-
-            return adresse;
-        }
-
         // PUT: api/Adresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -105,9 +90,5 @@ namespace SAE_S4_MILIBOO.Controllers
             return NoContent();
         }
 
-        //private bool AdresseExists(int id)
-        //{
-        //    return _context.Adresses.Any(e => e.AdresseId == id);
-        //}
     }
 }

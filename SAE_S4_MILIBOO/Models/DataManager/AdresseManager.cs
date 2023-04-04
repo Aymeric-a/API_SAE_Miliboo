@@ -29,11 +29,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public async Task<ActionResult<IEnumerable<Adresse>>> GetAllByVilleAsync(string ville)
-        {
-            return await milibooDBContext.Adresses.Where<Adresse>(c => c.Ville.ToLower() == ville.ToLower()).ToListAsync();
-        }
-
         public async Task<ActionResult<Adresse>> GetByIdAsync(int id)
         {
             return await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(c => c.AdresseId == id);
