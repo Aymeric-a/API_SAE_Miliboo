@@ -30,33 +30,30 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 {
                     if (property.Name.EndsWith("Navigation"))
                     {
-                        var value = property.GetValue(item); 
-                        if (value != null) 
+                        var firstNaviguation = property.GetValue(item); 
+                        if (firstNaviguation != null) 
                         {
                             Type typeCycle = null;
-                            if (value.GetType().IsGenericType && value.GetType().GetGenericTypeDefinition() == typeof(List<>))
+                            if (firstNaviguation.GetType().IsGenericType && firstNaviguation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                             {
-                                typeCycle = value.GetType().GetGenericArguments()[0];
+                                typeCycle = firstNaviguation.GetType().GetGenericArguments()[0];
                             }
                             else
                             {
-                                typeCycle = value.GetType();
+                                typeCycle = firstNaviguation.GetType();
                             }
                             PropertyInfo[] propertiesCycle = typeCycle.GetProperties();
 
                             foreach (PropertyInfo propertyCycle in propertiesCycle)
                             {
-                                Console.WriteLine("On veut : VariantesProduitNavigation");
-                                Console.WriteLine("NAME : " + type.Name);
-                                Console.WriteLine("NAME : " + typeCycle.Name);
                                 if (propertyCycle.Name.EndsWith("Navigation") && propertyCycle.Name.StartsWith(type.Name))
                                 {
-                                    Console.WriteLine("00000000000000");
-                                    var valueCycle = propertyCycle.GetValue(item);
-                                    if (valueCycle != null)
+                                    var secondNavigation = propertyCycle.GetValue(firstNaviguation);
+                                    if (secondNavigation != null)
                                     {
-                                        Console.WriteLine("NAME : " + propertyCycle.Name);
-                                        propertyCycle.SetValue(value, null);
+                                        Console.WriteLine(secondNavigation.GetType());
+                                        Variante v = null;
+                                        propertyCycle.SetValue(secondNavigation, new Variante());
                                     }
                                 }
                             }
