@@ -33,6 +33,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Mail == email);
         }
 
+        public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
+        {
+            var a = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == idAdresse);
+            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == a.AdresseId);
+        }
+
         public async Task<ActionResult<Client>> GetClientByPortable(string portable)
         {
             return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Portable == portable);

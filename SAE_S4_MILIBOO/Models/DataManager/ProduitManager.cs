@@ -57,12 +57,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             var leProduit = await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
 
-            deleteAllCycles.ChargeComposants(leProduit, new List<string> { "Categorie" });
+            deleteAllCycles.ChargeComposants(leProduit, new List<string> { "Categorie", "..." }); //SURCHARGE 1
+            deleteAllCycles.ChargeComposants(new List<Produit>() { leProduit }, new List<string> { "Categorie", "..." }); //SURCHARGE 2
+
+            deleteAllCycles.DeleteAllCyclesFunction(leProduit); //SURCHARGE 1
+            deleteAllCycles.DeleteAllCyclesFunction(new List<Produit>() { leProduit }); //SURCHARGE 2
 
             return leProduit;
         }
-
-
 
 
         public async Task<ActionResult<IEnumerable<Produit>>> GetAllByCategorie(int categorieId)
