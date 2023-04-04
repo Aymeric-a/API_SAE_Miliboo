@@ -63,6 +63,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(Client entity)
         {
+            //AdresseManager adresseManager = new AdresseManager();
+            //var adresseVar = await adresseManager.GetByIdAsync(1);
+            //Adresse adresse = adresseVar.Value;
+
+            //int nbAdresse = milibooDBContext.Adresses.Max(a => a.AdresseId);
+            //adresse.AdresseId = nbAdresse + 1;
+            //entity.Ad
+
+
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }
