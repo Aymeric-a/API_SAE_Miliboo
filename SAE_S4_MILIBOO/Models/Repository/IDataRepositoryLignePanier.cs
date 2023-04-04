@@ -10,6 +10,8 @@ namespace SAE_S4_MILIBOO.Models.Repository
 
         Task DeleteAsync(TEntity entity);
 
+        //Task DeleteByClientAsync(int idClient);
+
         Task<ActionResult<IEnumerable<TEntity>>> GetLignePaniersByClientId(int idClient);
 
         Task<ActionResult<TEntity>> GetByIdAsync(int id);

@@ -10,6 +10,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     {
         readonly MilibooDBContext? milibooDBContext;
 
+        private readonly IDataRepositoryCommande<Commande> dataRepository;
+
         public CommandeManager() { }
 
         public CommandeManager(MilibooDBContext context)
@@ -19,6 +21,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(Commande entity)
         {
+            
+            var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
+
+
+
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }

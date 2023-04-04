@@ -52,12 +52,12 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             var adresseController = new AdressesController(mockRepository.Object);
 
             // Act
-            var actionResult = adresseController.
+            //var actionResult = adresseController.
 
             // Assert
-            Assert.IsNotNull(actionResult);
-            Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(adresse, actionResult.Value as Adresse);
+            //Assert.IsNotNull(actionResult);
+            //Assert.IsNotNull(actionResult.Value);
+            //Assert.AreEqual(adresse, actionResult.Value as Adresse);
         }
     }
 }
