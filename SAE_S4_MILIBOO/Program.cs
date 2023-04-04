@@ -20,7 +20,7 @@ namespace SAE_S4_MILIBOO
 
             // Add services to the container.
             builder.Services.AddDbContext<MilibooDBContext>(options =>
-                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDLocale")));
+                    options.UseNpgsql(builder.Configuration.GetConnectionString("BDDistante")));
 
             //builder.Services.AddControllers().AddNewtonsoftJson(options =>
             //    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

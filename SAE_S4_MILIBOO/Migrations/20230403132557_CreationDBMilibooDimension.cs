@@ -8,7 +8,7 @@ namespace SAE_S4_MILIBOO.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql("CREATE TYPE tdimensions AS ( x integer, y integer, z integer)");
+            //migrationBuilder.Sql("CREATE TYPE tdimensions AS ( x integer, y integer, z integer)");
 
             migrationBuilder.Sql("ALTER TABLE t_e_produit_prd ADD prd_dim_totale tdimensions NULL");
             migrationBuilder.Sql("ALTER TABLE t_e_produit_prd ADD prd_dim_dossier tdimensions NULL");
