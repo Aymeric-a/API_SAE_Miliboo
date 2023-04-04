@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
 using System.Collections.Generic;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Reflection;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
@@ -30,7 +32,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
             varianteManager = new VarianteManager(context);
             categorieManager = new CategorieManager(context);
-            deleteAllCycles = new DeleteAllCycles();
+            deleteAllCycles = new DeleteAllCycles(context);
         }
 
         public async Task AddAsync(Produit entity)
@@ -48,13 +50,47 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task<ActionResult<IEnumerable<Produit>>> GetAll()
         {
             var prd = await milibooDBContext.Produits.ToListAsync();
-            deleteAllCycles.ChargeComposants(prd, new List<string>{"variante"});
             return prd;
         }
 
         public async Task<ActionResult<Produit>> GetProduitById(int produitId)
         {
             var leProduit = await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(p => p.IdProduit == produitId);
+            var variantes = await milibooDBContext.Variantes.ToListAsync();
+            variantes = deleteAllCycles.DeleteAllCyclesFunction(variantes);
+
+            //List<string> naviguations = new List<string>() { "Variante" };
+            //int rank = 0;
+            //Produit TFromManagerValue = leProduit;
+
+            //PropertyInfo[] properties = typeof(Produit).GetProperties();
+
+            //foreach (PropertyInfo property in properties)
+            //{
+            //    if (property.Name.EndsWith("Navigation") && property.Name.StartsWith(naviguations[0]))
+            //    {
+            //        foreach (string manager in naviguations)
+            //        {
+            //            Console.WriteLine(typeof(VarianteManager));
+
+            //            string typeName = "SAE_S4_MILIBOO.Models.DataManager." + manager + "Manager";
+            //            Type managerType = Type.GetType(typeName);
+            //            object managerInstance = Activator.CreateInstance(managerType);
+
+            //            string DBContextInstance = "Variantes";
+
+            //            var dbSet = milibooDBContext.GetType().GetProperty(DBContextInstance.ToString()).GetValue(milibooDBContext) as DbSet<Variante>;
+            //            var navAdd = dbSet.ToList();
+            //            navAdd = deleteAllCycles.DeleteAllCyclesFunction(navAdd);
+            //            Console.WriteLine("rrrrrrrrrrrrr : " + navAdd[0].ProduitVarianteNavigation);
+            //            navAdd[0].ProduitVarianteNavigation = null;
+
+            //            //Console.WriteLine(navAdd.Count());
+            //        }
+            //        rank++;
+            //        Console.WriteLine(rank);
+            //    }
+            //}
 
             return leProduit;
         }

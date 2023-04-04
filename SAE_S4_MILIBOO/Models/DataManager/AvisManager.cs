@@ -18,7 +18,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             milibooDBContext = context;
 
-            deleteAllCycles = new DeleteAllCycles();
+            deleteAllCycles = new DeleteAllCycles(context);
         }
         public async Task AddAsync(Avis entity)
         {
