@@ -113,6 +113,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return item;
         }
 
+        //public T DeleteAllSelfCyclesFunction_CaseCategorie<T>(T item)
+        //{
+
+        //}
+
         public T ChargeComposants<T>(T item, List<string> naviguations)
         {
             //T fromManager = functionToAddNaviguations(id);
@@ -137,7 +142,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
             }
 
-            return item;
+            return DeleteAllCyclesFunction(item);
         }
 
         public List<T> ChargeComposants<T>(List<T> list, List<string> naviguations)
@@ -162,9 +167,32 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
                 var dbSetInstance = dbSetProperty.GetValue(milibooDBContext);
                 var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
+
+                dbSetList = DeleteFirstNaviguation(dbSetList);
+
+                if (dbSetList[0].GetType() == typeof(Categorie))
+                {
+                    foreach (Categorie categorie in dbSetList)
+                    {
+                        categorie.CategorieParentNavigation = null;
+                    }
+                }
             }
 
             return list;
+        }
+
+        public T DeleteFirstNaviguation<T>(T item)
+        {
+            Type type = typeof(T);
+
+            var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
+            foreach (PropertyInfo property in properties)
+            {
+                var firstNavigation = property.GetValue(item);
+                property.SetValue(item, null);
+            }
+            return item;
         }
     }
 }
