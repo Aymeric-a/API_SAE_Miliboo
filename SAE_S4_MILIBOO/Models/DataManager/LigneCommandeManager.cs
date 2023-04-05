@@ -34,7 +34,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             DeleteAllCycles delete = new DeleteAllCycles(milibooDBContext);
 
             lignesCommande = delete.ChargeComposants(lignesCommande, new List<string>() { "Variante" });
-            lignesCommande = delete.DeleteAllCyclesFunction(lignesCommande);
+            foreach(LigneCommande lcom in lignesCommande)
+            {
+                lcom.VarianteLigneCommandeNavigation.LignesCommandeVarianteNavigation = null;
+            }
 
             return lignesCommande;
         }

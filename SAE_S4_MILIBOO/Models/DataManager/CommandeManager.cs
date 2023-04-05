@@ -32,7 +32,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             int idCommande = commandeVar.Entity.CommandeId;
             
             var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
-
+            
 
             foreach(LignePanier lpanier in lpaniers)
             {
