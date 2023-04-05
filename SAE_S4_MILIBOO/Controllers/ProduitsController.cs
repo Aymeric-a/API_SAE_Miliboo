@@ -23,10 +23,9 @@ namespace SAE_S4_MILIBOO.Controllers
 
         readonly DeleteAllCycles? deleteAllCycles;
 
-        public ProduitsController(IDataRepositoryProduits<Produit> dataRepo, MilibooDBContext context)
+        public ProduitsController(IDataRepositoryProduits<Produit> dataRepo)
         {
             dataRepository = dataRepo;
-            deleteAllCycles = new DeleteAllCycles(context);
         }
 
         // GET: api/Produits

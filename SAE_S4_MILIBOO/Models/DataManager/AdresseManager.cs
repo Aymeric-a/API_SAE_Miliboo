@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
+using System.Net;
 
 
 namespace SAE_S4_MILIBOO.Models.DataManager
@@ -53,6 +54,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             entityToUpdate.Ville = entity.Ville;
 
             await milibooDBContext.SaveChangesAsync();
+        }
+
+        public async Task<ActionResult<Adresse>> GetAdresseByIdClient(int idClient)
+        {
+            var client = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
+            var adresseLivraison = await milibooDBContext.AdresseLivraisons.FirstOrDefaultAsync<AdresseLivraison>(adl => adl.ClientId == client.ClientId);
+            var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
+
+            return adresse;
         }
     }
 }

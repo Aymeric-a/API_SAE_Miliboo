@@ -64,7 +64,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             List<Commande> commandesByEtatList = commandesByEtat.Value.ToList();
             List<Commande> finalList = commandesByClientList.Intersect(commandesByEtatList).ToList();
 
-            Commande panier = finalList[0];
+            Commande panier = null;
+
+            if (finalList.Count != 0) 
+            {
+                panier = finalList[0];
+            }
 
             return panier;   
         }

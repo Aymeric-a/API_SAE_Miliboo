@@ -5,6 +5,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
 {
     public interface IDataRepositoryAdresse<TEntity>
     {
+        Task<ActionResult<Adresse>> GetAdresseByIdClient(int idClient);
         Task<ActionResult<TEntity>> GetByIdAsync(int id);
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entityToUpdate, TEntity entity);

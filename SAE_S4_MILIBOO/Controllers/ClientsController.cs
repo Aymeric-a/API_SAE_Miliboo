@@ -192,7 +192,9 @@ namespace SAE_S4_MILIBOO.Controllers
             return NoContent();
         }
 
-        async Task<ActionResult<Client>> ReplacePassword(string oldPassword, string newPassword, int idClient)
+        [HttpPut]
+        [ActionName("ReplacePassword")]
+        public async Task<ActionResult<Client>> ReplacePassword(string oldPassword, string newPassword, int idClient)
         {
             var client = await dataRepository.GetByIdAsync(idClient);
             Client c = client.Value;

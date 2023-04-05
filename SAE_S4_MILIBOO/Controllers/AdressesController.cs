@@ -79,15 +79,29 @@ namespace SAE_S4_MILIBOO.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAdresse(int id)
         {
-            var produit = await dataRepository.GetByIdAsync(id);
-            if (produit == null)
+            var adresse = await dataRepository.GetByIdAsync(id);
+            if (adresse == null)
             {
                 return NotFound();
             }
 
-            await dataRepository.DeleteAsync(produit.Value);
+            await dataRepository.DeleteAsync(adresse.Value);
 
             return NoContent();
+        }
+
+        [HttpGet]
+        [ActionName("GetAdresseByIdClient")]
+        public async Task<ActionResult<Adresse>> GetAdresseByIdClient(int idClient)
+        {
+            var adresse = await dataRepository.GetAdresseByIdClient(idClient);
+
+            if (adresse == null)
+            {
+                return NotFound();
+            }
+
+            return adresse;
         }
 
     }
