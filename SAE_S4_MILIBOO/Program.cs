@@ -45,6 +45,7 @@ namespace SAE_S4_MILIBOO
             builder.Services.AddScoped<IDataRepositoryListeSouhait<Liste>, ListeSouhaitManager>();
             builder.Services.AddScoped<IDataRepositoryPhoto<Photo>, PhotoManager>();
             builder.Services.AddScoped<IDataRepositoryCategorie<Categorie>, CategorieManager>();
+            builder.Services.AddScoped<IDataRepositoryLigneCommande<Commande>, LigneCommandeManager>();
 
 
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

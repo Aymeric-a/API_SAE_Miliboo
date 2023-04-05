@@ -337,6 +337,9 @@ insert into t_e_adresse_adr(adr_id, adr_rue, adr_numero, adr_cp, adr_ville, adr_
 ('73','Rue #574-7630 Integer Av','36','63000','Clermond-Ferrand','France','08 77 45 34 13',NULL),
 ('74','519-3084 Purus Road','47','38110','St-Victor de Cessieu','France','04 43 24 41 66',NULL);
 
+ALTER SEQUENCE t_e_adresse_adr_adr_id_seq RESTART WITH 75;
+
+
 -- bon
 INSERT INTO t_e_collection_cln(cln_id,cln_libelle,cln_prix,cln_promo) VALUES
 (1,'Ensemble table et chaises de jardin pliables en acacia massif CANOPEE',179,1),
@@ -636,6 +639,8 @@ prd_type_mousse_assise,prd_type_mousse_dossier,prd_densite_assise,prd_poids_coli
 (48,23,NULL,'Chaises design en velours côtelé beige et métal (lot de 2), ADDICT',NULL,NULL,NULL,NULL,NULL,'Métal',NULL,NULL,25,13,(50.5,53.5,82),(45.5,NULL,39),(50,38.5,41.5),(72,41,49),(NULL,NULL,NULL),(NULL,NULL,NULL), TRUE),
 (49,37,NULL,'Table à manger industrielle VALLEY',NULL,NULL,200,'acacia massif et métal',NULL,NULL,NULL,NULL,NULL,105,(200,100,76),(NULL,NULL,NULL),(NULL,NULL,NULL),(207,109,9),(NULL,NULL,NULL),(NULL,NULL,NULL),FALSE);
 
+ALTER SEQUENCE t_e_produit_prd_prd_id_seq RESTART WITH 50;
+
 --bon2
 
 insert into t_e_variante_vrt(vrt_id,clr_id,prd_id,vrt_prix,vrt_promo,vrt_stock,vrt_date_creation) values
@@ -844,6 +849,7 @@ insert into t_e_avis_avi(avi_id,vrt_id,clt_id,avi_titre,avi_texte,avi_note,avi_d
 (78,21,38,'Le canapé parfait pour mon salon', 'J''ai cherché pendant des mois le canapé parfait pour mon salon et j''ai finalement trouvé celui-ci. La couleur et le design correspondent parfaitement à ce que je voulais.',1,'2022-02-14'),
 (79,5,28,'Franchement, pas decu','Je vous le conseille',4,'2020-02-01');
 
+ALTER SEQUENCE t_e_avis_avi_avi_id_seq RESTART WITH 80;
 
 -- bon1.5
 INSERT INTO t_e_photo_pht(pht_id, avi_id, vrt_id, ctg_id, pht_chemin) values
@@ -1087,6 +1093,8 @@ INSERT INTO t_e_commande_cmd(cmd_id,eta_id,clt_id,adr_id,cmd_express,cmd_collect
 (99,4,49,73,TRUE,TRUE,0,'Livrer rapidement'),
 (100,3,50,74,FALSE,FALSE,0,'Rouler rapidement');
 
+ALTER SEQUENCE t_e_commande_cmd_cmd_id_seq RESTART WITH 101;
+
 insert into t_e_ligne_panier_lpn(lpn_id, clt_id, vrt_id, lpn_quantite) values 
 (1,35,77,5),
 (2,21,88,1),
@@ -1248,6 +1256,8 @@ insert into t_e_ligne_panier_lpn(lpn_id, clt_id, vrt_id, lpn_quantite) values
 (158,21,32,3),
 (159,28,34,4),
 (160,30,53,4);
+
+ALTER SEQUENCE t_e_ligne_panier_lpn_lpn_id_seq RESTART WITH 161;
 
 -- bon
 INSERT INTO t_e_ligne_commande_lcm(lcm_id,vrt_id,cmd_id,lcm_quantite) VALUES
@@ -1590,6 +1600,8 @@ INSERT INTO t_e_ligne_commande_lcm(lcm_id,vrt_id,cmd_id,lcm_quantite) VALUES
 (337,1,14,2),
 (338,71,48,3),
 (339,31,5,1);
+
+ALTER SEQUENCE t_e_ligne_commande_lcm_lcm_id_seq RESTART WITH 340;
 
 -- bon
 INSERT INTO t_e_cartebancaire_cbr(cbr_id,clt_id,cbr_numero,cbr_cryptogramme,cbr_date_expiration,cbr_nom,cbr_prenom) VALUES

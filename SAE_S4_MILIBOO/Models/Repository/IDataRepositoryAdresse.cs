@@ -9,5 +9,6 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task AddAsync(TEntity entity);
         Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
         Task DeleteAsync(TEntity entity);
+        Task<ActionResult<int>> AdressExists(Adresse adresse);
     }
 }

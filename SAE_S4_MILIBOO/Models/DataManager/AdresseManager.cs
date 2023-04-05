@@ -23,6 +23,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
+        public Task<ActionResult<int>> AdressExists(Adresse adresse)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task DeleteAsync(Adresse entity)
         {
             milibooDBContext.Adresses.Remove(entity);
