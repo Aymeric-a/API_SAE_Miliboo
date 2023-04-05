@@ -40,7 +40,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return leClient;
 
         }
-
         public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
         {
             var a = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == idAdresse);
