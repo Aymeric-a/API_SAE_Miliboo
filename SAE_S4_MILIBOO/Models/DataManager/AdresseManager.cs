@@ -53,11 +53,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Adresse>> GetAdresseByIdClient(int idClient)
         {
-            var client = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
-            var adresseLivraison = await milibooDBContext.AdresseLivraisons.FirstOrDefaultAsync<AdresseLivraison>(adl => adl.ClientId == client.ClientId);
+            var adresseLivraison = await milibooDBContext.AdresseLivraisons.FirstOrDefaultAsync<AdresseLivraison>(adl => adl.ClientId == idClient);
             var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
 
-            return adresse;
+            DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
+            return deleteAllCycles.DeleteAllCyclesFunction(adresse);    
         }
     }
 }
