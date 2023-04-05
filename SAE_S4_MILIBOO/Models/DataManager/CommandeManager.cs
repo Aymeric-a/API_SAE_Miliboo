@@ -21,17 +21,29 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public CommandeManager(MilibooDBContext context)
         {
             milibooDBContext = context;
+            ligneCommandeManager = new LigneCommandeManager(context);
+            lignePanierManager = new LignePanierManager(context);
         }
 
         public async Task AddAsync(Commande entity)
         {
+            var commandeVar = await milibooDBContext.AddAsync(entity);
+            await milibooDBContext.SaveChangesAsync();
+            int idCommande = commandeVar.Entity.CommandeId;
             
             var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
 
 
+            foreach(LignePanier lpanier in lpaniers)
+            {
+                LigneCommande lcommande = new LigneCommande();
+                lcommande.VarianteId = lpanier.VarianteId;
+                lcommande.Quantite = lpanier.Quantite;
+                lcommande.CommandeId = idCommande;
+                ligneCommandeManager.AddAsync(lcommande);
+                lignePanierManager.DeleteAsync(lpanier);
+            }
 
-            await milibooDBContext.AddAsync(entity);
-            await milibooDBContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Commande entity)

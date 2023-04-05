@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
 
 namespace SAE_S4_MILIBOO.Models.DataManager
 {
-    public class LigneCommandeManager : IDataRepositoryLigneCommande<Commande>
+    public class LigneCommandeManager : IDataRepositoryLigneCommande<LigneCommande>
     {
         readonly MilibooDBContext? milibooDBContext;
 
@@ -15,22 +16,30 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
         }
 
-        public Task AddAsync(Commande entity)
+        public async Task AddAsync(LigneCommande entity)
+        {
+            await milibooDBContext.AddAsync(entity);
+            await milibooDBContext.SaveChangesAsync();
+        }
+
+        public Task DeleteAsync(LigneCommande entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(Commande entity)
+        public async Task<ActionResult<IEnumerable<LigneCommande>>> GetByCommande(int idCommande)
         {
-            throw new NotImplementedException();
+            var lignesCommande = await milibooDBContext.LigneCommandes.Where<LigneCommande>(lcm => lcm.CommandeId == idCommande).ToListAsync();
+
+            DeleteAllCycles delete = new DeleteAllCycles(milibooDBContext);
+
+            lignesCommande = delete.ChargeComposants(lignesCommande, new List<string>() { "Variante" });
+            lignesCommande = delete.DeleteAllCyclesFunction(lignesCommande);
+
+            return lignesCommande;
         }
 
-        public Task<ActionResult<IEnumerable<Commande>>> GetByCommande(int idCommande)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateAsync(Commande entityToUpdate, Commande entity)
+        public Task UpdateAsync(LigneCommande entityToUpdate, LigneCommande entity)
         {
             throw new NotImplementedException();
         }
