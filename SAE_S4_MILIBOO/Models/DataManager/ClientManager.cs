@@ -41,6 +41,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         }
 
+        public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
+        {
+            var a = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == idAdresse);
+            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == a.AdresseId);
+        }
+
         public async Task<ActionResult<Client>> GetClientByPortable(string portable)
         {
             return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Portable == portable);
@@ -71,6 +77,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(Client entity)
         {
+            //AdresseManager adresseManager = new AdresseManager();
+            //var adresseVar = await adresseManager.GetByIdAsync(1);
+            //Adresse adresse = adresseVar.Value;
+
+            //int nbAdresse = milibooDBContext.Adresses.Max(a => a.AdresseId);
+            //adresse.AdresseId = nbAdresse + 1;
+            //entity.Ad
+
+
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }

@@ -51,7 +51,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return await milibooDBContext.Commandes.Where<Commande>(c => c.EtatId == etatId).ToListAsync();
         }
 
-        public async Task<ActionResult<IEnumerable<Commande>>> GetPanierByIdClient(int clientId)
+        public async Task<ActionResult<Commande>> GetPanierByIdClient(int clientId)
         {
             var commandesByClient = await GetAllCommandeByClientId(clientId);
             var commandesByEtat = await GetAllCommandeByEtat(1);
@@ -60,7 +60,9 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             List<Commande> commandesByEtatList = commandesByEtat.Value.ToList();
             List<Commande> finalList = commandesByClientList.Intersect(commandesByEtatList).ToList();
 
-            return finalList;   
+            Commande panier = finalList[0];
+
+            return panier;   
         }
 
         public async Task<ActionResult<Commande>> GetByIdAsync(int id)
