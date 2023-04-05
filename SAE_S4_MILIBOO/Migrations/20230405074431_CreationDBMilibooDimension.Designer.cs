@@ -12,8 +12,8 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    [Migration("20230324095929_CreationDBMiliboo")]
-    partial class CreationDBMiliboo
+    [Migration("20230405074431_CreationDBMilibooDimension")]
+    partial class CreationDBMilibooDimension
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -10,6 +10,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     {
         readonly MilibooDBContext? milibooDBContext;
 
+        readonly LignePanierManager? lignePanierManager;
+
+        readonly LigneCommandeManager? ligneCommandeManager;
+
         private readonly IDataRepositoryCommande<Commande> dataRepository;
 
         public CommandeManager() { }

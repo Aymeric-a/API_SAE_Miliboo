@@ -7,8 +7,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
     public class Avis
     {
         
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("avi_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AvisId { get; set; }
 
         [ForeignKey("VarianteId")]

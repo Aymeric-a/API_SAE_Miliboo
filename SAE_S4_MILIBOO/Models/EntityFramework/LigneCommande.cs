@@ -12,6 +12,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         }
 
         [Column("lcm_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LigneCommandeId { get; set; }
 
         [Column("vrt_id")]

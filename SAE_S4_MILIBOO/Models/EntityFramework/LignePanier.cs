@@ -13,6 +13,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
  
         [Column("lpn_id")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LigneId { get; set; }
 
         [Column("clt_id")]
