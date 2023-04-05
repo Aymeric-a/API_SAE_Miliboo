@@ -33,10 +33,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var leClient = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Mail == email);
 
             var adresseLivraison = await milibooDBContext.AdresseLivraisons.FirstOrDefaultAsync<AdresseLivraison>( adl => adl.ClientId == leClient.ClientId);
-            var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
+            if (adresseLivraison != null)
+            {
+                var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
 
-            adresseLivraison.ClientALivreNavigation = null;
-            adresse.AdressesClientsNavigation = null;
+                adresseLivraison.ClientALivreNavigation = null;
+                adresse.AdressesClientsNavigation = null;
+
+            }
+
             return leClient;
 
         }
