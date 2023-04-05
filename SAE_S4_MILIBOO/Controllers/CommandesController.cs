@@ -76,7 +76,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("GetPanierByClient")]
-        public async Task<ActionResult<IEnumerable<Commande>>> GetPanierByIdClient(int clientId)
+        public async Task<ActionResult<Commande>> GetPanierByIdClient(int clientId)
         {
             var panier = await dataRepository.GetPanierByIdClient(clientId);
 

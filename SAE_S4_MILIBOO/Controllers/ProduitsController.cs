@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using SAE_S4_MILIBOO.Models.DataManager;
 using SAE_S4_MILIBOO.Models.EntityFramework;
 using SAE_S4_MILIBOO.Models.Repository;
 
@@ -20,9 +21,12 @@ namespace SAE_S4_MILIBOO.Controllers
     {
         private readonly IDataRepositoryProduits<Produit> dataRepository;
 
-        public ProduitsController(IDataRepositoryProduits<Produit> dataRepo)
+        readonly DeleteAllCycles? deleteAllCycles;
+
+        public ProduitsController(IDataRepositoryProduits<Produit> dataRepo, MilibooDBContext context)
         {
             dataRepository = dataRepo;
+            deleteAllCycles = new DeleteAllCycles(context);
         }
 
         // GET: api/Produits
@@ -39,6 +43,7 @@ namespace SAE_S4_MILIBOO.Controllers
         public async Task<ActionResult<Produit>> GetProduit(int id)
         {
             var produit = await dataRepository.GetProduitById(id);
+            //produit = deleteAllCycles.DeleteAllCyclesFunction(produit);
 
             if (produit == null)
             {
