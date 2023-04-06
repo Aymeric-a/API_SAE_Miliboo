@@ -18,7 +18,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(LigneCommande entity)
         {
-            entity.LigneAppartientACommandeNavigation = null;
+            entity.CommandeLigneCommandeNavigation = null;
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }

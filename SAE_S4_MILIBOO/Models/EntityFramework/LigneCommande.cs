@@ -25,10 +25,14 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("lcm_quantite")]
         public int Quantite { get; set; }
 
-        //Lien vers les commandes
-        [InverseProperty("LignesDansLaCommandeNavigation")]
+        ////Lien vers les commandes
+        //[InverseProperty("LignesDansLaCommandeNavigation")]
+        //[JsonIgnore]
+        //public virtual Commande? LigneAppartientACommandeNavigation { get; set; } = null!;
+
+        [InverseProperty("LigneCommandeCommandeNavigation")]
         [JsonIgnore]
-        public virtual Commande? LigneAppartientACommandeNavigation { get; set; } = null!;
+        public virtual Commande? CommandeLigneCommandeNavigation { get; set; } = null!;
 
         //Lien vers les variantes
         [InverseProperty("LignesCommandeVarianteNavigation")]

@@ -24,9 +24,24 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public Task<ActionResult<int>> AdressExists(Adresse adresse)
+        public async Task<ActionResult<int>> AdressExists(Adresse adresse)
         {
-            throw new NotImplementedException();
+            string numeroNouvelleAdresse = adresse.Rue.Split(' ', 2)[0];
+            string rueNouvelleAdresse = adresse.Rue.Split(' ', 2)[1];
+
+            var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == adresse.Cp && ad.Rue == rueNouvelleAdresse && ad.Numero == numeroNouvelleAdresse);
+
+            if (adresseToCheck != null)
+            {
+                return adresseToCheck.AdresseId;
+            }
+            else
+            {
+                adresse.Rue = rueNouvelleAdresse;
+                adresse.Numero= numeroNouvelleAdresse;
+                await this.AddAsync(adresse);
+                return -1;
+            }
         }
 
         public async Task DeleteAsync(Adresse entity)

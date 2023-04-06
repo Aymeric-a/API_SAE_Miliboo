@@ -252,8 +252,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_lignecommande_variante");
 
-                entity.HasOne(d => d.LigneAppartientACommandeNavigation)
-                    .WithMany(p => p.LignesDansLaCommandeNavigation)
+                entity.HasOne(d => d.CommandeLigneCommandeNavigation)
+                    .WithMany(p => p.LigneCommandeCommandeNavigation)
                     .HasForeignKey(d => d.CommandeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_lignecommande_commande");

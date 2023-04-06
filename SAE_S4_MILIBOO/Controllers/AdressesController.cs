@@ -37,6 +37,20 @@ namespace SAE_S4_MILIBOO.Controllers
             return adresse;
         }
 
+        [HttpGet]
+        [ActionName("CheckAdresse")]
+        public async Task<ActionResult<int>> CheckAdresse(Adresse adresse)
+        {
+            var result = await dataRepository.AdressExists(adresse);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            return result;
+        }
+
         // PUT: api/Adresses/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

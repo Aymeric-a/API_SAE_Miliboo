@@ -28,7 +28,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task AddAsync(Commande entity)
         {
             var commandeVar = await milibooDBContext.AddAsync(entity);
-            entity.AdresseCommandeNavigation = null;
             await milibooDBContext.SaveChangesAsync();
             int idCommande = commandeVar.Entity.CommandeId;
             
@@ -42,7 +41,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 lcommande.VarianteId = lpanier.VarianteId;
                 lcommande.Quantite = lpanier.Quantite;
                 lcommande.CommandeId = idCommande;
-                lcommande.LigneAppartientACommandeNavigation = null;
                 lcommanager.AddAsync(lcommande);
                 lignePanierManager.DeleteAsync(lpanier);
             }

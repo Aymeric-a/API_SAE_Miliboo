@@ -12,7 +12,7 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    [Migration("20230405074428_CreationDBMiliboo")]
+    [Migration("20230406074441_CreationDBMiliboo")]
     partial class CreationDBMiliboo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -805,8 +805,8 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.LigneCommande", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Commande", "LigneAppartientACommandeNavigation")
-                        .WithMany("LignesDansLaCommandeNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Commande", "CommandeLigneCommandeNavigation")
+                        .WithMany("LigneCommandeCommandeNavigation")
                         .HasForeignKey("CommandeId")
                         .IsRequired()
                         .HasConstraintName("fk_lignecommande_commande");
@@ -817,7 +817,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_lignecommande_variante");
 
-                    b.Navigation("LigneAppartientACommandeNavigation");
+                    b.Navigation("CommandeLigneCommandeNavigation");
 
                     b.Navigation("VarianteLigneCommandeNavigation");
                 });
@@ -974,7 +974,7 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Commande", b =>
                 {
-                    b.Navigation("LignesDansLaCommandeNavigation");
+                    b.Navigation("LigneCommandeCommandeNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Couleur", b =>
