@@ -28,34 +28,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             adresseManager = new AdresseManager(context);
         }
 
-        public async Task AddAsync(Commande entity, Adresse adresse)
-        {
-            LigneCommandeManager lcommanager = new LigneCommandeManager(new MilibooDBContext());
-            AdresseManager admanager = new AdresseManager(new MilibooDBContext());
-
-            var idAdresse = await admanager.AdressExists(adresse);
-
-            entity.AdresseId = idAdresse;
-
-            var commandeVar = await milibooDBContext.AddAsync(entity);
-            await milibooDBContext.SaveChangesAsync();
-            int idCommande = commandeVar.Entity.CommandeId;
-            
-            var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
-
-
-            foreach(LignePanier lpanier in lpaniers)
-            {
-                LigneCommande lcommande = new LigneCommande();
-                lcommande.VarianteId = lpanier.VarianteId;
-                lcommande.Quantite = lpanier.Quantite;
-                lcommande.CommandeId = idCommande;
-                lcommanager.AddAsync(lcommande);
-                lignePanierManager.DeleteAsync(lpanier);
-            }
-
-        }
-
         public async Task DeleteAsync(Commande entity)
         {
             var lcommande = await milibooDBContext.LigneCommandes.Where<LigneCommande>(lc => lc.CommandeId == entity.CommandeId).ToListAsync();
@@ -123,9 +95,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public Task AddAsync(Commande entity)
+        public async Task AddAsync(Commande entity)
         {
-            throw new NotImplementedException();
+            await milibooDBContext.AddAsync(entity);
+            await milibooDBContext.SaveChangesAsync();
         }
     }
 }

@@ -38,10 +38,10 @@ namespace SAE_S4_MILIBOO.Controllers
         }
 
         [HttpGet]
-        [ActionName("CheckAdresse")]
-        public async Task<ActionResult<int>> CheckAdresse([FromQuery]Adresse adresse)
+        [ActionName("GetAdresseByValues")]
+        public async Task<ActionResult<int>> GetAdresseByValues(string numero, string rue, string cp)
         {
-            var result = await dataRepository.AdressExists(adresse);
+            var result = await dataRepository.GetAdresseByValues(numero, rue, cp);
 
             if (result == null)
             {

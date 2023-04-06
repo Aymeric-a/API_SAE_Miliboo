@@ -27,22 +27,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public async Task<int> AdressExists(Adresse adresse)
-        {
-
-            var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == adresse.Cp && ad.Rue == adresse.Rue);
-
-            if (adresseToCheck != null)
-            {
-                return adresseToCheck.AdresseId;
-            }
-            else
-            {
-                await AddAsync(adresse);
-                return adresse.AdresseId;
-            }
-        }
-
         public async Task DeleteAsync(Adresse entity)
         {
             milibooDBContext.Adresses.Remove(entity);
@@ -77,6 +61,20 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
             return deleteAllCycles.DeleteAllCyclesFunction(adresse);    
+        }
+
+        public async Task<int> GetAdresseByValues(string numero, string rue, string cp)
+        {
+            var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == cp && ad.Rue == rue && ad.Numero == numero);
+
+            if (adresseToCheck != null)
+            {
+                return adresseToCheck.AdresseId;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public async Task AddAsyncWithClient(Adresse entity, int clientId)
