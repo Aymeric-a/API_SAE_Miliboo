@@ -12,8 +12,8 @@ using SAE_S4_MILIBOO.Models.EntityFramework;
 namespace SAE_S4_MILIBOO.Migrations
 {
     [DbContext(typeof(MilibooDBContext))]
-    [Migration("20230406134610_CreationDBMiliboo")]
-    partial class CreationDBMiliboo
+    [Migration("20230406074448_CreationDBMilibooDimension")]
+    partial class CreationDBMilibooDimension
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -719,27 +719,27 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.AdresseLivraison", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Adresse", "AdresseAdresseLivraisonNavigation")
-                        .WithMany("AdresseLivraisonAdresseNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Adresse", "AdresseALivreNavigation")
+                        .WithMany("AdressesClientsNavigation")
                         .HasForeignKey("AdresseId")
                         .IsRequired()
                         .HasConstraintName("fk_adresse_livraison_adresse");
 
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientAdresseLivraisonNavigation")
-                        .WithMany("AdresseLivraisonClientNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientALivreNavigation")
+                        .WithMany("ClientsLivraisonsNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_adresse_livraison_client");
 
-                    b.Navigation("AdresseAdresseLivraisonNavigation");
+                    b.Navigation("AdresseALivreNavigation");
 
-                    b.Navigation("ClientAdresseLivraisonNavigation");
+                    b.Navigation("ClientALivreNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Avis", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientAvisNavigation")
-                        .WithMany("AvisClientNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientsAvisNavigation")
+                        .WithMany("AvisClientsNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_avis_client");
@@ -750,7 +750,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_avis_variante");
 
-                    b.Navigation("ClientAvisNavigation");
+                    b.Navigation("ClientsAvisNavigation");
 
                     b.Navigation("VarianteAvisNavigation");
                 });
@@ -785,7 +785,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasConstraintName("fk_commande_adresse");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientCommandeNavigation")
-                        .WithMany("CommandeClientNavigation")
+                        .WithMany("CommandesClientNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_commande_client");
@@ -812,7 +812,7 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasConstraintName("fk_lignecommande_commande");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VarianteLigneCommandeNavigation")
-                        .WithMany("LigneCommandeVarianteNavigation")
+                        .WithMany("LignesCommandeVarianteNavigation")
                         .HasForeignKey("VarianteId")
                         .IsRequired()
                         .HasConstraintName("fk_lignecommande_variante");
@@ -825,12 +825,12 @@ namespace SAE_S4_MILIBOO.Migrations
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.LignePanier", b =>
                 {
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientLignePanierNavigation")
-                        .WithMany("LignePanierClientNavigation")
+                        .WithMany("LignesPanierClientNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_ligne_panier_panier");
 
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VarianteLignePanierNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VariantesLignePanierNavigation")
                         .WithMany("LignePanierVarianteNavigation")
                         .HasForeignKey("VarianteId")
                         .IsRequired()
@@ -838,24 +838,24 @@ namespace SAE_S4_MILIBOO.Migrations
 
                     b.Navigation("ClientLignePanierNavigation");
 
-                    b.Navigation("VarianteLignePanierNavigation");
+                    b.Navigation("VariantesLignePanierNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Liste", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientListeNavigation")
-                        .WithMany("ListeClientNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Client", "ClientNavigation")
+                        .WithMany("ListesNavigation")
                         .HasForeignKey("ClientId")
                         .IsRequired()
                         .HasConstraintName("fk_liste_client");
 
-                    b.Navigation("ClientListeNavigation");
+                    b.Navigation("ClientNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Photo", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Avis", "AvisPhotoNavigation")
-                        .WithMany("PhotoAvisNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Avis", "AvisPhotosNavigation")
+                        .WithMany("PhotosAvisNavigation")
                         .HasForeignKey("AviId")
                         .HasConstraintName("fk_photo_avis");
 
@@ -865,11 +865,11 @@ namespace SAE_S4_MILIBOO.Migrations
                         .HasConstraintName("fk_photo_categorie");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Variante", "VariantePhotoNavigation")
-                        .WithMany("PhotoVarianteNavigation")
+                        .WithMany("PhotosVarianteNavigation")
                         .HasForeignKey("VarianteId")
                         .HasConstraintName("fk_photo_variante");
 
-                    b.Navigation("AvisPhotoNavigation");
+                    b.Navigation("AvisPhotosNavigation");
 
                     b.Navigation("CategoriePhotoNavigation");
 
@@ -879,12 +879,12 @@ namespace SAE_S4_MILIBOO.Migrations
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Produit", b =>
                 {
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", "CategorieProduitNavigation")
-                        .WithMany("ProduitCategorieNavigation")
+                        .WithMany("ProduitsCategorieNavigation")
                         .HasForeignKey("CategorieId")
                         .HasConstraintName("fk_produit_categorie");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Collection", "CollectionProduitNavigation")
-                        .WithMany("ProduitCollectionNavigation")
+                        .WithMany("ProduitsCollectionNavigation")
                         .HasForeignKey("CollectionId")
                         .HasConstraintName("fk_produit_collection");
 
@@ -895,33 +895,33 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.ProduitListe", b =>
                 {
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Liste", "ListeProduitListeNavigation")
-                        .WithMany("ProduitListeListeNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Liste", "ListeDeProduitNavigation")
+                        .WithMany("ProduitListeNavigation")
                         .HasForeignKey("ListeId")
                         .IsRequired()
                         .HasConstraintName("fk_produitliste_liste");
 
-                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Produit", "ProduitProduitListeNavigation")
-                        .WithMany("ProduitListeProduitNavigation")
+                    b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Produit", "ProduitDansListeNavigation")
+                        .WithMany("ListeProduitNavigation")
                         .HasForeignKey("ProduitId")
                         .IsRequired()
                         .HasConstraintName("fk_produitliste_produit");
 
-                    b.Navigation("ListeProduitListeNavigation");
+                    b.Navigation("ListeDeProduitNavigation");
 
-                    b.Navigation("ProduitProduitListeNavigation");
+                    b.Navigation("ProduitDansListeNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Variante", b =>
                 {
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Couleur", "CouleurVarianteNavigation")
-                        .WithMany("VarianteCouleurNavigation")
+                        .WithMany("VariantesCouleurNavigation")
                         .HasForeignKey("IdCouleur")
                         .IsRequired()
                         .HasConstraintName("fk_variante_couleur");
 
                     b.HasOne("SAE_S4_MILIBOO.Models.EntityFramework.Produit", "ProduitVarianteNavigation")
-                        .WithMany("VarianteProduitNavigation")
+                        .WithMany("VariantesProduitNavigation")
                         .HasForeignKey("IdProduit")
                         .IsRequired()
                         .HasConstraintName("fk_variante_produit");
@@ -933,43 +933,43 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Adresse", b =>
                 {
-                    b.Navigation("AdresseLivraisonAdresseNavigation");
+                    b.Navigation("AdressesClientsNavigation");
 
                     b.Navigation("CommandeAdresseNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Avis", b =>
                 {
-                    b.Navigation("PhotoAvisNavigation");
+                    b.Navigation("PhotosAvisNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Categorie", b =>
                 {
                     b.Navigation("PhotoCategorieNavigation");
 
-                    b.Navigation("ProduitCategorieNavigation");
+                    b.Navigation("ProduitsCategorieNavigation");
 
                     b.Navigation("SousCategoriesNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Client", b =>
                 {
-                    b.Navigation("AdresseLivraisonClientNavigation");
-
-                    b.Navigation("AvisClientNavigation");
+                    b.Navigation("AvisClientsNavigation");
 
                     b.Navigation("CarteBancaireClientNavigation");
 
-                    b.Navigation("CommandeClientNavigation");
+                    b.Navigation("ClientsLivraisonsNavigation");
 
-                    b.Navigation("LignePanierClientNavigation");
+                    b.Navigation("CommandesClientNavigation");
 
-                    b.Navigation("ListeClientNavigation");
+                    b.Navigation("LignesPanierClientNavigation");
+
+                    b.Navigation("ListesNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Collection", b =>
                 {
-                    b.Navigation("ProduitCollectionNavigation");
+                    b.Navigation("ProduitsCollectionNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Commande", b =>
@@ -979,7 +979,7 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Couleur", b =>
                 {
-                    b.Navigation("VarianteCouleurNavigation");
+                    b.Navigation("VariantesCouleurNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Etat", b =>
@@ -989,25 +989,25 @@ namespace SAE_S4_MILIBOO.Migrations
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Liste", b =>
                 {
-                    b.Navigation("ProduitListeListeNavigation");
+                    b.Navigation("ProduitListeNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Produit", b =>
                 {
-                    b.Navigation("ProduitListeProduitNavigation");
+                    b.Navigation("ListeProduitNavigation");
 
-                    b.Navigation("VarianteProduitNavigation");
+                    b.Navigation("VariantesProduitNavigation");
                 });
 
             modelBuilder.Entity("SAE_S4_MILIBOO.Models.EntityFramework.Variante", b =>
                 {
                     b.Navigation("AvisVarianteNavigation");
 
-                    b.Navigation("LigneCommandeVarianteNavigation");
-
                     b.Navigation("LignePanierVarianteNavigation");
 
-                    b.Navigation("PhotoVarianteNavigation");
+                    b.Navigation("LignesCommandeVarianteNavigation");
+
+                    b.Navigation("PhotosVarianteNavigation");
                 });
 #pragma warning restore 612, 618
         }

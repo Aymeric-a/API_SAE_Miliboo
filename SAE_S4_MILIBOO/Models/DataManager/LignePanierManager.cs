@@ -45,9 +45,9 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 lesProduits.Add(await milibooDBContext.Produits.FirstOrDefaultAsync<Produit>(produit => produit.IdProduit == lesVariantes[i].IdProduit));
                 lesPhotos.Add(await milibooDBContext.Photos.FirstOrDefaultAsync<Photo>(foto => foto.VarianteId == lesVariantes[i].IdVariante));
 
-                lesLignes[i].VarianteLignePanierNavigation.LignePanierVarianteNavigation = null;
-                lesVariantes[i].CouleurVarianteNavigation.VarianteCouleurNavigation = null;
-                lesVariantes[i].ProduitVarianteNavigation.VarianteProduitNavigation = null;
+                lesLignes[i].VariantesLignePanierNavigation.LignePanierVarianteNavigation = null;
+                lesVariantes[i].CouleurVarianteNavigation.VariantesCouleurNavigation = null;
+                lesVariantes[i].ProduitVarianteNavigation.VariantesProduitNavigation = null;
                 lesPhotos[i].VariantePhotoNavigation = null;
             }
             
