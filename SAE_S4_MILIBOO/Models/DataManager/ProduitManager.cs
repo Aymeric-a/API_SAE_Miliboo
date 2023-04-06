@@ -90,7 +90,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             //}
 
             leProduit = deleteAllCycles.ChargeComposants(leProduit, new List<string> { "Categorie", "Variante" }); //SURCHARGE 1
-            leProduit = deleteAllCycles.DeleteAllCyclesFunction(leProduit); //SURCHARGE 1
 
             return leProduit;
         }
