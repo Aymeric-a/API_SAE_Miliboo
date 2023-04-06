@@ -11,11 +11,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     {
         readonly MilibooDBContext? milibooDBContext;
 
+        readonly AdresseLivraisonManager? adresseLivraisonManager;
+
         public AdresseManager() { }
 
         public AdresseManager(MilibooDBContext context)
         {
             milibooDBContext = context;
+            adresseLivraisonManager = new AdresseLivraisonManager(milibooDBContext);
         }
 
         public async Task AddAsync(Adresse entity)
@@ -26,10 +29,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<int>> AdressExists(Adresse adresse)
         {
-            string numeroNouvelleAdresse = adresse.Rue.Split(' ', 2)[0];
-            string rueNouvelleAdresse = adresse.Rue.Split(' ', 2)[1];
 
-            var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == adresse.Cp && ad.Rue == rueNouvelleAdresse && ad.Numero == numeroNouvelleAdresse);
+            var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == adresse.Cp && ad.Rue == adresse.Rue);
 
             if (adresseToCheck != null)
             {
@@ -37,8 +38,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
             else
             {
-                adresse.Rue = rueNouvelleAdresse;
-                adresse.Numero= numeroNouvelleAdresse;
                 await this.AddAsync(adresse);
                 return -1;
             }
@@ -78,6 +77,16 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
             return deleteAllCycles.DeleteAllCyclesFunction(adresse);    
+        }
+
+        public async Task AddAsyncWithClient(Adresse entity, int clientId)
+        {
+            await milibooDBContext.AddAsync(entity);
+            await milibooDBContext.SaveChangesAsync();
+            AdresseLivraison adl = new AdresseLivraison();
+            adl.ClientId = clientId;
+            adl.AdresseId = entity.AdresseId;
+            await adresseLivraisonManager.AddAsync(adl);
         }
     }
 }

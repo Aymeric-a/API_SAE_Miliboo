@@ -76,6 +76,7 @@ namespace SAE_S4_MILIBOO.Controllers
         // POST: api/Adresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [ActionName("PostAdresse")]
         public async Task<ActionResult<Adresse>> PostAdresse(Adresse adresse)
         {
             if (!ModelState.IsValid)
@@ -84,6 +85,23 @@ namespace SAE_S4_MILIBOO.Controllers
             }
 
             await dataRepository.AddAsync(adresse);
+
+
+            return CreatedAtAction("GetById", new { id = adresse.AdresseId }, adresse);
+        }
+
+        // POST: api/Adresses
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754 
+        [HttpPost]
+        [ActionName("PostAdresseWithClient")]
+        public async Task<ActionResult<Adresse>> PostAdresseWithClient(Adresse adresse, int clientId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            await dataRepository.AddAsyncWithClient(adresse, clientId);
 
 
             return CreatedAtAction("GetById", new { id = adresse.AdresseId }, adresse);
