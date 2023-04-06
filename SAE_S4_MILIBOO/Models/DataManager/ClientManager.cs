@@ -45,38 +45,16 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         }
 
-        public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
-        {
-            var a = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == idAdresse);
-            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == a.AdresseId);
-        }
-
-        public async Task<ActionResult<Client>> GetClientByPortable(string portable)
-        {
-            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Portable == portable);
-        }
-
-        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
-        {
-            return await milibooDBContext.Clients.Where<Client>(c => c.Nom == recherche || c.Prenom == recherche).ToListAsync();
-        }
-
-        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
-        {
-            return await milibooDBContext.Clients.Where<Client>(c => c.NewsMiliboo == true).ToListAsync();
-        }
-        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
-        {
-            return await milibooDBContext.Clients.Where<Client>(c => c.NewsPartenaire == true).ToListAsync();
-        }
 
         public async Task<ActionResult<Client>> ReplacePassword(string newPassword, int idClient)
         {
             var c = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
+
             c.Password = newPassword;
+
             await milibooDBContext.SaveChangesAsync();
 
-            return c;
+            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
         }
 
         public async Task AddAsync(Client entity)
