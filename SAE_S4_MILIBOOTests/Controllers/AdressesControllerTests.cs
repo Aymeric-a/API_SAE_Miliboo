@@ -30,7 +30,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         }
 
         [TestMethod()]
-        public void GetAdresseTest()
+        public void GetAdresseTest_Moq()
         {
             Adresse adresse = new Adresse
             {
@@ -51,13 +51,13 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns(adresse);
             var adresseController = new AdressesController(mockRepository.Object);
 
-            // Act
-            //var actionResult = adresseController.
+            //Act
+            var actionResult = adresseController.GetAdresse(1).Result;
 
-            // Assert
-            //Assert.IsNotNull(actionResult);
-            //Assert.IsNotNull(actionResult.Value);
-            //Assert.AreEqual(adresse, actionResult.Value as Adresse);
+             //Assert
+            Assert.IsNotNull(actionResult);
+            Assert.IsNotNull(actionResult.Value);
+            Assert.AreEqual(adresse, actionResult.Value as Adresse);
         }
     }
 }

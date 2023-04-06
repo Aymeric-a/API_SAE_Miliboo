@@ -46,7 +46,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -78,7 +78,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -110,7 +110,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -142,7 +142,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -174,7 +174,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -204,7 +204,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
@@ -234,7 +234,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
                 AdresseCommandeNavigation = null,
                 EtatCommandeNavigation = null,
                 ClientCommandeNavigation = null,
-                LignesDansLaCommandeNavigation = null
+                LigneCommandeCommandeNavigation = null
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
