@@ -16,10 +16,10 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("lst_id")]
         public int ListeId { get; set; }
 
-        [InverseProperty("ProduitListeProduitNavigation")]
-        public virtual Produit? ProduitProduitListeNavigation { get; set; } = null!;
+        [InverseProperty("ListeProduitNavigation")]
+        public virtual Produit? ProduitDansListeNavigation { get; set; } = null!;
 
-        [InverseProperty("ProduitListeListeNavigation")]
-        public virtual Liste? ListeProduitListeNavigation { get; set; } = null!;
+        [InverseProperty("ProduitListeNavigation")]
+        public virtual Liste? ListeDeProduitNavigation { get; set; } = null!;
     }
 }

@@ -46,8 +46,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string? Remarque { get; set; } 
 
 
-        [InverseProperty("AdresseAdresseLivraisonNavigation")]
-        public virtual ICollection<AdresseLivraison> AdresseLivraisonAdresseNavigation { get; set; } = new List<AdresseLivraison>();
+        [InverseProperty("AdresseALivreNavigation")]
+        public virtual ICollection<AdresseLivraison> AdressesClientsNavigation { get; set; } = new List<AdresseLivraison>();
 
         [InverseProperty("AdresseCommandeNavigation")]
         public virtual ICollection<Commande> CommandeAdresseNavigation { get; set; } = new List<Commande>();

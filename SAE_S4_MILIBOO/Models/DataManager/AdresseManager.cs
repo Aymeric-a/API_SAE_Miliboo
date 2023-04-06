@@ -11,11 +11,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
     {
         readonly MilibooDBContext? milibooDBContext;
 
+        readonly AdresseLivraisonManager? adresseLivraisonManager;
+
         public AdresseManager() { }
 
         public AdresseManager(MilibooDBContext context)
         {
             milibooDBContext = context;
+            adresseLivraisonManager = new AdresseLivraisonManager(milibooDBContext);
         }
 
         public async Task AddAsync(Adresse entity)
@@ -78,18 +81,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsyncWithClient(Adresse entity, int clientId)
         {
-
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
-
-            AdresseLivraisonManager admanager = new AdresseLivraisonManager(milibooDBContext);
-
             AdresseLivraison adl = new AdresseLivraison();
-
-
             adl.ClientId = clientId;
             adl.AdresseId = entity.AdresseId;
-            await admanager.AddAsync(adl);
+            await adresseLivraisonManager.AddAsync(adl);
         }
     }
 }

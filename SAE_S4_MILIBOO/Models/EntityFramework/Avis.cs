@@ -34,11 +34,11 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public DateTime AvisDate { get; set;}
 
 
-        [InverseProperty("AvisPhotoNavigation")]
-        public virtual ICollection<Photo>? PhotoAvisNavigation { get; set; } = new List<Photo>();
+        [InverseProperty("AvisPhotosNavigation")]
+        public virtual ICollection<Photo>? PhotosAvisNavigation { get; set; } = new List<Photo>();
 
-        [InverseProperty("AvisClientNavigation")]
-        public virtual Client? ClientAvisNavigation { get; set; } = null!;
+        [InverseProperty("AvisClientsNavigation")]
+        public virtual Client? ClientsAvisNavigation { get; set; } = null!;
 
         [InverseProperty("AvisVarianteNavigation")]
         public virtual Variante? VarianteAvisNavigation { get; set; } = null!;

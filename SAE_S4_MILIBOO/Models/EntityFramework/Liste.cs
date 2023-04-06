@@ -28,10 +28,10 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public DateTime DateCreation { get; set; }
 
 
-        [InverseProperty("ListeClientNavigation")]
-        public virtual Client? ClientListeNavigation { get; set; } = null!;
+        [InverseProperty("ListesNavigation")]
+        public virtual Client? ClientNavigation { get; set; } = null!;
 
-        [InverseProperty("ListeProduitListeNavigation")]
-        public virtual ICollection<ProduitListe> ProduitListeListeNavigation { get; set; } = new List<ProduitListe>();
+        [InverseProperty("ListeDeProduitNavigation")]
+        public virtual ICollection<ProduitListe> ProduitListeNavigation { get; set; } = new List<ProduitListe>();
     }
 }

@@ -22,6 +22,6 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string CodeHexa { get; set; } = null!;
 
         [InverseProperty("CouleurVarianteNavigation")]
-        public virtual ICollection<Variante> VarianteCouleurNavigation { get; set; } = new List<Variante>();
+        public virtual ICollection<Variante> VariantesCouleurNavigation { get; set; } = new List<Variante>();
     }
 }

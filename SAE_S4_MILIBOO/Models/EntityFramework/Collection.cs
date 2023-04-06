@@ -22,7 +22,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public double CollectionPromo { get; set; }
 
         [InverseProperty("CollectionProduitNavigation")]
-        public virtual ICollection<Produit> ProduitCollectionNavigation { get; set; } = new List<Produit>();
+        public virtual ICollection<Produit> ProduitsCollectionNavigation { get; set; } = new List<Produit>();
     }
 
 }

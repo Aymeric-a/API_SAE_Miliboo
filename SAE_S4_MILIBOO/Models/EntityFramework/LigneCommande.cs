@@ -35,7 +35,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual Commande? CommandeLigneCommandeNavigation { get; set; } = null!;
 
         //Lien vers les variantes
-        [InverseProperty("LigneCommandeVarianteNavigation")]
+        [InverseProperty("LignesCommandeVarianteNavigation")]
         public virtual Variante? VarianteLigneCommandeNavigation { get; set; } = null!;
     }
 }

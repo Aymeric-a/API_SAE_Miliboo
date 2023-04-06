@@ -22,11 +22,11 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
 
         //Lien vers les clients
-        [InverseProperty("AdresseLivraisonAdresseNavigation")]
-        public virtual Adresse? AdresseAdresseLivraisonNavigation { get; set; } = null!;
+        [InverseProperty("AdressesClientsNavigation")]
+        public virtual Adresse? AdresseALivreNavigation { get; set; } = null!;
 
         //Lien vers les adresse
-        [InverseProperty("AdresseLivraisonClientNavigation")]
-        public virtual Client? ClientAdresseLivraisonNavigation { get; set; } = null!;
+        [InverseProperty("ClientsLivraisonsNavigation")]
+        public virtual Client? ClientALivreNavigation { get; set; } = null!;
     }
 }

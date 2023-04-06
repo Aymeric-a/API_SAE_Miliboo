@@ -113,7 +113,7 @@ namespace SAE_S4_MILIBOO.Controllers
         // POST: api/Commandes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Commande>> PostCommande(Commande commande )
+        public async Task<ActionResult<Commande>> PostCommande(Commande commande)
         {
             if (!ModelState.IsValid)
             {
