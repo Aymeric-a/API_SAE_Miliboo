@@ -26,7 +26,6 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetByAllFiltersByPage(int page, int? categorieId, int? collectionId, List<int>? couleurId, double? maxprix, double? minprix);
 
 
-
         Task<ActionResult<TEntity>> GetByStringAsync(string libelle);
         //Task<ActionResult<IEnumerable<TEntity>>> GetByStockNull();
 

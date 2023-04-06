@@ -8,7 +8,6 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByByCouleur( int couleurId);
         Task<ActionResult<IEnumerable<TEntity>>> GetAllByProduit( int produitId);
-        Task<List<int>> GetProduitsIdByCouleur(List<int> couleurId);
         Task<List<int>> GetProduitsIdByMinPrix(double minPrix);
         Task<List<int>> GetProduitsIdByMaxPrix(double maxPrix);
 

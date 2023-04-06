@@ -113,9 +113,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
                 var dbSetInstance = dbSetProperty.GetValue(milibooDBContext);
                 var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
-            }
 
-            return DeleteAllCyclesFunction(item);
+                dbSetList = DeleteFirstNaviguation(dbSetList);
+            }
+            return item;
         }
 
         public List<T> ChargeComposants<T>(List<T> list, List<string> naviguations)
@@ -147,14 +148,53 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             return list;
         }
 
-        public T DeleteFirstNaviguation<T>(T item)
+        public List<T> DeleteFirstNaviguation<T>(List<T> items)
         {
-            Type type = typeof(T);
+            Type type = items[0].GetType();
+
+            if (type == typeof(SAE_S4_MILIBOO.Models.EntityFramework.Categorie))
+            {
+                PropertyInfo sousCategoriesNavigationProperty = type.GetProperty("SousCategoriesNavigation");
+
+                foreach (T item in items)
+                {
+                    var sousCategories = sousCategoriesNavigationProperty.GetValue(item);
+                    if (sousCategories != null)
+                    {
+                        sousCategoriesNavigationProperty.SetValue(item, null);
+                    }
+                }
+            }
 
             var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
             foreach (PropertyInfo property in properties)
             {
-                var firstNavigation = property.GetValue(item);
+                foreach (T item in items)
+                {
+                    property.SetValue(item, null);
+                }
+            }
+            return items;
+        }
+
+        public T DeleteFirstNaviguation<T>(T item)
+        {
+            Type type = item.GetType();
+
+            if (type == typeof(SAE_S4_MILIBOO.Models.EntityFramework.Categorie))
+            {
+                PropertyInfo sousCategoriesNavigationProperty = type.GetProperty("SousCategoriesNavigation");
+
+                var sousCategories = sousCategoriesNavigationProperty.GetValue(item);
+                if (sousCategories != null)
+                {
+                    sousCategoriesNavigationProperty.SetValue(item, null);
+                }
+            }
+
+            var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
+            foreach (PropertyInfo property in properties)
+            {
                 property.SetValue(item, null);
             }
             return item;
