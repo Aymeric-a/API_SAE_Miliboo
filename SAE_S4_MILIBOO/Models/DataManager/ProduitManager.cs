@@ -401,6 +401,37 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             finalList = deleteAllCycles.ChargeComposants(finalList, new List<string>() { "Variante", "Categorie" });
             List<Produit> allProductsAfterDeleteCycles = deleteAllCycles.DeleteAllCyclesFunction(finalList);
 
+            var variantes = await milibooDBContext.Variantes.ToListAsync();
+            var couleurs = new List<Couleur>();
+            var avis = new List<Avis>();
+            var photos = new List<Photo>();
+            for (int i = 0; i < variantes.Count; i++)
+            {
+                couleurs.Add(await milibooDBContext.Couleurs.FirstOrDefaultAsync<Couleur>(c => c.IdCouleur == variantes[i].IdCouleur));
+                avis.Add(await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(a => a.VarianteId == variantes[i].IdVariante));
+                photos.Add(await milibooDBContext.Photos.FirstOrDefaultAsync<Photo>(photo => photo.VarianteId == variantes[i].IdVariante));
+                variantes[i].ProduitVarianteNavigation = null;
+
+            }
+
+            foreach (Couleur couleur in couleurs) { couleur.VariantesCouleurNavigation = null; }
+
+            foreach (Avis avi in avis)
+            {
+                if (avi != null)
+                {
+                    avi.VarianteAvisNavigation = null;
+                }
+            }
+
+            foreach (Photo photo in photos)
+            {
+                if (photo != null)
+                {
+                    photo.VariantePhotoNavigation = null;
+                }
+            }
+
             return (List<Produit>)allProductsAfterDeleteCycles;
         }
 
