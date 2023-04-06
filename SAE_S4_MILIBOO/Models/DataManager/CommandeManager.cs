@@ -46,7 +46,14 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Commande>>> GetAllCommandeByClientId(int clientId)
         {
-            return await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == clientId).ToListAsync();   
+            DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
+
+            var lesCommandes = await milibooDBContext.Commandes.Where<Commande>(c => c.ClientId == clientId).ToListAsync();
+
+            //lesCommandes = deleteAllCycles.ChargeComposants(lesCommandes, new List<string> { "Etat" });
+            //lesCommandes = deleteAllCycles.DeleteAllCyclesFunction(lesCommandes);
+
+            return lesCommandes;
         }
 
         public async Task<ActionResult<IEnumerable<Commande>>> GetAllCommandeByEtat(int etatId)
