@@ -24,57 +24,29 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public List<T> DeleteAllCyclesFunction<T>(List<T> list)
         {
             Type type = typeof(T);
+            List<T> newList = new List<T>();
 
             foreach (T item in list)
             {
-                var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
-                foreach (PropertyInfo property in properties)
-                {
-                    var firstNavigation = property.GetValue(item);
-                    Type typeCycle = null;
-                    if (firstNavigation != null)
-                    {
-                        if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
-                        {
-                            typeCycle = firstNavigation.GetType().GetGenericArguments()[0];
-                        }
-                        else
-                        {
-                            typeCycle = firstNavigation.GetType();
-                        }
-
-                        var propertiesCycle = typeCycle.GetProperties().Where(p => p.Name.EndsWith("Navigation") && p.Name.StartsWith(type.Name));
-
-                        foreach (PropertyInfo propertyCycle in propertiesCycle)
-                        {
-                            object secondNavigation = null;
-                            if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
-                            {
-                                foreach (var firstNav in (IEnumerable)firstNavigation)
-                                {
-                                    secondNavigation = propertyCycle.GetValue(firstNav);
-                                    propertyCycle.SetValue(firstNav, null);
-
-                                }
-                            }
-                            else
-                            {
-                                secondNavigation = propertyCycle.GetValue(firstNavigation);
-                                propertyCycle.SetValue(firstNavigation, null);
-                            }
-                        }
-                    }                   
-                }
+                newList.Add(DeleteAllCyclesFunction<T>(item));
             }
             return list;
         }
+
         public T DeleteAllCyclesFunction<T>(T item)
         {
             Type type = typeof(T);
 
             var properties = type.GetProperties().Where(p => p.Name.EndsWith("Navigation"));
+
             foreach (PropertyInfo property in properties)
             {
+                if (type == typeof(Categorie))
+                {
+                    property.SetValue("CategorieParentNaviguation", null);
+                    property.SetValue("SousCategoriesNaviguation", null);
+                }
+
                 var firstNavigation = property.GetValue(item);
                 Type typeCycle = null;
                 if (firstNavigation != null)
@@ -88,10 +60,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                         typeCycle = firstNavigation.GetType();
                     }
 
-                    var propertiesCycle = typeCycle.GetProperties().Where(p => p.Name.EndsWith("Navigation") && p.Name.StartsWith(type.Name));
+                    var propertiesCycle = typeCycle.GetProperties().Where(p => p.Name.EndsWith("Navigation") && p.Name.StartsWith(type.Name) || p.Name.StartsWith("Categorie"));
 
                     foreach (PropertyInfo propertyCycle in propertiesCycle)
                     {
+
                         object secondNavigation = null;
                         if (firstNavigation.GetType().IsGenericType && firstNavigation.GetType().GetGenericTypeDefinition() == typeof(List<>))
                         {
@@ -169,14 +142,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 var dbSetList = ((IEnumerable)dbSetInstance).Cast<object>().ToList();
 
                 dbSetList = DeleteFirstNaviguation(dbSetList);
-
-                if (dbSetList[0].GetType() == typeof(Categorie))
-                {
-                    foreach (Categorie categorie in dbSetList)
-                    {
-                        categorie.CategorieParentNavigation = null;
-                    }
-                }
             }
 
             return list;

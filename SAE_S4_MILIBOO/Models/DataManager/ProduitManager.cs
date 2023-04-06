@@ -398,7 +398,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             finalList = finalList.Intersect(productsAfterFilterMaxPriceList).ToList();
             finalList = finalList.Intersect(productsAfterFilterMinPriceList).ToList();
 
-            finalList = deleteAllCycles.ChargeComposants(finalList, new List<string>() { "Variante" });
+            finalList = deleteAllCycles.ChargeComposants(finalList, new List<string>() { "Variante", "Categorie" });
             List<Produit> allProductsAfterDeleteCycles = deleteAllCycles.DeleteAllCyclesFunction(finalList);
 
             return (List<Produit>)allProductsAfterDeleteCycles;
