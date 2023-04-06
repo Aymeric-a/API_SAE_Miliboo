@@ -92,32 +92,32 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             leProduit = deleteAllCycles.ChargeComposants(leProduit, new List<string> { "Categorie", "Variante" }); //SURCHARGE 1
             leProduit = deleteAllCycles.DeleteAllCyclesFunction(leProduit); //SURCHARGE 1
 
-            for (int i = 0; i < variantes.Count; i++)
-            {
-                couleurs.Add(await milibooDBContext.Couleurs.FirstOrDefaultAsync<Couleur>(c => c.IdCouleur == variantes[i].IdCouleur));
-                avis.Add(await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(a => a.VarianteId == variantes[i].IdVariante));
-                photos.Add(await milibooDBContext.Photos.FirstOrDefaultAsync<Photo>(photo => photo.VarianteId == variantes[i].IdVariante));
-                variantes[i].ProduitVarianteNavigation = null;
+            //for (int i = 0; i < variantes.Count; i++)
+            //{
+            //    couleurs.Add(await milibooDBContext.Couleurs.FirstOrDefaultAsync<Couleur>(c => c.IdCouleur == variantes[i].IdCouleur));
+            //    avis.Add(await milibooDBContext.Avis.FirstOrDefaultAsync<Avis>(a => a.VarianteId == variantes[i].IdVariante));
+            //    photos.Add(await milibooDBContext.Photos.FirstOrDefaultAsync<Photo>(photo => photo.VarianteId == variantes[i].IdVariante));
+            //    variantes[i].ProduitVarianteNavigation = null;
 
-            }
+            //}
 
-            foreach (Couleur couleur in couleurs) { couleur.VariantesCouleurNavigation = null; }
+            //foreach (Couleur couleur in couleurs) { couleur.VariantesCouleurNavigation = null; }
 
-            foreach (Avis avi in avis)
-            {
-                if (avi != null)
-                {
-                    avi.VarianteAvisNavigation = null;
-                }
-            }
+            //foreach (Avis avi in avis)
+            //{
+            //    if (avi != null)
+            //    {
+            //        avi.VarianteAvisNavigation = null;
+            //    }
+            //}
 
-            foreach (Photo photo in photos)
-            {
-                if (photo != null)
-                {
-                    photo.VariantePhotoNavigation = null;
-                }
-            }
+            //foreach (Photo photo in photos)
+            //{
+            //    if (photo != null)
+            //    {
+            //        photo.VariantePhotoNavigation = null;
+            //    }
+            //}
 
             return leProduit;
         }
@@ -214,7 +214,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
             List<Categorie> allCategoriesChilds = allCategoriesChildsVar.Value;
 
-            var rawData = await milibooDBContext.Produits.Where(p => p.VariantesProduitNavigation.Any(v => v.Prix >= minprix)).ToListAsync();
+            var rawData = await milibooDBContext.Produits.Where(p => p.VarianteProduitNavigation.Any(v => v.Prix >= minprix)).ToListAsync();
 
             List<Produit> resultProduit = new List<Produit>();
 
@@ -249,7 +249,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             var allCategoriesChildsVar = await categorieManager.RecursivelyAllChildsCategories(category);
             List<Categorie> allCategoriesChilds = allCategoriesChildsVar.Value;
 
-            var rawData = await milibooDBContext.Produits.Where(p => p.VariantesProduitNavigation.Any(v => v.Prix <= maxprix)).ToListAsync();
+            var rawData = await milibooDBContext.Produits.Where(p => p.VarianteProduitNavigation.Any(v => v.Prix <= maxprix)).ToListAsync();
 
             List<Produit> resultProduit = new List<Produit>();
 
@@ -441,7 +441,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             }
 
-            foreach (Couleur couleur in couleurs) { couleur.VariantesCouleurNavigation = null; }
+            foreach (Couleur couleur in couleurs) { couleur.VarianteCouleurNavigation = null; }
 
             foreach (Avis avi in avis)
             {
