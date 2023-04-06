@@ -138,7 +138,7 @@ namespace SAE_S4_MILIBOO.Controllers
                 return BadRequest("Erreur " + codeError + " : Bad Request \nL'ancien et le nouveau mot de passe ne peuvent pas être le même");
             }
 
-            dataRepository.ReplacePassword(newPassword, idClient);
+            await dataRepository.ReplacePassword(newPassword, idClient);
 
             if (c == null)
             {

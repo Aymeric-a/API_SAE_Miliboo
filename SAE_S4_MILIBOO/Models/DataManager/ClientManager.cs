@@ -49,10 +49,12 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task<ActionResult<Client>> ReplacePassword(string newPassword, int idClient)
         {
             var c = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
+
             c.Password = newPassword;
+
             await milibooDBContext.SaveChangesAsync();
 
-            return c;
+            return await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.ClientId == idClient);
         }
 
         public async Task AddAsync(Client entity)
