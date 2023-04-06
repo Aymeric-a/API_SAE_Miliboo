@@ -33,10 +33,10 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [InverseProperty("PhotoCategorieNavigation")]
         public virtual Categorie? CategoriePhotoNavigation { get; set; } = null!;
 
-        [InverseProperty("PhotosVarianteNavigation")]
+        [InverseProperty("PhotoVarianteNavigation")]
         public virtual Variante? VariantePhotoNavigation { get; set; } = null!;
 
-        [InverseProperty("PhotosAvisNavigation")]
-        public virtual Avis? AvisPhotosNavigation { get; set; } = null!;
+        [InverseProperty("PhotoAvisNavigation")]
+        public virtual Avis? AvisPhotoNavigation { get; set; } = null!;
     }
 }

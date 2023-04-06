@@ -65,14 +65,14 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => new { e.ClientId, e.AdresseId });
 
-                entity.HasOne(d => d.AdresseALivreNavigation)
-                    .WithMany(p => p.AdressesClientsNavigation)
+                entity.HasOne(d => d.AdresseAdresseLivraisonNavigation)
+                    .WithMany(p => p.AdresseLivraisonAdresseNavigation)
                     .HasForeignKey(d => d.AdresseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_adresse_livraison_adresse");
 
-                entity.HasOne(d => d.ClientALivreNavigation)
-                    .WithMany(p => p.ClientsLivraisonsNavigation)
+                entity.HasOne(d => d.ClientAdresseLivraisonNavigation)
+                    .WithMany(p => p.AdresseLivraisonClientNavigation)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_adresse_livraison_client");
@@ -84,8 +84,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => e.ListeId);
 
-                entity.HasOne(d => d.ClientNavigation)
-                    .WithMany(p => p.ListesNavigation)
+                entity.HasOne(d => d.ClientListeNavigation)
+                    .WithMany(p => p.ListeClientNavigation)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_liste_client");
@@ -120,14 +120,14 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                 entity.HasKey(e => e.IdProduit);
 
                 entity.HasOne(d => d.CollectionProduitNavigation)
-                    .WithMany(p => p.ProduitsCollectionNavigation)
+                    .WithMany(p => p.ProduitCollectionNavigation)
                     .HasForeignKey(d => d.CollectionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_produit_collection")
                     .IsRequired(false);
 
                 entity.HasOne(d => d.CategorieProduitNavigation)
-                    .WithMany(p => p.ProduitsCategorieNavigation)
+                    .WithMany(p => p.ProduitCategorieNavigation)
                     .HasForeignKey(d => d.CategorieId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_produit_categorie")
@@ -150,15 +150,15 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => e.PhotoId);
 
-                entity.HasOne(d => d.AvisPhotosNavigation)
-                    .WithMany(p => p.PhotosAvisNavigation)
+                entity.HasOne(d => d.AvisPhotoNavigation)
+                    .WithMany(p => p.PhotoAvisNavigation)
                     .HasForeignKey(d => d.AviId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_photo_avis")
                     .IsRequired(false);
 
                 entity.HasOne(d => d.VariantePhotoNavigation)
-                    .WithMany(p => p.PhotosVarianteNavigation)
+                    .WithMany(p => p.PhotoVarianteNavigation)
                     .HasForeignKey(d => d.VarianteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_photo_variante")
@@ -177,8 +177,8 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => e.AvisId);
 
-                entity.HasOne(d => d.ClientsAvisNavigation)
-                    .WithMany(p => p.AvisClientsNavigation)
+                entity.HasOne(d => d.ClientAvisNavigation)
+                    .WithMany(p => p.AvisClientNavigation)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_avis_client");
@@ -207,12 +207,12 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                 entity.HasKey(e => e.LigneId);
 
                 entity.HasOne(d => d.ClientLignePanierNavigation)
-                    .WithMany(p => p.LignesPanierClientNavigation)
+                    .WithMany(p => p.LignePanierClientNavigation)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_ligne_panier_panier");
 
-                entity.HasOne(d => d.VariantesLignePanierNavigation)
+                entity.HasOne(d => d.VarianteLignePanierNavigation)
                     .WithMany(p => p.LignePanierVarianteNavigation)
                     .HasForeignKey(d => d.VarianteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -227,14 +227,14 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
             {
                 entity.HasKey(e => new {e.ProduitId, e.ListeId});
 
-                entity.HasOne(d => d.ProduitDansListeNavigation)
-                    .WithMany(p => p.ListeProduitNavigation)
+                entity.HasOne(d => d.ProduitProduitListeNavigation)
+                    .WithMany(p => p.ProduitListeProduitNavigation)
                     .HasForeignKey(d => d.ProduitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_produitliste_produit");
 
-                entity.HasOne(d => d.ListeDeProduitNavigation)
-                    .WithMany(p => p.ProduitListeNavigation)
+                entity.HasOne(d => d.ListeProduitListeNavigation)
+                    .WithMany(p => p.ProduitListeListeNavigation)
                     .HasForeignKey(d => d.ListeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_produitliste_liste");
@@ -247,7 +247,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                 entity.HasKey(e => e.LigneCommandeId);
 
                 entity.HasOne(d => d.VarianteLigneCommandeNavigation)
-                    .WithMany(p => p.LignesCommandeVarianteNavigation)
+                    .WithMany(p => p.LigneCommandeVarianteNavigation)
                     .HasForeignKey(d => d.VarianteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_lignecommande_variante");
@@ -282,7 +282,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                     .HasConstraintName("fk_commande_etat");
 
                 entity.HasOne(d => d.ClientCommandeNavigation)
-                    .WithMany(p => p.CommandesClientNavigation)
+                    .WithMany(p => p.CommandeClientNavigation)
                     .HasForeignKey(d => d.ClientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_commande_client");
@@ -303,13 +303,13 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
                 entity.HasKey(e => e.IdVariante);
 
                 entity.HasOne(d => d.CouleurVarianteNavigation)
-                    .WithMany(p => p.VariantesCouleurNavigation)
+                    .WithMany(p => p.VarianteCouleurNavigation)
                     .HasForeignKey(d => d.IdCouleur)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_variante_couleur"); 
 
                 entity.HasOne(d => d.ProduitVarianteNavigation)
-                    .WithMany(p => p.VariantesProduitNavigation)
+                    .WithMany(p => p.VarianteProduitNavigation)
                     .HasForeignKey(d => d.IdProduit)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_variante_produit");

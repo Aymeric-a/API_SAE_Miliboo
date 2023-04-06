@@ -42,22 +42,22 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public DateTime? DateCreation { get; set; }
 
 
-        [InverseProperty("VariantesCouleurNavigation")]
+        [InverseProperty("VarianteCouleurNavigation")]
         public virtual Couleur? CouleurVarianteNavigation { get; set; } = null!;
 
-        [InverseProperty("VariantesProduitNavigation")]
+        [InverseProperty("VarianteProduitNavigation")]
         public virtual Produit? ProduitVarianteNavigation { get; set; } = null!;
 
-        [InverseProperty("VariantesLignePanierNavigation")]
+        [InverseProperty("VarianteLignePanierNavigation")]
         public virtual ICollection<LignePanier> LignePanierVarianteNavigation { get; set; } = new List<LignePanier>();
 
         [InverseProperty("VarianteAvisNavigation")]
         public virtual ICollection<Avis> AvisVarianteNavigation { get; set; } = new List<Avis>()!;
 
         [InverseProperty("VariantePhotoNavigation")]
-        public virtual ICollection<Photo> PhotosVarianteNavigation { get; set; } = new List<Photo>()!;
+        public virtual ICollection<Photo> PhotoVarianteNavigation { get; set; } = new List<Photo>()!;
 
         [InverseProperty("VarianteLigneCommandeNavigation")]
-        public virtual ICollection<LigneCommande> LignesCommandeVarianteNavigation { get; set; } = new List<LigneCommande>()!;
+        public virtual ICollection<LigneCommande> LigneCommandeVarianteNavigation { get; set; } = new List<LigneCommande>()!;
     }
 }

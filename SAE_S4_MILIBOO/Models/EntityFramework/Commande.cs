@@ -39,7 +39,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public string? Instructions { get; set; }
 
         //Lien vers les clients
-        [InverseProperty("CommandesClientNavigation")]
+        [InverseProperty("CommandeClientNavigation")]
         public virtual Client? ClientCommandeNavigation { get; set; }
 
         //Lien vers les adresse

@@ -27,7 +27,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         public virtual ICollection<Photo> PhotoCategorieNavigation { get; set; } = new List<Photo>();
 
         [InverseProperty("CategorieProduitNavigation")]
-        public virtual ICollection<Produit> ProduitsCategorieNavigation { get; set; } = new List<Produit>();
+        public virtual ICollection<Produit> ProduitCategorieNavigation { get; set; } = new List<Produit>();
 
         [InverseProperty("SousCategoriesNavigation")]
         public virtual Categorie? CategorieParentNavigation { get; set; } = null!;

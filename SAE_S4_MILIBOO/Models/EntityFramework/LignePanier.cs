@@ -25,10 +25,10 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
         [Column("lpn_quantite")]
         public int Quantite { get; set; }
 
-        [InverseProperty("LignesPanierClientNavigation")]
+        [InverseProperty("LignePanierClientNavigation")]
         public virtual Client? ClientLignePanierNavigation { get; set; } = null!;
 
         [InverseProperty("LignePanierVarianteNavigation")]
-        public virtual Variante? VariantesLignePanierNavigation { get; set; } = null!;
+        public virtual Variante? VarianteLignePanierNavigation { get; set; } = null!;
     }
 }
