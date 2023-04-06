@@ -27,7 +27,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public async Task<ActionResult<int>> AdressExists(Adresse adresse)
+        public async Task<int> AdressExists(Adresse adresse)
         {
 
             var adresseToCheck = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(ad => ad.Cp == adresse.Cp && ad.Rue == adresse.Rue);
@@ -38,8 +38,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             }
             else
             {
-                await this.AddAsync(adresse);
-                return -1;
+                await AddAsync(adresse);
+                return adresse.AdresseId;
             }
         }
 

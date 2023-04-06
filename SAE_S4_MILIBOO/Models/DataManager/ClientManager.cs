@@ -38,8 +38,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
             }
 
-            DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
-            deleteAllCycles.DeleteAllCyclesFunction(leClient);
+            //DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
+            //deleteAllCycles.DeleteAllCyclesFunction(leClient);
 
             return leClient;
 

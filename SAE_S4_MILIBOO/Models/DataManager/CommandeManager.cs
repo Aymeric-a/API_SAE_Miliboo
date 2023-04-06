@@ -14,6 +14,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         readonly LigneCommandeManager? ligneCommandeManager;
 
+        readonly AdresseManager? adresseManager;
+
         private readonly IDataRepositoryCommande<Commande> dataRepository;
 
         public CommandeManager() { }
@@ -23,17 +25,24 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             milibooDBContext = context;
             ligneCommandeManager = new LigneCommandeManager(context);
             lignePanierManager = new LignePanierManager(context);
+            adresseManager = new AdresseManager(context);
         }
 
-        public async Task AddAsync(Commande entity)
+        public async Task AddAsync(Commande entity, Adresse adresse)
         {
+            LigneCommandeManager lcommanager = new LigneCommandeManager(new MilibooDBContext());
+            AdresseManager admanager = new AdresseManager(new MilibooDBContext());
+
+            var idAdresse = await admanager.AdressExists(adresse);
+
+            entity.AdresseId = idAdresse;
+
             var commandeVar = await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
             int idCommande = commandeVar.Entity.CommandeId;
             
             var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
 
-            LigneCommandeManager lcommanager = new LigneCommandeManager(new MilibooDBContext());
 
             foreach(LignePanier lpanier in lpaniers)
             {
@@ -112,6 +121,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
             entityToUpdate.PointsFideliteUtilises = entity.PointsFideliteUtilises;
 
             await milibooDBContext.SaveChangesAsync();
+        }
+
+        public Task AddAsync(Commande entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

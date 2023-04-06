@@ -39,7 +39,7 @@ namespace SAE_S4_MILIBOO.Controllers
 
         [HttpGet]
         [ActionName("CheckAdresse")]
-        public async Task<ActionResult<int>> CheckAdresse(Adresse adresse)
+        public async Task<ActionResult<int>> CheckAdresse([FromQuery]Adresse adresse)
         {
             var result = await dataRepository.AdressExists(adresse);
 
