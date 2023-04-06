@@ -28,11 +28,13 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         public async Task AddAsync(Commande entity)
         {
             var commandeVar = await milibooDBContext.AddAsync(entity);
+            entity.AdresseCommandeNavigation = null;
             await milibooDBContext.SaveChangesAsync();
             int idCommande = commandeVar.Entity.CommandeId;
             
             var lpaniers = await milibooDBContext.LignePaniers.Where<LignePanier>(lp => lp.ClientId== entity.ClientId).ToListAsync();
-            
+
+            LigneCommandeManager lcommanager = new LigneCommandeManager(new MilibooDBContext());
 
             foreach(LignePanier lpanier in lpaniers)
             {
@@ -40,7 +42,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
                 lcommande.VarianteId = lpanier.VarianteId;
                 lcommande.Quantite = lpanier.Quantite;
                 lcommande.CommandeId = idCommande;
-                ligneCommandeManager.AddAsync(lcommande);
+                lcommande.LigneAppartientACommandeNavigation = null;
+                lcommanager.AddAsync(lcommande);
                 lignePanierManager.DeleteAsync(lpanier);
             }
 
@@ -48,6 +51,11 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task DeleteAsync(Commande entity)
         {
+            var lcommande = await milibooDBContext.LigneCommandes.Where<LigneCommande>(lc => lc.CommandeId == entity.CommandeId).ToListAsync();
+            foreach(LigneCommande lc in lcommande)
+            {
+                await ligneCommandeManager.DeleteAsync(lc);
+            }
             milibooDBContext.Commandes.Remove(entity);
             await milibooDBContext.SaveChangesAsync();
         }

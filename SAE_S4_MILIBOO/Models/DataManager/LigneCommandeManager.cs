@@ -18,13 +18,15 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(LigneCommande entity)
         {
+            entity.LigneAppartientACommandeNavigation = null;
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(LigneCommande entity)
+        public async Task DeleteAsync(LigneCommande entity)
         {
-            throw new NotImplementedException();
+            milibooDBContext.LigneCommandes.Remove(entity);
+            await milibooDBContext.SaveChangesAsync();
         }
 
         public async Task<ActionResult<IEnumerable<LigneCommande>>> GetByCommande(int idCommande)

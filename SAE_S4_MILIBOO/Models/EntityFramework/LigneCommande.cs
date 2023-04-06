@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAE_S4_MILIBOO.Models.EntityFramework
@@ -26,6 +27,7 @@ namespace SAE_S4_MILIBOO.Models.EntityFramework
 
         //Lien vers les commandes
         [InverseProperty("LignesDansLaCommandeNavigation")]
+        [JsonIgnore]
         public virtual Commande? LigneAppartientACommandeNavigation { get; set; } = null!;
 
         //Lien vers les variantes
