@@ -13,5 +13,10 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetAll();
         Task<ActionResult<TEntity>> GetClientByEmail(string email);
         Task<ActionResult<TEntity>> ReplacePassword(string newPassword, int idClient);
+        Task<ActionResult<TEntity>> GetClientByPortable(string portable);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllClientsByNomPrenom(string recherche);
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllClientsNewsletterM();
+        Task<ActionResult<IEnumerable<TEntity>>> GetAllClientsNewsletterP();
+        Task<ActionResult<TEntity>> GetClientByIdAdresse(int idAdresse);
     }
 }
