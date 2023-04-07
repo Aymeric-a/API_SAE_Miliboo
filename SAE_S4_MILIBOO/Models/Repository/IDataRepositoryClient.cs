@@ -19,4 +19,5 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task<ActionResult<IEnumerable<TEntity>>> GetAllClientsNewsletterP();
         Task<ActionResult<TEntity>> GetClientByIdAdresse(int idAdresse);
     }
+
 }

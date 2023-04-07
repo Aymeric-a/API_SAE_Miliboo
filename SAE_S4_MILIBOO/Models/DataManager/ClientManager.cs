@@ -32,11 +32,8 @@ namespace SAE_S4_MILIBOO.Models.DataManager
         {
             var leClient = await milibooDBContext.Clients.FirstOrDefaultAsync<Client>(c => c.Mail == email);
 
-            var adresseLivraison = await milibooDBContext.AdresseLivraisons.FirstOrDefaultAsync<AdresseLivraison>( adl => adl.ClientId == leClient.ClientId);
-            if (adresseLivraison != null)
-            {
-                var adresse = await milibooDBContext.Adresses.FirstOrDefaultAsync<Adresse>(a => a.AdresseId == adresseLivraison.AdresseId);
-            }
+            DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
+            leClient = deleteAllCycles.ChargeComposants(leClient, new List<string>() { "AdresseLivraison" });
 
             //DeleteAllCycles deleteAllCycles = new DeleteAllCycles(milibooDBContext);
             //deleteAllCycles.DeleteAllCyclesFunction(leClient);
