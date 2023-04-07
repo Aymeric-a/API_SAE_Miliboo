@@ -12,6 +12,7 @@ namespace SAE_S4_MILIBOO.Models.Repository
         Task AddAsyncWithClient(TEntity entity, int clientId);
         Task UpdateAsync(TEntity entityToUpdate, TEntity entity);
         Task DeleteAsync(TEntity entity);
-        
+        Task<ActionResult<IEnumerable<TEntity>>> GetAll();
+
     }
 }

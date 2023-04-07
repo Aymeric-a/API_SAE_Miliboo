@@ -21,6 +21,13 @@ namespace SAE_S4_MILIBOO.Controllers
             dataRepository = dataRepo;
         }
 
+        // GET: api/Adresse
+        [HttpGet]
+        [ActionName("GetAll")]
+        public async Task<ActionResult<IEnumerable<Adresse>>> GetAll()
+        {
+            return await dataRepository.GetAll();
+        }
 
         // GET: api/Adresses/5
         [HttpGet]
