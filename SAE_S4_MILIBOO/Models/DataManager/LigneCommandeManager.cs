@@ -18,7 +18,6 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task AddAsync(LigneCommande entity)
         {
-            entity.CommandeLigneCommandeNavigation = null;
             await milibooDBContext.AddAsync(entity);
             await milibooDBContext.SaveChangesAsync();
         }
@@ -35,15 +34,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
             DeleteAllCycles delete = new DeleteAllCycles(milibooDBContext);
 
-            lignesCommande = delete.ChargeComposants(lignesCommande, new List<string>() { "Variante" });
-            //lignesCommande = delete.DeleteAllCyclesFunction(lignesCommande);
-            foreach(var l in lignesCommande)
-            {
-                l.VarianteLigneCommandeNavigation.LignesCommandeVarianteNavigation = null;
-
-                l.VarianteLigneCommandeNavigation = delete.ChargeComposants(l.VarianteLigneCommandeNavigation, new List<string>() { "Produit", "Couleur" , "Photos"});
-                l.VarianteLigneCommandeNavigation = delete.DeleteAllCyclesFunction(l.VarianteLigneCommandeNavigation);
-            }
+            lignesCommande = delete.ChargeComposants(lignesCommande, new List<string>() { "Variante", "Produit", "Couleur", "Photo" });
 
             return lignesCommande;
         }

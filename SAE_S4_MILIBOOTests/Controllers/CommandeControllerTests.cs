@@ -24,8 +24,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         public CommandesControllerTests()
         {
 
-            var builder = new DbContextOptionsBuilder<MilibooDBContext>().UseNpgsql("Server=postgresql-philippa.alwaysdata.net;port=5432;Database=philippa_bdapi_milibite; SearchPath=public; uid=philippa; password=postgres"); // Chaine de connexion à mettre dans les ( )
-            _context = new MilibooDBContext(builder.Options);
+            var builder = new DbContextOptionsBuilder<MilibooDBContext>().UseNpgsql("Server=postgresql-philippa.alwaysdata.net;port=5432;Database=philippa_bdapi_miliboo; SearchPath=public; uid=philippa; password=postgres");
             _dataRepository = new CommandeManager(_context);
             _controller = new CommandesController(_dataRepository);
         }
@@ -50,7 +49,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetByIdAsync(1).Result).Returns( cmd );
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act
@@ -63,7 +62,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
         }
 
         [TestMethod()]
-        public void GetCommandesTest_ReturnsExistingClient_Moq()
+        public void GetCommandesTest_ReturnsNull_Moq()
         {
             Commande cmd = new Commande
             {
@@ -82,7 +81,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetByIdAsync(2).Result).Returns(new NotFoundResult());
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act
@@ -91,7 +90,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(new List<Commande> { cmd }, actionResult.Value as Commande);
+            CollectionAssert.AreEqual(new List<Commande> { cmd }, (List<Commande>)actionResult.Value as List<Commande>);
         }
 
         [TestMethod()]
@@ -114,7 +113,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetAllCommandeByClientId(1).Result).Returns(new List<Commande> { cmd });
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act
@@ -123,7 +122,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(cmd, actionResult.Value as Commande);
+            CollectionAssert.AreEqual(new List<Commande> { cmd }, (List<Commande>)actionResult.Value as List<Commande>);
         }
 
         [TestMethod()]
@@ -146,7 +145,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetAllCommandeByEtat(1).Result).Returns(new List<Commande> { cmd });
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act
@@ -155,7 +154,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(cmd, actionResult.Value as Commande);
+            CollectionAssert.AreEqual(new List<Commande> { cmd }, (List<Commande>)actionResult.Value as List<Commande>);
         }
 
         [TestMethod()]
@@ -178,7 +177,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetByIdAsync(2).Result).Returns(new NotFoundResult());
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act
@@ -238,7 +237,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             };
 
             var mockRepository = new Mock<IDataRepositoryCommande<Commande>>();
-            mockRepository.Setup(x => x.GetAll().Result).Returns(new List<Commande> { cmd });
+            mockRepository.Setup(x => x.GetAllCommandeByEtat(2).Result).Returns(new NotFoundResult());
             var commandeController = new CommandesController(mockRepository.Object);
 
             // Act

@@ -25,8 +25,7 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<Categorie>> GetParent(int id)
         {
-            Categorie? IdParent = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == id);
-            var leParent = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.Categorieid == IdParent.CategorieParentid);
+            Categorie? leParent = await milibooDBContext.Categories.FirstOrDefaultAsync<Categorie>(cat => cat.CategorieParentid == id);
             if(leParent != null)
                 leParent.SousCategoriesNavigation = null;
             return leParent;
