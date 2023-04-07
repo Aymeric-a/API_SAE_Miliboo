@@ -144,7 +144,7 @@ namespace SAE_S4_MILIBOO.Controllers.Tests
             // Assert
             Assert.IsNotNull(actionResult);
             Assert.IsNotNull(actionResult.Value);
-            Assert.AreEqual(new List<Client> { clt, clt2 }, actionResult.Value as Client);
+            CollectionAssert.AreEqual(new List<Client> { clt, clt2 }, actionResult.Value as List<Client>);
         }
 
         [TestMethod]
