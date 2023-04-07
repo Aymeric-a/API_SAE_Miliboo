@@ -28,7 +28,10 @@ namespace SAE_S4_MILIBOO.Models.DataManager
 
         public async Task<ActionResult<IEnumerable<Variante>>> GetAllByProduit(int produitId)
         {
-            return await milibooDBContext.Variantes.Where<Variante>(v => v.IdProduit== produitId).ToListAsync();
+            var avis = await milibooDBContext.Avis.ToListAsync();
+            var allprds = await milibooDBContext.Variantes.Where<Variante>(v => v.IdProduit== produitId).ToListAsync();
+
+            return allprds;
         }
 
         public async Task<List<int>> GetProduitsIdByMaxPrix(double maxPrix)
