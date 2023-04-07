@@ -58,8 +58,85 @@ namespace SAE_S4_MILIBOO.Controllers
 
             return Client;
         }
+        [HttpGet]
+        [ActionName("GetByAdresse")]
+        public async Task<ActionResult<Client>> GetClientByIdAdresse(int idAdresse)
+        {
+            var Client = await dataRepository.GetClientByIdAdresse(idAdresse);
 
-        
+            if (Client == null)
+            {
+                return NotFound();
+            }
+
+            return Client;
+        }
+
+        // GET: api/Clients/0000000000
+        [HttpGet]
+        [ActionName("GetByPortable")]
+        public async Task<ActionResult<Client>> GetClientByPortable(string portable)
+        {
+            var Client = await dataRepository.GetClientByPortable(portable);
+
+            if (Client == null)
+            {
+                return NotFound();
+            }
+
+            return Client;
+        }
+
+        [HttpGet]
+        [ActionName("GetByNomPrenom")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsByNomPrenom(string recherche)
+        {
+            var listClients = await dataRepository.GetAllClientsByNomPrenom(recherche);
+
+            if (listClients == null)
+            {
+                return NotFound();
+            }
+
+            return listClients;
+        }
+
+        [HttpGet]
+        [ActionName("GetAllClientsNewsletterM")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterM()
+        {
+            var listClients = await dataRepository.GetAllClientsNewsletterM();
+
+
+            if (listClients == null)
+            {
+                return NotFound();
+            }
+
+            return listClients;
+        }
+
+        //Task<ActionResult<Client>> GetAllClientsNewsletterM();
+        //Task<ActionResult<Client>> GetAllClientsNewsletterP();
+
+
+        // PUT: api/Clients/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+        [HttpGet]
+        [ActionName("GetAllClientsNewsletterP")]
+        public async Task<ActionResult<IEnumerable<Client>>> GetAllClientsNewsletterP()
+        {
+            var listClients = await dataRepository.GetAllClientsNewsletterP();
+
+            if (listClients == null)
+            {
+                return NotFound();
+            }
+
+            return listClients;
+        }
+
 
         // POST: api/Clients
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
